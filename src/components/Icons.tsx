@@ -159,3 +159,14 @@ export function CrossIcon() {
     </svg>
   );
 }
+
+export function UndoIcon() {
+  return (
+    <svg viewBox="0 0 64 64" style={s}>
+      <g stroke={OUT} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M22 16L10 28L22 40" />
+        <path d="M14 28H34C45 28 53 36 53 47" />
+      </g>
+    </svg>
+  );
+}

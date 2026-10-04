@@ -15,6 +15,7 @@ import {
   PenIcon,
   SprayIcon,
   TrashIcon,
+  UndoIcon,
 } from './Icons';
 
 interface Props {
@@ -35,11 +36,16 @@ export function PlayScreen({ artwork, onBack }: Props) {
   const [tool, setTool] = useState<ToolId>('pen');
   const [color, setColor] = useState(COLORS[1].value);
   const [patternId, setPatternId] = useState(PATTERNS[0].id);
+  const [brushScale, setBrushScale] = useState(1.0); // 1.0 (最小・標準) 〜 3.0 (太い)
+  const [canUndo, setCanUndo] = useState(false);
   const [confirmClear, setConfirmClear] = useState(false);
   const [saved, setSaved] = useState<{ url: string; blob: Blob } | null>(null);
   const [saving, setSaving] = useState(false);
 
-  const brush = useMemo<Brush>(() => ({ tool, color, patternId }), [tool, color, patternId]);
+  const brush = useMemo<Brush>(
+    () => ({ tool, color, patternId, sizeScale: brushScale }),
+    [tool, color, patternId, brushScale],
+  );
   const pattern = PATTERNS.find((p) => p.id === patternId)!;
 
   useEffect(() => () => {
@@ -49,6 +55,12 @@ export function PlayScreen({ artwork, onBack }: Props) {
   const pickTool = (t: ToolId) => {
     sfx.select();
     setTool(t);
+  };
+
+  const doUndo = () => {
+    if (!canUndo) return;
+    sfx.pop();
+    boardRef.current?.undo();
   };
 
   const doClear = () => {
@@ -94,18 +106,31 @@ export function PlayScreen({ artwork, onBack }: Props) {
   return (
     <div className="play">
       <header className="play__top">
-        <button
-          id="btn-play-back"
-          className="chip-btn chip-btn--round"
-          aria-label="もどる"
-          onClick={() => {
-            sfx.back();
-            onBack();
-          }}
-        >
-          <BackIcon />
-        </button>
+        <div className="play__top-left">
+          <button
+            id="btn-play-back"
+            className="chip-btn chip-btn--round"
+            aria-label="もどる"
+            onClick={() => {
+              sfx.back();
+              onBack();
+            }}
+          >
+            <BackIcon />
+          </button>
+          <button
+            id="btn-play-undo"
+            className={`chip-btn chip-btn--round chip-btn--undo ${!canUndo ? 'is-disabled' : ''}`}
+            aria-label="ひとつもどる"
+            disabled={!canUndo}
+            onClick={doUndo}
+          >
+            <UndoIcon />
+          </button>
+        </div>
+
         <h1 className="play__title">{artwork.title}</h1>
+
         <button id="btn-save" className="chip-btn chip-btn--save" aria-label="ほぞん" onClick={doSave} disabled={saving}>
           <span className="chip-btn__icon">
             <CameraIcon />
@@ -115,46 +140,85 @@ export function PlayScreen({ artwork, onBack }: Props) {
       </header>
 
       <div className="play__main">
-        <nav className="tools" aria-label="どうぐ">
-          {TOOLS.map((t) => (
+        {/* ツールバーとペンの太さスライダー */}
+        <div className="tools-pane">
+          {/* ペンの太さスライダー（ツールのすぐ上） */}
+          <div className="brush-size-card" aria-label="ペンのふとさ">
+            <div className="brush-size-top">
+              <span className="brush-size-label">ふとさ</span>
+              <div className="brush-size-preview-wrap">
+                <span
+                  className="brush-size-preview"
+                  style={{
+                    width: `${Math.round(14 * brushScale)}px`,
+                    height: `${Math.round(14 * brushScale)}px`,
+                    background:
+                      tool === 'eraser'
+                        ? '#ff9ec4'
+                        : color === RAINBOW
+                        ? 'conic-gradient(#ff3b3b,#ff9f1c,#ffe94e,#5ed16a,#4cc3ff,#8b5cf6,#ff3b3b)'
+                        : color,
+                  }}
+                />
+              </div>
+            </div>
+            <div className="brush-size-slider-row">
+              <span className="size-hint size-hint--sm" aria-hidden="true" />
+              <input
+                id="brush-size-slider"
+                type="range"
+                min="1.0"
+                max="3.0"
+                step="0.1"
+                value={brushScale}
+                onChange={(e) => setBrushScale(parseFloat(e.target.value))}
+                aria-label="ペンの太さスライダー"
+              />
+              <span className="size-hint size-hint--lg" aria-hidden="true" />
+            </div>
+          </div>
+
+          <nav className="tools" aria-label="どうぐ">
+            {TOOLS.map((t) => (
+              <button
+                key={t.id}
+                id={`tool-${t.id}`}
+                className={`tool ${tool === t.id ? 'is-selected' : ''}`}
+                aria-pressed={tool === t.id}
+                aria-label={t.label}
+                onClick={() => pickTool(t.id)}
+              >
+                <span className="tool__icon">
+                  {t.id === 'pen' && <PenIcon color={color} />}
+                  {t.id === 'pattern' && <PatternIcon tileUrl={getTileDataUrl(pattern)} />}
+                  {t.id === 'glitter' && <GlitterIcon color={color} />}
+                  {t.id === 'spray' && <SprayIcon color={color} />}
+                  {t.id === 'eraser' && <EraserIcon />}
+                </span>
+                <span className="tool__label">{t.label}</span>
+              </button>
+            ))}
+            <span className="tools__sep" />
             <button
-              key={t.id}
-              id={`tool-${t.id}`}
-              className={`tool ${tool === t.id ? 'is-selected' : ''}`}
-              aria-pressed={tool === t.id}
-              aria-label={t.label}
-              onClick={() => pickTool(t.id)}
+              id="tool-clear"
+              className="tool tool--danger"
+              aria-label="ぜんぶけす"
+              onClick={() => {
+                sfx.pop();
+                setConfirmClear(true);
+              }}
             >
               <span className="tool__icon">
-                {t.id === 'pen' && <PenIcon color={color} />}
-                {t.id === 'pattern' && <PatternIcon tileUrl={getTileDataUrl(pattern)} />}
-                {t.id === 'glitter' && <GlitterIcon color={color} />}
-                {t.id === 'spray' && <SprayIcon color={color} />}
-                {t.id === 'eraser' && <EraserIcon />}
+                <TrashIcon />
               </span>
-              <span className="tool__label">{t.label}</span>
+              <span className="tool__label">ぜんぶけす</span>
             </button>
-          ))}
-          <span className="tools__sep" />
-          <button
-            id="tool-clear"
-            className="tool tool--danger"
-            aria-label="ぜんぶけす"
-            onClick={() => {
-              sfx.pop();
-              setConfirmClear(true);
-            }}
-          >
-            <span className="tool__icon">
-              <TrashIcon />
-            </span>
-            <span className="tool__label">ぜんぶけす</span>
-          </button>
-        </nav>
+          </nav>
+        </div>
 
         <div className="stage">
           <div className="paper">
-            <ColoringBoard ref={boardRef} artwork={artwork} brush={brush} />
+            <ColoringBoard ref={boardRef} artwork={artwork} brush={brush} onUndoChange={setCanUndo} />
           </div>
         </div>
       </div>

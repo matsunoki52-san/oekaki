@@ -1,5 +1,5 @@
 import type { Ref, SVGProps } from 'react';
-import { BG_PART, VB_H, VB_W, type Artwork } from '../data/artworks';
+import { VB_H, VB_W, type Artwork } from '../data/artworks';
 
 interface Props extends Omit<SVGProps<SVGSVGElement>, 'ref' | 'strokeWidth'> {
   artwork: Artwork;
@@ -13,11 +13,11 @@ export const LINE_COLOR = '#2b2b35';
 
 /**
  * 台紙（主線）SVG。
- * - 部位は <g data-layer="parts"> 内に z-order 順で並ぶ。
- *   → DOM 上の「後ろの兄弟要素」= 手前に重なる部位、として clip 計算に使う。
- * - PNG 書き出し時にそのままシリアライズできるよう、見た目は CSS ではなく属性で指定する。
+ * - 各パーツ（<path data-part="...">）は境界線が重ならない独立した閉じたパス。
+ * - 黒い目安線（stroke）の内側だけが正確に塗りつぶし可能領域（fill領域）となる。
+ * - 目の表情や細かいディテール線は <g data-layer="lines"> に配置し pointer-events: none とする。
  */
-export function ArtworkSvg({ artwork, interactive = false, strokeWidth = 7, ref, ...rest }: Props) {
+export function ArtworkSvg({ artwork, interactive = false, strokeWidth = 8, ref, ...rest }: Props) {
   const pe = interactive ? 'auto' : 'none';
   return (
     <svg
@@ -29,6 +29,7 @@ export function ArtworkSvg({ artwork, interactive = false, strokeWidth = 7, ref,
       role="img"
       aria-label={artwork.title}
     >
+      {/* 塗り領域（各パーツは絶対に重ならない独立閉パス） */}
       <g
         data-layer="parts"
         fill="transparent"
@@ -37,13 +38,13 @@ export function ArtworkSvg({ artwork, interactive = false, strokeWidth = 7, ref,
         strokeLinejoin="round"
         strokeLinecap="round"
       >
-        {/* 背景（台紙全体）。最背面なので、全部位が「手前の部位」として除外される */}
-        <path data-part={BG_PART.id} d={BG_PART.d} stroke="none" style={{ pointerEvents: pe }} />
         {artwork.parts.map((p) => (
           <path key={p.id} data-part={p.id} d={p.d} style={{ pointerEvents: pe }} />
         ))}
       </g>
-      {artwork.lines && (
+
+      {/* 装飾線・表情・主線ディテール（タッチを遮らない pointer-events: none） */}
+      {artwork.lines && artwork.lines.length > 0 && (
         <g
           data-layer="lines"
           fill="none"

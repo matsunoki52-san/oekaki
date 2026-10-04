@@ -7,12 +7,14 @@
  *   Canvas の実ピクセルは viewBox の RES 倍 (1024x768 → 2048x1536)。
  *   ctx.setTransform(RES, 0, 0, RES, 0, 0) を常に掛けておくことで、
  *   以降の描画・Path2D・clip はすべて SVG の viewBox 座標のまま扱える。
- *   （SVG の <path d> 文字列をそのまま new Path2D(d) に渡せば主線と一致する）
  *
  * ■ はみ出し防止
- *   begin(): ctx.save() → ctx.clip(タッチした部位) → [手前の部位を evenodd で除外]
+ *   begin(): ctx.save() → ctx.clip(タッチした部位)
  *   move():  clip が効いたまま描画（指が別の部位に移動しても最初の部位の内側だけ）
  *   end():   ctx.restore() でクリップ解除
+ *
+ * ■ ペンの太さ
+ *   BASE_SIZE を「一番細い状態（最小値）」とし、Brush.sizeScale（1.0〜3.0）で拡大。
  */
 import { VB_H, VB_W } from '../data/artworks';
 import { PATTERNS, RAINBOW, getTileCanvas, shade, tint } from './palette';
@@ -23,6 +25,7 @@ export interface Brush {
   tool: ToolId;
   color: string; // '#rrggbb' または 'rainbow'
   patternId: string;
+  sizeScale: number; // 1.0 (最小・標準) 〜 3.0+
 }
 
 export interface Pt {
@@ -33,16 +36,19 @@ export interface Pt {
 /** viewBox 1単位あたりの Canvas 実ピクセル数（Retina でもくっきり） */
 export const RES = 2;
 
-/** ブラシサイズ（viewBox 単位）。3歳児向けに太め */
-const SIZE = {
+/**
+ * 基準ブラシサイズ（viewBox 単位）。
+ * 要件: この値を「一番細い状態（最小値）」として設定し、スライダーでさらに太くできるようにする。
+ */
+const BASE_SIZE = {
   pen: 36,
   pattern: 44,
-  glitter: 32,
+  glitter: 36,
   sprayRadius: 46,
   eraser: 58,
 } as const;
 
-/** 台紙全体より少し大きい矩形。手前の部位を「くり抜く」ために使う */
+/** 台紙全体より少し大きい矩形（必要に応じて重ね合わせ除外に使用） */
 const OUTER = `M-64 -64H${VB_W + 64}V${VB_H + 64}H-64Z`;
 
 interface Sparkle {
@@ -51,7 +57,7 @@ interface Sparkle {
   size: number;
   rot: number;
   color: string;
-  kind: 'star' | 'dot';
+  kind: 'star4' | 'star5' | 'dot' | 'halo';
   age: number;
   life: number;
 }
@@ -60,7 +66,7 @@ export class PaintEngine {
   readonly canvas: HTMLCanvasElement;
   readonly ctx: CanvasRenderingContext2D;
 
-  private brush: Brush = { tool: 'pen', color: '#ff3b3b', patternId: PATTERNS[0].id };
+  private brush: Brush = { tool: 'pen', color: '#ff3b3b', patternId: PATTERNS[0].id, sizeScale: 1.0 };
   private drawing = false;
   private last: Pt | null = null;
   private cur: Pt | null = null;
@@ -91,26 +97,48 @@ export class PaintEngine {
     this.brush = b;
   }
 
+  private get scale(): number {
+    return Math.max(1, this.brush.sizeScale || 1.0);
+  }
+
+  private get currentLineWidth(): number {
+    const s = this.scale;
+    switch (this.brush.tool) {
+      case 'pen':
+        return BASE_SIZE.pen * s;
+      case 'pattern':
+        return BASE_SIZE.pattern * s;
+      case 'glitter':
+        return BASE_SIZE.glitter * s;
+      case 'eraser':
+        return BASE_SIZE.eraser * s;
+      case 'spray':
+        return BASE_SIZE.sprayRadius * s;
+    }
+  }
+
   /* ================================================================
    * 1. タッチ開始：クリッピングマスクを設定
    * ================================================================ */
   /**
    * @param regionD    タッチされた <path> の d 属性（＝アクティブ領域）
-   * @param occluderDs その部位より手前（z-order が上）にある部位の d 属性群
+   * @param occluderDs オプション: その部位より手前にある部位の d 属性群
    * @param p          タッチ座標（viewBox 座標）
    */
-  begin(regionD: string, occluderDs: string[], p: Pt) {
+  begin(regionD: string, occluderDs: string[] = [], p: Pt) {
     if (this.drawing) this.end();
     const ctx = this.ctx;
 
     ctx.save();
     // ① タッチした部位の内側だけに描画を限定
     ctx.clip(this.path(regionD));
-    // ② さらに「手前に重なっている部位」を除外する。
-    //    外枠矩形 + 部位パス を evenodd で塗る領域 = 部位の外側 なので、
-    //    clip を重ねる（積集合になる）ことで、見えている範囲だけが残る。
-    //    例: 顔を塗っても、顔の上に乗っている目には色が入らない。
-    for (const d of occluderDs) ctx.clip(this.path(OUTER + d), 'evenodd');
+
+    // ② 重複がある場合の保険（手前部位の除外）
+    if (occluderDs.length > 0) {
+      for (const d of occluderDs) {
+        ctx.clip(this.path(OUTER + d), 'evenodd');
+      }
+    }
 
     this.applyStyle();
     this.drawing = true;
@@ -160,6 +188,17 @@ export class PaintEngine {
     ctx.restore();
   }
 
+  /** Undo用: 現在のピクセル状態をスナップショットとして取得 */
+  getImageData(): ImageData {
+    return this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  /** Undo用: スナップショットをCanvasへ復元 */
+  putImageData(data: ImageData) {
+    if (this.drawing) this.end();
+    this.ctx.putImageData(data, 0, 0);
+  }
+
   /** 保存済み画像を読み込み */
   load(img: CanvasImageSource) {
     const ctx = this.ctx;
@@ -196,7 +235,6 @@ export class PaintEngine {
     if (!pat) {
       const sw = PATTERNS.find((p) => p.id === id) ?? PATTERNS[0];
       pat = this.ctx.createPattern(getTileCanvas(sw), 'repeat')!;
-      // タイル 64px を viewBox 32 単位（= 実ピクセル64px）で敷き詰める
       pat.setTransform(new DOMMatrix([1 / RES, 0, 0, 1 / RES, 0, 0]));
       this.patternCache.set(id, pat);
     }
@@ -233,6 +271,7 @@ export class PaintEngine {
   private applyStyle() {
     const ctx = this.ctx;
     const { tool } = this.brush;
+    const lw = this.currentLineWidth;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.globalAlpha = 1;
@@ -241,20 +280,20 @@ export class PaintEngine {
 
     switch (tool) {
       case 'pen':
-        ctx.lineWidth = SIZE.pen;
+        ctx.lineWidth = lw;
         ctx.strokeStyle = ctx.fillStyle = this.brush.color === RAINBOW ? '#000' : this.brush.color;
         break;
       case 'pattern': {
         const pat = this.pattern(this.brush.patternId);
-        ctx.lineWidth = SIZE.pattern;
+        ctx.lineWidth = lw;
         ctx.strokeStyle = ctx.fillStyle = pat;
         break;
       }
       case 'glitter':
-        ctx.lineWidth = SIZE.glitter;
+        ctx.lineWidth = lw;
         break;
       case 'eraser':
-        ctx.lineWidth = SIZE.eraser;
+        ctx.lineWidth = lw;
         ctx.strokeStyle = ctx.fillStyle = '#000';
         break;
       case 'spray':
@@ -266,25 +305,27 @@ export class PaintEngine {
   private stamp(p: Pt) {
     const ctx = this.ctx;
     const { tool } = this.brush;
+    const lw = this.currentLineWidth;
+
     switch (tool) {
       case 'pen':
       case 'pattern':
       case 'eraser': {
         if (tool === 'pen' && this.isRainbow) ctx.fillStyle = this.nextColor();
         ctx.beginPath();
-        ctx.arc(p.x, p.y, ctx.lineWidth / 2, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, lw / 2, 0, Math.PI * 2);
         ctx.fill();
         break;
       }
-      case 'glitter':
-        ctx.fillStyle = tint(this.baseHex(), 0.4);
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, SIZE.glitter / 2, 0, Math.PI * 2);
-        ctx.fill();
-        for (let i = 0; i < 6; i++) this.emitSparkle(p);
+      case 'glitter': {
+        // グリッターペン: タップ時にふんわりとした光の粒と星を放出
+        const count = Math.round(8 * this.scale);
+        for (let i = 0; i < count; i++) this.emitSparkle(p);
+        this.speck(p);
         break;
+      }
       case 'spray':
-        this.sprayAt(p, 24);
+        this.sprayAt(p, Math.round(26 * this.scale));
         break;
     }
   }
@@ -310,21 +351,29 @@ export class PaintEngine {
         line();
         break;
       case 'glitter': {
-        // 下地：明るいパステル色の太線
-        line(tint(this.baseHex(), 0.4));
-        if (this.isRainbow) this.nextColor(3);
-        // 一定間隔でキラキラ粒子を放出（rAF で成長アニメーション）
-        this.alongSegment(a, b, 10, (p) => {
+        // ★ グリッターペン要件:
+        // 単なるベタ塗りではなく、軌跡の周囲にランダムな大きさの星や光るドット（パーティクル）が散らばる描画ロジック。
+        // 半透明の優しい光沢コアを描き、その周囲にキラキラ星と光るドットを密に散布。
+        ctx.save();
+        ctx.globalAlpha = 0.28;
+        ctx.lineWidth = this.currentLineWidth * 0.7;
+        line(tint(this.baseHex(), 0.5));
+        ctx.restore();
+
+        if (this.isRainbow) this.nextColor(4);
+        const spacing = Math.max(6, 12 / this.scale);
+        this.alongSegment(a, b, spacing, (p) => {
           this.emitSparkle(p);
-          if (Math.random() < 0.6) this.emitSparkle(p);
+          if (Math.random() < 0.8) this.emitSparkle(p);
           this.speck(p);
         });
         break;
       }
-      case 'spray':
-        // 速く動かした時にも途切れないよう、移動経路上にも噴射
-        this.alongSegment(a, b, 7, (p) => this.sprayAt(p, 7));
+      case 'spray': {
+        const spacing = Math.max(5, 8 / this.scale);
+        this.alongSegment(a, b, spacing, (p) => this.sprayAt(p, Math.round(8 * Math.sqrt(this.scale))));
         break;
+      }
     }
   }
 
@@ -347,8 +396,14 @@ export class PaintEngine {
       if (!this.drawing) return;
       const { tool } = this.brush;
       // スプレー：指を止めていても噴射し続ける
-      if (tool === 'spray' && this.cur) this.sprayAt(this.cur, 26);
-      // キラキラ：粒子を成長させる
+      if (tool === 'spray' && this.cur) {
+        this.sprayAt(this.cur, Math.round(28 * Math.sqrt(this.scale)));
+      }
+      // グリッター：指を止めている場所でもキラキラが湧き出る
+      if (tool === 'glitter' && this.cur && Math.random() < 0.6) {
+        this.emitSparkle(this.cur);
+      }
+      // キラキラ粒子を成長・確定させる
       if (this.sparkles.length) {
         for (const s of this.sparkles) {
           s.age++;
@@ -364,20 +419,20 @@ export class PaintEngine {
   /* ---------------- スプレー ---------------- */
   /**
    * 半径 R の円内にランダムな粒を count 個描く。
-   * r = R * rand^0.7 で中心ほど密度が高い、エアブラシらしい分布にする。
+   * r = R * rand^0.7 で中心ほど密度が高い、エアブラシらしい分布。
    */
   private sprayAt(p: Pt, count: number) {
     const ctx = this.ctx;
-    const R = SIZE.sprayRadius;
-    const color = this.nextColor(0.6);
+    const R = BASE_SIZE.sprayRadius * this.scale;
+    const color = this.nextColor(0.8);
     ctx.fillStyle = color;
     ctx.globalAlpha = 0.85;
     for (let i = 0; i < count; i++) {
       const ang = Math.random() * Math.PI * 2;
-      const r = R * Math.pow(Math.random(), 0.7);
+      const r = R * Math.pow(Math.random(), 0.72);
       const x = p.x + Math.cos(ang) * r;
       const y = p.y + Math.sin(ang) * r;
-      const s = 0.9 + Math.random() * 1.8;
+      const s = (0.9 + Math.random() * 1.9) * Math.sqrt(this.scale);
       ctx.beginPath();
       ctx.arc(x, y, s, 0, Math.PI * 2);
       ctx.fill();
@@ -385,55 +440,132 @@ export class PaintEngine {
     ctx.globalAlpha = 1;
   }
 
-  /* ---------------- キラキラ ---------------- */
+  /* ---------------- グリッター（キラキラ）ペン ---------------- */
   private emitSparkle(p: Pt) {
     const base = this.baseHex();
-    const spread = SIZE.glitter * 0.75;
+    const spread = (BASE_SIZE.glitter * this.scale) * 0.85;
     const ang = Math.random() * Math.PI * 2;
-    const r = Math.random() * spread;
+    const r = Math.pow(Math.random(), 0.6) * spread;
     const roll = Math.random();
+
+    let kind: Sparkle['kind'];
+    if (roll < 0.45) kind = 'star4';
+    else if (roll < 0.7) kind = 'star5';
+    else if (roll < 0.88) kind = 'dot';
+    else kind = 'halo';
+
     const palette = this.isRainbow
-      ? [`hsl(${Math.random() * 360},95%,60%)`, '#ffffff', '#fff6b0']
-      : ['#ffffff', '#ffffff', tint(base, 0.65), shade(base, 0.2), '#ffe27a'];
+      ? [
+          `hsl(${Math.random() * 360},95%,65%)`,
+          '#ffffff',
+          '#fff9c4',
+          '#b3e5fc',
+          '#ffd54f',
+        ]
+      : [
+          '#ffffff',
+          '#ffffff',
+          tint(base, 0.65),
+          tint(base, 0.35),
+          shade(base, 0.15),
+          '#ffe082',
+        ];
+
+    const baseStarSize = (6 + Math.random() * 10) * Math.sqrt(this.scale);
+
     this.sparkles.push({
       x: p.x + Math.cos(ang) * r,
       y: p.y + Math.sin(ang) * r,
-      size: roll < 0.55 ? 5 + Math.random() * 9 : 1.6 + Math.random() * 2.6,
-      rot: Math.random() * Math.PI,
+      size: kind === 'dot' ? (2 + Math.random() * 3.5) * Math.sqrt(this.scale) : baseStarSize,
+      rot: Math.random() * Math.PI * 2,
       color: palette[Math.floor(Math.random() * palette.length)],
-      kind: roll < 0.55 ? 'star' : 'dot',
+      kind,
       age: 0,
-      life: 8 + Math.floor(Math.random() * 10),
+      life: 8 + Math.floor(Math.random() * 8),
     });
   }
 
   /** 下地の上に散らす小さな光の粒（即時） */
   private speck(p: Pt) {
     const ctx = this.ctx;
-    ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    const s = SIZE.glitter / 2;
+    ctx.fillStyle = 'rgba(255,255,255,0.92)';
+    const s = (BASE_SIZE.glitter * this.scale) * 0.55;
     ctx.beginPath();
-    ctx.arc(p.x + (Math.random() - 0.5) * s * 1.6, p.y + (Math.random() - 0.5) * s * 1.6, 0.8 + Math.random(), 0, Math.PI * 2);
+    ctx.arc(
+      p.x + (Math.random() - 0.5) * s * 1.8,
+      p.y + (Math.random() - 0.5) * s * 1.8,
+      (0.9 + Math.random() * 1.5) * Math.sqrt(this.scale),
+      0,
+      Math.PI * 2,
+    );
     ctx.fill();
   }
 
-  /** 粒子を現在の成長度で描画（不透明なので前フレームの小さい形を上書きする） */
+  /** 粒子を現在の成長度で描画 */
   private drawSparkle(s: Sparkle) {
     const ctx = this.ctx;
     const t = Math.min(1, s.age / s.life);
     const k = 1 - Math.pow(1 - t, 3); // easeOutCubic
-    const size = Math.max(0.3, s.size * k);
-    ctx.fillStyle = s.color;
-    if (s.kind === 'dot') {
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
-      ctx.fill();
-      return;
-    }
-    // 4方向に尖ったキラッ形
+    const size = Math.max(0.4, s.size * k);
+
     ctx.save();
     ctx.translate(s.x, s.y);
-    ctx.rotate(s.rot * k);
+
+    if (s.kind === 'dot') {
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      ctx.arc(0, 0, size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(-size * 0.25, -size * 0.25, size * 0.4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+      return;
+    }
+
+    if (s.kind === 'halo') {
+      // ぽわんと光るグロードット
+      ctx.fillStyle = s.color;
+      ctx.globalAlpha = 0.5;
+      ctx.beginPath();
+      ctx.arc(0, 0, size * 1.4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(0, 0, size * 0.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+      return;
+    }
+
+    ctx.rotate(s.rot + k * 0.4);
+
+    if (s.kind === 'star5') {
+      // 5方向の可愛い星型
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      const R = size;
+      const r = size * 0.45;
+      for (let i = 0; i < 10; i++) {
+        const a = -Math.PI / 2 + (i * Math.PI) / 5;
+        const rad = i % 2 === 0 ? R : r;
+        ctx.lineTo(rad * Math.cos(a), rad * Math.sin(a));
+      }
+      ctx.closePath();
+      ctx.fill();
+      // 中心の光
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(0, 0, size * 0.25, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+      return;
+    }
+
+    // 4方向のキラキラダイヤモンド星
+    ctx.fillStyle = s.color;
     const w = size * 0.22;
     ctx.beginPath();
     ctx.moveTo(0, -size);
@@ -442,11 +574,13 @@ export class PaintEngine {
     ctx.quadraticCurveTo(-w, w, -size, 0);
     ctx.quadraticCurveTo(-w, -w, 0, -size);
     ctx.fill();
+
     // 中心の白いハイライト
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
-    ctx.arc(0, 0, size * 0.18, 0, Math.PI * 2);
+    ctx.arc(0, 0, size * 0.24, 0, Math.PI * 2);
     ctx.fill();
+
     ctx.restore();
   }
 }

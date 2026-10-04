@@ -6,6 +6,7 @@ import { ArtworkSvg } from './ArtworkSvg';
 
 export interface BoardHandle {
   clear(): void;
+  undo(): void;
   exportPng(): Promise<Blob>;
 }
 
@@ -13,6 +14,7 @@ interface Props {
   artwork: Artwork;
   brush: Brush;
   onStrokeStart?: () => void;
+  onUndoChange?: (canUndo: boolean) => void;
   ref?: Ref<BoardHandle>;
 }
 
@@ -25,37 +27,62 @@ interface ActiveRegion {
   toVB: DOMMatrix;
 }
 
+const MAX_HISTORY = 20;
+
 /**
  * 塗り絵ボード
  *  レイヤー1（背面）: <canvas>  … 塗った色
  *  レイヤー2（前面）: <svg>     … 主線。タッチイベントはここで受ける
- * 両者は同じ 4:3 の箱に width/height 100% で重ねるので、
- * viewBox 座標系を共有できる（Canvas 側は setTransform(RES) で合わせる）。
+ * 各パーツの境界線は重ならず、タッチした部位の内側だけにクリッピングマスクが適用される。
  */
-export function ColoringBoard({ artwork, brush, onStrokeStart, ref }: Props) {
+export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const engineRef = useRef<PaintEngine | null>(null);
   const activeRef = useRef<ActiveRegion | null>(null);
   const saveTimer = useRef<number>(0);
+  const historyRef = useRef<ImageData[]>([]);
+
+  const pushSnapshot = useCallback(() => {
+    const engine = engineRef.current;
+    if (!engine) return;
+    const snap = engine.getImageData();
+    historyRef.current.push(snap);
+    if (historyRef.current.length > MAX_HISTORY) {
+      historyRef.current.shift();
+    }
+    onUndoChange?.(historyRef.current.length > 1);
+  }, [onUndoChange]);
 
   /* ---- エンジン初期化 & 保存済みの絵を復元 ---- */
   useEffect(() => {
     const engine = new PaintEngine(canvasRef.current!);
     engineRef.current = engine;
+    historyRef.current = [];
+    onUndoChange?.(false);
+
     let cancelled = false;
     loadPainting(artwork.id).then(async (blob) => {
-      if (!blob || cancelled) return;
-      const bmp = await createImageBitmap(blob).catch(() => null);
-      if (bmp && !cancelled && !engine.isDrawing) engine.load(bmp);
+      if (cancelled) return;
+      if (blob) {
+        const bmp = await createImageBitmap(blob).catch(() => null);
+        if (bmp && !cancelled && !engine.isDrawing) {
+          engine.load(bmp);
+        }
+      }
+      if (!cancelled) {
+        // 初期状態を履歴の先頭に保存
+        pushSnapshot();
+      }
     });
+
     return () => {
       cancelled = true;
       engine.end();
       engine.dispose();
       engineRef.current = null;
     };
-  }, [artwork.id]);
+  }, [artwork.id, pushSnapshot, onUndoChange]);
 
   useEffect(() => {
     engineRef.current?.setBrush(brush);
@@ -97,7 +124,8 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, ref }: Props) {
     // 指が部位の外へ出ても pointermove を受け取り続ける
     svg.setPointerCapture(e.pointerId);
 
-    // その部位より手前（DOM で後ろ）にある部位 → クリップから除外する
+    // 各パーツは重ならない独立パスとして定義されているため、
+    // タッチした d 属性がそのままクリッピングマスクになる
     const occluders: string[] = [];
     for (let el = target.nextElementSibling; el; el = el.nextElementSibling) {
       const od = el.getAttribute('d');
@@ -128,6 +156,7 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, ref }: Props) {
 
   /* ================================================================
    * pointerup / cancel : restore してアクティブ領域をリセット
+   * 1ストローク完了ごとに履歴へ保存
    * ================================================================ */
   const finish = (e: RPointerEvent<SVGSVGElement>) => {
     const a = activeRef.current;
@@ -136,10 +165,13 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, ref }: Props) {
     a.el.classList.remove('is-active');
     activeRef.current = null;
     if (svgRef.current?.hasPointerCapture(e.pointerId)) svgRef.current.releasePointerCapture(e.pointerId);
+
+    // ★ 1アクションとして履歴に保存
+    pushSnapshot();
     scheduleSave();
   };
 
-  /* ---- 親コンポーネント向け API ---- */
+  /* ---- 親コンポーネント向け API (Clear / Undo / Export) ---- */
   useImperativeHandle(
     ref,
     () => ({
@@ -147,6 +179,20 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, ref }: Props) {
         engineRef.current?.clear();
         clearTimeout(saveTimer.current);
         void deletePainting(artwork.id);
+        pushSnapshot();
+      },
+      undo() {
+        const engine = engineRef.current;
+        if (!engine || historyRef.current.length <= 1) return;
+        // 最新の現在状態を捨てる
+        historyRef.current.pop();
+        // 1つ前の状態を復元
+        const prev = historyRef.current[historyRef.current.length - 1];
+        if (prev) {
+          engine.putImageData(prev);
+          onUndoChange?.(historyRef.current.length > 1);
+          scheduleSave();
+        }
       },
       /** Canvas(色) と SVG(主線) を合成して PNG 化 */
       async exportPng() {
@@ -175,7 +221,7 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, ref }: Props) {
         return new Promise<Blob>((res, rej) => out.toBlob((b) => (b ? res(b) : rej(new Error('toBlob failed'))), 'image/png'));
       },
     }),
-    [artwork.id],
+    [artwork.id, pushSnapshot, onUndoChange, scheduleSave],
   );
 
   return (
