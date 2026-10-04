@@ -28,6 +28,11 @@ export function ArtworkSvg({
 }: Props) {
   const pe = interactive ? 'all' : 'none';
 
+  const hasBg = artwork.parts.some((p) => p.id === 'bg' || p.id === 'background');
+  const allParts = hasBg
+    ? artwork.parts
+    : [{ id: 'bg', label: 'はいけい', d: `M0 0H${VB_W}V${VB_H}H0Z` }, ...artwork.parts];
+
   return (
     <svg
       {...rest}
@@ -55,28 +60,31 @@ export function ArtworkSvg({
         strokeLinejoin="round"
         strokeLinecap="round"
       >
-        {artwork.parts.map((p) => (
-          <path
-            key={p.id}
-            id={p.id}
-            data-part={p.id}
-            data-label={p.label || p.id}
-            className="coloring-part"
-            d={p.d}
-            fill="transparent"
-            stroke="black"
-            strokeWidth={strokeWidth}
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            pointerEvents={pe}
-            style={{
-              pointerEvents: pe,
-              fill: 'transparent',
-              stroke: 'black',
-              strokeWidth: `${strokeWidth}px`,
-            }}
-          />
-        ))}
+        {allParts.map((p) => {
+          const isBg = p.id === 'bg' || p.id === 'background';
+          return (
+            <path
+              key={p.id}
+              id={p.id}
+              data-part={p.id}
+              data-label={p.label || p.id}
+              className={`coloring-part ${isBg ? 'coloring-part--bg' : ''}`}
+              d={p.d}
+              fill="transparent"
+              stroke={isBg ? 'none' : 'black'}
+              strokeWidth={isBg ? 0 : strokeWidth}
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              pointerEvents={pe}
+              style={{
+                pointerEvents: pe,
+                fill: 'transparent',
+                stroke: isBg ? 'none' : 'black',
+                strokeWidth: isBg ? '0px' : `${strokeWidth}px`,
+              }}
+            />
+          );
+        })}
       </g>
 
       {/* 表情・主線ディテール（pointer-events: none でタッチを遮らない） */}

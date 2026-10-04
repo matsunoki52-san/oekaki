@@ -1,19 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
   <title>ドラゴン</title>
   <g class="coloring-parts" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="bg" class="coloring-part coloring-part--bg" data-part="bg" data-label="はいけい" d="M0 0H1024V768H0Z" fill="transparent" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: none; stroke-width: 0px;" />
     <path id="horns" class="coloring-part" data-part="horns" data-label="horns" d="M410 190L360 90L460 150Z M614 190L664 90L564 150Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="head" class="coloring-part" data-part="head" data-label="head" d="M377 270A135 135 0 1 0 647 270A135 135 0 1 0 377 270Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="body" class="coloring-part" data-part="body" data-label="body" d="M457 405H567A75 75 0 0 1 642 480V545A75 75 0 0 1 567 620H457A75 75 0 0 1 382 545V480A75 75 0 0 1 457 405Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="wings" class="coloring-part" data-part="wings" data-label="wings" d="M380 430L240 320L360 520Z M644 430L784 320L664 520Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="fire" class="coloring-part" data-part="fire" data-label="fire" d="M660 280L820 220L760 320Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 640Q512 625 1024 660V768H0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="dragon-inner-1" class="coloring-part" data-part="dragon-inner-1" data-label="パーツ" d="M470 248A12 12 0 1 1 469.9 248Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="dragon-inner-2" class="coloring-part" data-part="dragon-inner-2" data-label="パーツ" d="M467 252a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="dragon-inner-3" class="coloring-part" data-part="dragon-inner-3" data-label="パーツ" d="M554 248A12 12 0 1 1 553.9 248Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="dragon-inner-4" class="coloring-part" data-part="dragon-inner-4" data-label="パーツ" d="M551 252a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
   </g>
   <g class="coloring-lines" pointer-events="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events: none; fill: none; stroke: black; stroke-width: 6px;">
-    <path d="M470 248A12 12 0 1 1 469.9 248M467 252a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-    <path d="M554 248A12 12 0 1 1 553.9 248M551 252a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
     <path d="M495 288Q512 304 529 288" />
-    <path d="M445 278q8 8 16 0M563 278q8 8 16 0" />
+    <path d="M445 278q8 8 16 0" />
+    <path d="M563 278q8 8 16 0" />
     <path d="M490 290h44" />
-    <path d="M440 470q72 30 144 0M440 530q72 30 144 0" />
+    <path d="M440 470q72 30 144 0" />
+    <path d="M440 530q72 30 144 0" />
   </g>
 </svg>

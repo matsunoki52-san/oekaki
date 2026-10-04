@@ -114,55 +114,126 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
     if (!engine || !svg) return;
     if (activeRef.current) return; // 2本目以降の指（手のひら等）は無視
 
-    // 1. ユーザーがタッチした座標 (clientX, clientY) から document.elementFromPoint() 等を用いて
-    //    「見た目上、最前面にある特定の <path> 要素」を1つだけ正確に特定する
-    const el = document.elementFromPoint(e.clientX, e.clientY);
-    let targetPath: SVGPathElement | null = null;
-
-    if (el instanceof SVGPathElement && (el.classList.contains('coloring-part') || el.dataset.part)) {
-      targetPath = el;
-    } else if (e.target instanceof SVGPathElement && (e.target.classList.contains('coloring-part') || e.target.dataset.part)) {
-      targetPath = e.target;
-    }
-
     const ctm = svg.getScreenCTM();
     if (!ctm) return;
     const toVB = ctm.inverse();
     const pt = project(toVB, e.clientX, e.clientY);
 
-    // フォールバック: 万一 document.elementFromPoint が境界線付近で拾えなかった場合、isPointInPath でパーツを特定
-    if (!targetPath) {
-      const parts = Array.from(svg.querySelectorAll<SVGPathElement>('.coloring-part'));
-      for (const p of parts) {
-        const pd = p.getAttribute('d');
-        if (pd && engine.isPointIn(pd, pt.x, pt.y)) {
-          targetPath = p;
-          break;
+    interface PartInfo {
+      el: SVGPathElement;
+      d: string;
+      bbox: DOMRect;
+      area: number;
+    }
+
+    const allParts = Array.from(svg.querySelectorAll<SVGPathElement>('.coloring-part'));
+    const nonBgParts = allParts.filter((p) => p.id !== 'bg' && p.dataset.part !== 'bg');
+
+    const partInfos: PartInfo[] = nonBgParts.map((p) => {
+      let bbox: DOMRect;
+      try {
+        bbox = p.getBBox();
+      } catch {
+        bbox = new DOMRect(0, 0, 1, 1);
+      }
+      return {
+        el: p,
+        d: p.getAttribute('d') || '',
+        bbox,
+        area: bbox.width * bbox.height,
+      };
+    });
+
+    // パーツの包含判定（child が parent の内側に完全に収まっているか）
+    const isContained = (child: PartInfo, parent: PartInfo): boolean => {
+      if (child === parent) return false;
+      if (child.area >= parent.area * 0.98) return false;
+      const cb = child.bbox;
+      const pb = parent.bbox;
+      if (
+        cb.x < pb.x - 3 ||
+        cb.y < pb.y - 3 ||
+        cb.x + cb.width > pb.x + pb.width + 3 ||
+        cb.y + cb.height > pb.y + pb.height + 3
+      ) {
+        return false;
+      }
+      const cx = cb.x + cb.width / 2;
+      const cy = cb.y + cb.height / 2;
+      return engine.isPointIn(parent.d, cx, cy);
+    };
+
+    // 1. タッチ座標 pt を含むパーツを検出
+    const containingParts = partInfos.filter((p) => p.d && engine.isPointIn(p.d, pt.x, pt.y));
+
+    let targetPartInfo: PartInfo | null = null;
+    if (containingParts.length > 0) {
+      // 複数マッチした場合は最も内側（面積が最も小さい）パーツを選択（例：顔の中の目、目の中の瞳、タイヤの中のホイール）
+      containingParts.sort((a, b) => a.area - b.area);
+      targetPartInfo = containingParts[0];
+    } else {
+      // isPointIn で境界線上等により拾えなかった場合のフォールバック (elementFromPoint)
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      if (el instanceof SVGPathElement && (el.classList.contains('coloring-part') || el.dataset.part)) {
+        if (el.id !== 'bg' && el.dataset.part !== 'bg') {
+          targetPartInfo = partInfos.find((pi) => pi.el === el) || null;
+        }
+      } else if (e.target instanceof SVGPathElement && (e.target.classList.contains('coloring-part') || e.target.dataset.part)) {
+        if (e.target.id !== 'bg' && e.target.dataset.part !== 'bg') {
+          targetPartInfo = partInfos.find((pi) => pi.el === e.target) || null;
         }
       }
     }
 
-    // 塗り領域以外のタッチ（余白等）は無視
-    if (!targetPath) return;
+    // ★ 要件1: 背景も全て塗れるように対応
+    // キャラクターや地面にヒットしなかった場合は「背景（bg）」をターゲットとする
+    const isBg = !targetPartInfo;
+    const targetPath: SVGPathElement | null = targetPartInfo
+      ? targetPartInfo.el
+      : svg.querySelector<SVGPathElement>('.coloring-part[data-part="bg"]') ||
+        svg.querySelector<SVGPathElement>('#bg');
 
-    // 2. 取得した特定のパスデータ(d属性)を取得
-    const d = targetPath.getAttribute('d');
-    if (!d) return;
+    const d = targetPath?.getAttribute('d') || `M0 0H${VB_W}V${VB_H}H0Z`;
     e.preventDefault();
 
+    // ★ 要件2: 「範囲の中の範囲（丸の中の丸など）」のはみ出し防止ロジック
+    // - 背景タップ時: キャラクターや地面などの最上位パーツ群を除外（背景を塗ってもキャラクターに入らない）
+    // - 外側パーツタップ時: そのパーツの直接の子パーツ群（目、ホイールキャップ、瞳など）を除外し、
+    //   外側を塗っても内側の範囲にインクがはみ出さないようにクリッピング
+    const excludePaths: string[] = [];
+
+    if (isBg) {
+      // 背景タップ時：いずれのパーツにも内包されていない「最上位パーツ群」を穴として除外
+      const topLevelParts = partInfos.filter((p) => !partInfos.some((other) => isContained(p, other)));
+      for (const p of topLevelParts) {
+        if (p.d) excludePaths.push(p.d);
+      }
+    } else if (targetPartInfo) {
+      // 特定パーツタップ時：そのパーツの直接の子パーツ群（内側パーツ）を穴として除外
+      const insideCandidates = partInfos.filter((p) => isContained(p, targetPartInfo));
+      const directChildren = insideCandidates.filter(
+        (c) => !insideCandidates.some((other) => isContained(c, other)),
+      );
+      for (const c of directChildren) {
+        if (c.d) excludePaths.push(c.d);
+      }
+    }
+
     // 指が部位の外へ出ても pointermove を受け取り続ける
-    svg.setPointerCapture(e.pointerId);
+    try {
+      svg.setPointerCapture(e.pointerId);
+    } catch {}
 
     activeRef.current = {
       pointerId: e.pointerId,
-      partId: targetPath.dataset.part || targetPath.id,
-      el: targetPath,
+      partId: targetPath ? targetPath.dataset.part || targetPath.id : 'bg',
+      el: targetPath!,
       toVB,
     };
-    targetPath.classList.add('is-active');
+    targetPath?.classList.add('is-active');
 
-    // 3. 取得した d 属性だけを使って new Path2D() を生成し ctx.clip() に渡す
-    engine.begin(d, pt);
+    // 取得した d 属性および除外パス（内側範囲・キャラクター）を渡してクリッピング開始
+    engine.begin(d, pt, excludePaths);
     onStrokeStart?.();
   };
 
@@ -190,7 +261,9 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
     engineRef.current?.end();
     a.el.classList.remove('is-active');
     activeRef.current = null;
-    if (svgRef.current?.hasPointerCapture(e.pointerId)) svgRef.current.releasePointerCapture(e.pointerId);
+    try {
+      if (svgRef.current?.hasPointerCapture(e.pointerId)) svgRef.current.releasePointerCapture(e.pointerId);
+    } catch {}
 
     // ★ 1アクションとして履歴に保存
     pushSnapshot();

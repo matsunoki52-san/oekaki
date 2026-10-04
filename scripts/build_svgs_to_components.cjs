@@ -1164,18 +1164,94 @@ const characterFiles = allFiles.filter(f => f.startsWith('Characters_'));
 const foodFiles = allFiles.filter(f => f.startsWith('Food_'));
 const vehicleFiles = allFiles.filter(f => f.startsWith('Vehicles_'));
 
+function isSubpathClosed(sp) {
+  const s = sp.trim();
+  if (/[Zz]/i.test(s)) return true;
+
+  // Check for two opposite arcs that return to origin: e.g. a R R ... dx dy a R R ... -dx -dy
+  const doubleArc = s.match(/a\s*([0-9.]+)\s+([0-9.]+)\s+[0-9.\s-]+\s+([+-]?[0-9.]+)\s+([+-]?[0-9.]+)\s*a\s*([0-9.]+)\s+([0-9.]+)\s+[0-9.\s-]+\s+([+-]?[0-9.]+)\s+([+-]?[0-9.]+)/i);
+  if (doubleArc) {
+    const dx1 = parseFloat(doubleArc[3]);
+    const dy1 = parseFloat(doubleArc[4]);
+    const dx2 = parseFloat(doubleArc[7]);
+    const dy2 = parseFloat(doubleArc[8]);
+    if (Math.abs(dx1 + dx2) < 1.5 && Math.abs(dy1 + dy2) < 1.5) return true;
+  }
+
+  // Single arc ending near start:
+  const singleArc = s.match(/a\s*([0-9.]+)\s+([0-9.]+)\s+[0-9.\s-]+\s+([+-]?[0-9.]+)\s+([+-]?[0-9.]+)\s*$/i);
+  if (singleArc) {
+    const dx = parseFloat(singleArc[3]);
+    const dy = parseFloat(singleArc[4]);
+    if (Math.hypot(dx, dy) <= 1.0) return true;
+  }
+
+  // Absolute arc with near-identical end coordinate
+  const mMatch = s.match(/^M\s*([+-]?[0-9.]+)\s+([+-]?[0-9.]+)/i);
+  const absArc = s.match(/A\s*([0-9.]+)\s+([0-9.]+)\s+[0-9.\s-]+\s+([+-]?[0-9.]+)\s+([+-]?[0-9.]+)\s*$/i);
+  if (mMatch && absArc) {
+    const mx = parseFloat(mMatch[1]);
+    const my = parseFloat(mMatch[2]);
+    const ax = parseFloat(absArc[3]);
+    const ay = parseFloat(absArc[4]);
+    if (Math.hypot(mx - ax, my - ay) <= 1.5) return true;
+  }
+
+  return false;
+}
+
 function writeCategory(list, files, catName) {
   for (let i = 0; i < list.length; i++) {
     const item = list[i];
     const filename = files[i];
 
-    const partsSvg = item.parts.map((p, idx) => {
+    // 背景パーツ（最背面に配置。stroke なし、fill は transparent、pointer-events は all）
+    const allParts = [
+      {
+        id: 'bg',
+        label: 'はいけい',
+        d: 'M0 0H1024V768H0Z',
+        isBg: true
+      }
+    ];
+
+    // 既存のメインパーツ群
+    for (const p of item.parts) {
+      allParts.push({ ...p, isBg: false });
+    }
+
+    // lines から閉じた形状（目、瞳、ホイールハブ、ボタン、窓、具材等）を抽出し、
+    // はみ出し防止機能が効く独立した塗り絵パーツ（.coloring-part）に昇格
+    const openLines = [];
+    let innerCount = 1;
+    for (const line of (item.lines || [])) {
+      const subpaths = line.split(/(?=[Mm])/).map(s => s.trim()).filter(Boolean);
+      for (const sp of subpaths) {
+        if (isSubpathClosed(sp)) {
+          const closedD = /[Zz]$/i.test(sp) ? sp : (sp + 'Z');
+          allParts.push({
+            id: `${item.id}-inner-${innerCount++}`,
+            label: 'パーツ',
+            d: closedD,
+            isBg: false
+          });
+        } else {
+          openLines.push(sp);
+        }
+      }
+    }
+
+    const partsSvg = allParts.map((p, idx) => {
       const pid = p.id || ('part-' + idx);
       const label = p.label || pid;
-      return '    <path id="' + pid + '" class="coloring-part" data-part="' + pid + '" data-label="' + label + '" d="' + p.d + '" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />';
+      const isBg = p.isBg || pid === 'bg';
+      const strokeVal = isBg ? 'none' : 'black';
+      const strokeW = isBg ? '0' : '5';
+      const bgClass = isBg ? ' coloring-part--bg' : '';
+      return '    <path id="' + pid + '" class="coloring-part' + bgClass + '" data-part="' + pid + '" data-label="' + label + '" d="' + p.d + '" fill="transparent" stroke="' + strokeVal + '" stroke-width="' + strokeW + '" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: ' + strokeVal + '; stroke-width: ' + strokeW + 'px;" />';
     }).join('\n');
 
-    const linesSvg = (item.lines || []).map(l =>
+    const linesSvg = openLines.map(l =>
       '    <path d="' + l + '" />'
     ).join('\n');
 

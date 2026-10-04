@@ -1,17 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
   <title>おひめさま</title>
   <g class="coloring-parts" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="bg" class="coloring-part coloring-part--bg" data-part="bg" data-label="はいけい" d="M0 0H1024V768H0Z" fill="transparent" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: none; stroke-width: 0px;" />
     <path id="tiara" class="coloring-part" data-part="tiara" data-label="tiara" d="M460 160L480 120L512 150L544 120L564 160Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="hair" class="coloring-part" data-part="hair" data-label="hair" d="M372 370C332 370 327 250 362 226C347 110 462.5 100 512 130C561.5 100 677 115 667 226C697 250 687 370 652 370Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="face" class="coloring-part" data-part="face" data-label="face" d="M417 280A95 95 0 1 0 607 280A95 95 0 1 0 417 280Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="skirt" class="coloring-part" data-part="skirt" data-label="skirt" d="M450 375H574C720 540 760 620 720 660H304C264 620 304 540 450 375Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 660Q512 635 1024 670V768H0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="princess-inner-1" class="coloring-part" data-part="princess-inner-1" data-label="パーツ" d="M478 268A12 12 0 1 1 477.9 268Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="princess-inner-2" class="coloring-part" data-part="princess-inner-2" data-label="パーツ" d="M475 272a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="princess-inner-3" class="coloring-part" data-part="princess-inner-3" data-label="パーツ" d="M546 268A12 12 0 1 1 545.9 268Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="princess-inner-4" class="coloring-part" data-part="princess-inner-4" data-label="パーツ" d="M543 272a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
   </g>
   <g class="coloring-lines" pointer-events="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events: none; fill: none; stroke: black; stroke-width: 6px;">
-    <path d="M478 268A12 12 0 1 1 477.9 268M475 272a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-    <path d="M546 268A12 12 0 1 1 545.9 268M543 272a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
     <path d="M498 308Q512 322 526 308" />
-    <path d="M453 298q8 8 16 0M555 298q8 8 16 0" />
-    <path d="M370 540q142 40 284 0M340 600q172 40 344 0" />
+    <path d="M453 298q8 8 16 0" />
+    <path d="M555 298q8 8 16 0" />
+    <path d="M370 540q142 40 284 0" />
+    <path d="M340 600q172 40 344 0" />
   </g>
 </svg>

@@ -1,19 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
   <title>ショートケーキ</title>
   <g class="coloring-parts" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="bg" class="coloring-part coloring-part--bg" data-part="bg" data-label="はいけい" d="M0 0H1024V768H0Z" fill="transparent" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: none; stroke-width: 0px;" />
     <path id="strawberry" class="coloring-part" data-part="strawberry" data-label="strawberry" d="M467 190A45 45 0 1 0 557 190A45 45 0 1 0 467 190Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="creamTop" class="coloring-part" data-part="creamTop" data-label="creamTop" d="M345 240H679A25 25 0 0 1 704 265V275A25 25 0 0 1 679 300H345A25 25 0 0 1 320 275V265A25 25 0 0 1 345 240Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="cake" class="coloring-part" data-part="cake" data-label="cake" d="M320 300L704 300L740 520L284 520Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="plate" class="coloring-part" data-part="plate" data-label="plate" d="M172 570A340 65 0 1 0 852 570A340 65 0 1 0 172 570Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="table" class="coloring-part" data-part="table" data-label="table" d="M0 630Q512 605 1024 640V768H0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="shortcake-inner-1" class="coloring-part" data-part="shortcake-inner-1" data-label="パーツ" d="M480 190a4 4 0 1 0 0.1 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="shortcake-inner-2" class="coloring-part" data-part="shortcake-inner-2" data-label="パーツ" d="M530 190a4 4 0 1 0 0.1 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="shortcake-inner-3" class="coloring-part" data-part="shortcake-inner-3" data-label="パーツ" d="M462 450A10 10 0 1 1 461.9 450Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="shortcake-inner-4" class="coloring-part" data-part="shortcake-inner-4" data-label="パーツ" d="M459 454a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="shortcake-inner-5" class="coloring-part" data-part="shortcake-inner-5" data-label="パーツ" d="M562 450A10 10 0 1 1 561.9 450Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="shortcake-inner-6" class="coloring-part" data-part="shortcake-inner-6" data-label="パーツ" d="M559 454a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
   </g>
   <g class="coloring-lines" pointer-events="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events: none; fill: none; stroke: black; stroke-width: 6px;">
     <path d="M320 410h420" />
-    <path d="M512 145q-15 -20 0 -35M512 145q15 -20 0 -35" />
-    <path d="M480 190a4 4 0 1 0 0.1 0M530 190a4 4 0 1 0 0.1 0" />
-    <path d="M462 450A10 10 0 1 1 461.9 450M459 454a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-    <path d="M562 450A10 10 0 1 1 561.9 450M559 454a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M512 145q-15 -20 0 -35" />
+    <path d="M512 145q15 -20 0 -35" />
     <path d="M496 488Q512 502 528 488" />
-    <path d="M437 478q8 8 16 0M571 478q8 8 16 0" />
+    <path d="M437 478q8 8 16 0" />
+    <path d="M571 478q8 8 16 0" />
   </g>
 </svg>

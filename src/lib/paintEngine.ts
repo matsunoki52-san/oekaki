@@ -123,24 +123,45 @@ export class PaintEngine {
    * 1. タッチ開始：クリッピングマスクを設定
    * ================================================================ */
   /**
-   * @param regionD タッチされた最前面 <path> の d 属性（＝アクティブ領域）
-   * @param arg2    タッチ座標 Pt（または省略可能な引数）
-   * @param arg3    タッチ座標 Pt（第3引数で渡された場合に対応）
+   * @param regionD      タッチされた最前面 <path> の d 属性（＝アクティブ領域）
+   * @param ptOrArg      タッチ座標 Pt（または省略可能な引数）
+   * @param excludeOrPt  除外パス配列 string[] または タッチ座標 Pt
+   * @param excludePaths 除外パス配列 string[]（背景や入れ子図形の場合、内側領域をクリップから除外）
    */
-  begin(regionD: string, arg2?: unknown, arg3?: unknown) {
+  begin(regionD: string, ptOrArg?: unknown, excludeOrPt?: unknown, excludePaths?: string[]) {
     if (this.drawing) this.end();
-    const p: Pt =
-      arg3 && typeof arg3 === 'object' && 'x' in arg3
-        ? (arg3 as Pt)
-        : arg2 && typeof arg2 === 'object' && 'x' in arg2
-          ? (arg2 as Pt)
-          : { x: 0, y: 0 };
+    let p: Pt = { x: 0, y: 0 };
+    let excludes: string[] = [];
+
+    if (Array.isArray(excludePaths)) {
+      excludes = excludePaths;
+    } else if (Array.isArray(excludeOrPt)) {
+      excludes = excludeOrPt;
+    } else if (Array.isArray(ptOrArg)) {
+      excludes = ptOrArg;
+    }
+
+    if (excludeOrPt && typeof excludeOrPt === 'object' && 'x' in excludeOrPt) {
+      p = excludeOrPt as Pt;
+    } else if (ptOrArg && typeof ptOrArg === 'object' && 'x' in ptOrArg) {
+      p = ptOrArg as Pt;
+    }
 
     const ctx = this.ctx;
-
     ctx.save();
-    // 取得した特定のパスデータ(d属性)だけを使って new Path2D() を生成し、Canvasの ctx.clip() に渡す
-    ctx.clip(this.path(regionD));
+
+    // 背景や「範囲の中の範囲（丸の中の丸など）」がある場合、
+    // 外側パスから内側パスを除外した領域を evenodd で正確にクリッピング
+    if (excludes.length > 0) {
+      const clipPath = new Path2D();
+      clipPath.addPath(this.path(regionD));
+      for (const ep of excludes) {
+        if (ep) clipPath.addPath(this.path(ep));
+      }
+      ctx.clip(clipPath, 'evenodd');
+    } else {
+      ctx.clip(this.path(regionD));
+    }
 
     this.applyStyle();
     this.drawing = true;
@@ -232,7 +253,7 @@ export class PaintEngine {
   }
 
   isPointIn(regionD: string, x: number, y: number): boolean {
-    return this.ctx.isPointInPath(this.path(regionD), x, y);
+    return this.ctx.isPointInPath(this.path(regionD), x * RES, y * RES, 'evenodd');
   }
 
   private pattern(id: string): CanvasPattern {

@@ -1,18 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
   <title>ライオン</title>
   <g class="coloring-parts" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="bg" class="coloring-part coloring-part--bg" data-part="bg" data-label="はいけい" d="M0 0H1024V768H0Z" fill="transparent" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: none; stroke-width: 0px;" />
     <path id="mane" class="coloring-part" data-part="mane" data-label="mane" d="M752 330Q773.5 415 706.2 471.1Q673.6 552.5 586.2 558.3Q512 605 437.8 558.3Q350.4 552.5 317.8 471.1Q250.5 415 272 330Q250.5 245 317.8 188.9Q350.4 107.5 437.8 101.7Q512 55 586.2 101.7Q673.6 107.5 706.2 188.9Q773.5 245 752 330Z M372 330A140 140 0 0 1 652 330A140 140 0 0 1 372 330Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="face" class="coloring-part" data-part="face" data-label="face" d="M374 330A138 138 0 1 0 650 330A138 138 0 1 0 374 330Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="body" class="coloring-part" data-part="body" data-label="body" d="M432 475H592A70 70 0 0 1 662 545V590A70 70 0 0 1 592 660H432A70 70 0 0 1 362 590V545A70 70 0 0 1 432 475Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="tail" class="coloring-part" data-part="tail" data-label="tail" d="M662 560C780 560 840 480 810 400C795 370 840 360 850 395C880 500 810 610 662 610Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 660Q512 645 1024 680V768H0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="lion-inner-1" class="coloring-part" data-part="lion-inner-1" data-label="パーツ" d="M447 316A14 14 0 1 1 446.9 316Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="lion-inner-2" class="coloring-part" data-part="lion-inner-2" data-label="パーツ" d="M444 320a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="lion-inner-3" class="coloring-part" data-part="lion-inner-3" data-label="パーツ" d="M577 316A14 14 0 1 1 576.9 316Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="lion-inner-4" class="coloring-part" data-part="lion-inner-4" data-label="パーツ" d="M574 320a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="lion-inner-5" class="coloring-part" data-part="lion-inner-5" data-label="パーツ" d="M496 360h32l-16 20Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
   </g>
   <g class="coloring-lines" pointer-events="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events: none; fill: none; stroke: black; stroke-width: 6px;">
-    <path d="M447 316A14 14 0 1 1 446.9 316M444 320a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-    <path d="M577 316A14 14 0 1 1 576.9 316M574 320a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
     <path d="M491 358Q512 380 533 358" />
-    <path d="M422 348q8 8 16 0M586 348q8 8 16 0" />
-    <path d="M496 360h32l-16 20Z" />
-    <path d="M400 370l-60 -10M400 385l-60 10M624 370l60 -10M624 385l60 10" />
+    <path d="M422 348q8 8 16 0" />
+    <path d="M586 348q8 8 16 0" />
+    <path d="M400 370l-60 -10" />
+    <path d="M400 385l-60 10" />
+    <path d="M624 370l60 -10" />
+    <path d="M624 385l60 10" />
   </g>
 </svg>

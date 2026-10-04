@@ -1,18 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
   <title>ペンギン</title>
   <g class="coloring-parts" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="bg" class="coloring-part coloring-part--bg" data-part="bg" data-label="はいけい" d="M0 0H1024V768H0Z" fill="transparent" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: none; stroke-width: 0px;" />
     <path id="head" class="coloring-part" data-part="head" data-label="head" d="M392 270A120 120 0 1 0 632 270A120 120 0 1 0 392 270Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="body" class="coloring-part" data-part="body" data-label="body" d="M472 390H552A80 80 0 0 1 632 470V550A80 80 0 0 1 552 630H472A80 80 0 0 1 392 550V470A80 80 0 0 1 472 390Z M502 430A60 60 0 0 0 442 490V550A60 60 0 0 0 502 610H522A60 60 0 0 0 582 550V490A60 60 0 0 0 522 430Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="belly" class="coloring-part" data-part="belly" data-label="belly" d="M502 430H522A60 60 0 0 1 582 490V550A60 60 0 0 1 522 610H502A60 60 0 0 1 442 550V490A60 60 0 0 1 502 430Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="ice" class="coloring-part" data-part="ice" data-label="ice" d="M100 680L924 630L1024 768L0 768Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 680Q512 665 1024 700V768H0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="penguin-inner-1" class="coloring-part" data-part="penguin-inner-1" data-label="パーツ" d="M467 248A12 12 0 1 1 466.9 248Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="penguin-inner-2" class="coloring-part" data-part="penguin-inner-2" data-label="パーツ" d="M464 252a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="penguin-inner-3" class="coloring-part" data-part="penguin-inner-3" data-label="パーツ" d="M557 248A12 12 0 1 1 556.9 248Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="penguin-inner-4" class="coloring-part" data-part="penguin-inner-4" data-label="パーツ" d="M554 252a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="penguin-inner-5" class="coloring-part" data-part="penguin-inner-5" data-label="パーツ" d="M494 285l18 20l18 -20Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
   </g>
   <g class="coloring-lines" pointer-events="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events: none; fill: none; stroke: black; stroke-width: 6px;">
-    <path d="M467 248A12 12 0 1 1 466.9 248M464 252a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-    <path d="M557 248A12 12 0 1 1 556.9 248M554 252a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
     <path d="M498 288Q512 302 526 288" />
-    <path d="M442 278q8 8 16 0M566 278q8 8 16 0" />
-    <path d="M494 285l18 20l18 -20Z" />
+    <path d="M442 278q8 8 16 0" />
+    <path d="M566 278q8 8 16 0" />
     <path d="M390 430C360 480 370 540 410 550" />
     <path d="M634 430C664 480 654 540 614 550" />
   </g>

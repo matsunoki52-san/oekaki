@@ -1,16 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
   <title>すいか</title>
   <g class="coloring-parts" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="bg" class="coloring-part coloring-part--bg" data-part="bg" data-label="はいけい" d="M0 0H1024V768H0Z" fill="transparent" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: none; stroke-width: 0px;" />
     <path id="rind" class="coloring-part" data-part="rind" data-label="rind" d="M220 380C220 580 804 580 804 380H220Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="flesh" class="coloring-part" data-part="flesh" data-label="flesh" d="M260 380C260 540 764 540 764 380H260Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="sun" class="coloring-part" data-part="sun" data-label="sun" d="M800 140A60 60 0 1 0 920 140A60 60 0 1 0 800 140Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="table" class="coloring-part" data-part="table" data-label="table" d="M0 620Q512 605 1024 640V768H0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="watermelon-inner-1" class="coloring-part" data-part="watermelon-inner-1" data-label="パーツ" d="M360 420a8 14 20 1 0 0.1 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="watermelon-inner-2" class="coloring-part" data-part="watermelon-inner-2" data-label="パーツ" d="M440 450a8 14 10 1 0 0.1 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="watermelon-inner-3" class="coloring-part" data-part="watermelon-inner-3" data-label="パーツ" d="M512 430a8 14 0 1 0 0.1 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="watermelon-inner-4" class="coloring-part" data-part="watermelon-inner-4" data-label="パーツ" d="M584 450a8 14 -10 1 0 0.1 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="watermelon-inner-5" class="coloring-part" data-part="watermelon-inner-5" data-label="パーツ" d="M664 420a8 14 -20 1 0 0.1 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="watermelon-inner-6" class="coloring-part" data-part="watermelon-inner-6" data-label="パーツ" d="M452 338A12 12 0 1 1 451.9 338Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="watermelon-inner-7" class="coloring-part" data-part="watermelon-inner-7" data-label="パーツ" d="M449 342a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="watermelon-inner-8" class="coloring-part" data-part="watermelon-inner-8" data-label="パーツ" d="M572 338A12 12 0 1 1 571.9 338Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="watermelon-inner-9" class="coloring-part" data-part="watermelon-inner-9" data-label="パーツ" d="M569 342a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
   </g>
   <g class="coloring-lines" pointer-events="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events: none; fill: none; stroke: black; stroke-width: 6px;">
-    <path d="M360 420a8 14 20 1 0 0.1 0M440 450a8 14 10 1 0 0.1 0M512 430a8 14 0 1 0 0.1 0M584 450a8 14 -10 1 0 0.1 0M664 420a8 14 -20 1 0 0.1 0" />
-    <path d="M452 338A12 12 0 1 1 451.9 338M449 342a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-    <path d="M572 338A12 12 0 1 1 571.9 338M569 342a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
     <path d="M493 378Q512 396 531 378" />
-    <path d="M427 368q8 8 16 0M581 368q8 8 16 0" />
+    <path d="M427 368q8 8 16 0" />
+    <path d="M581 368q8 8 16 0" />
   </g>
 </svg>

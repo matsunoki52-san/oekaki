@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
   <title>ききゅう</title>
   <g class="coloring-parts" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="bg" class="coloring-part coloring-part--bg" data-part="bg" data-label="はいけい" d="M0 0H1024V768H0Z" fill="transparent" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: none; stroke-width: 0px;" />
     <path id="balloon" class="coloring-part" data-part="balloon" data-label="balloon" d="M512 100C340 100 320 340 440 450H584C704 340 684 100 512 100Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="basket" class="coloring-part" data-part="basket" data-label="basket" d="M480 510H544A20 20 0 0 1 564 530V575A20 20 0 0 1 544 595H480A20 20 0 0 1 460 575V530A20 20 0 0 1 480 510Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="cloudsL" class="coloring-part" data-part="cloudsL" data-label="cloudsL" d="M135 375C95 375 90 320 125 309C110 245 187 235 220 265C253 235 330 250 320 309C350 320 340 375 305 375Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
@@ -8,7 +9,10 @@
     <path id="sun" class="coloring-part" data-part="sun" data-label="sun" d="M805 140A55 55 0 1 0 915 140A55 55 0 1 0 805 140Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
   </g>
   <g class="coloring-lines" pointer-events="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events: none; fill: none; stroke: black; stroke-width: 6px;">
-    <path d="M460 450L475 510M564 450L549 510" />
-    <path d="M512 100v350M420 180C470 260 470 380 440 450M604 180C554 260 554 380 584 450" />
+    <path d="M460 450L475 510" />
+    <path d="M564 450L549 510" />
+    <path d="M512 100v350" />
+    <path d="M420 180C470 260 470 380 440 450" />
+    <path d="M604 180C554 260 554 380 584 450" />
   </g>
 </svg>

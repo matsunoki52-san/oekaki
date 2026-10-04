@@ -1,17 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
   <title>きょうりゅう</title>
   <g class="coloring-parts" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="bg" class="coloring-part coloring-part--bg" data-part="bg" data-label="はいけい" d="M0 0H1024V768H0Z" fill="transparent" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: none; stroke-width: 0px;" />
     <path id="dinoHead" class="coloring-part" data-part="dinoHead" data-label="dinoHead" d="M382 260A130 130 0 1 0 642 260A130 130 0 1 0 382 260Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="eggShell" class="coloring-part" data-part="eggShell" data-label="eggShell" d="M340 430C340 630 684 630 684 430L620 470L560 420L512 480L460 420L400 470Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="eggBottom" class="coloring-part" data-part="eggBottom" data-label="eggBottom" d="M392 580H632A30 30 0 0 1 662 610V620A30 30 0 0 1 632 650H392A30 30 0 0 1 362 620V610A30 30 0 0 1 392 580Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="nest" class="coloring-part" data-part="nest" data-label="nest" d="M0 640Q512 625 1024 660V768H0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="dino-inner-1" class="coloring-part" data-part="dino-inner-1" data-label="パーツ" d="M467 238A12 12 0 1 1 466.9 238Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="dino-inner-2" class="coloring-part" data-part="dino-inner-2" data-label="パーツ" d="M464 242a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="dino-inner-3" class="coloring-part" data-part="dino-inner-3" data-label="パーツ" d="M557 238A12 12 0 1 1 556.9 238Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="dino-inner-4" class="coloring-part" data-part="dino-inner-4" data-label="パーツ" d="M554 242a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
   </g>
   <g class="coloring-lines" pointer-events="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events: none; fill: none; stroke: black; stroke-width: 6px;">
-    <path d="M467 238A12 12 0 1 1 466.9 238M464 242a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-    <path d="M557 238A12 12 0 1 1 556.9 238M554 242a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
     <path d="M496 278Q512 294 528 278" />
-    <path d="M442 268q8 8 16 0M566 268q8 8 16 0" />
-    <path d="M420 200q15 -25 30 0M512 180q15 -25 30 0M604 200q15 -25 30 0" />
+    <path d="M442 268q8 8 16 0" />
+    <path d="M566 268q8 8 16 0" />
+    <path d="M420 200q15 -25 30 0" />
+    <path d="M512 180q15 -25 30 0" />
+    <path d="M604 200q15 -25 30 0" />
     <path d="M420 540q92 30 184 0" />
   </g>
 </svg>

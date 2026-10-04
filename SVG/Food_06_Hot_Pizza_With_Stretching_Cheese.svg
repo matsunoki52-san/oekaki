@@ -1,17 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
   <title>ピザ</title>
   <g class="coloring-parts" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="bg" class="coloring-part coloring-part--bg" data-part="bg" data-label="はいけい" d="M0 0H1024V768H0Z" fill="transparent" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: none; stroke-width: 0px;" />
     <path id="crust" class="coloring-part" data-part="crust" data-label="crust" d="M512 160L220 540C380 620 644 620 804 540Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="cheese" class="coloring-part" data-part="cheese" data-label="cheese" d="M512 200L260 520C390 580 634 580 764 520Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="pep1" class="coloring-part" data-part="pep1" data-label="pep1" d="M425 380A35 35 0 1 0 495 380A35 35 0 1 0 425 380Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="pep2" class="coloring-part" data-part="pep2" data-label="pep2" d="M535 430A35 35 0 1 0 605 430A35 35 0 1 0 535 430Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="table" class="coloring-part" data-part="table" data-label="table" d="M0 630Q512 615 1024 650V768H0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="pizza-inner-1" class="coloring-part" data-part="pizza-inner-1" data-label="パーツ" d="M467 470A10 10 0 1 1 466.9 470Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="pizza-inner-2" class="coloring-part" data-part="pizza-inner-2" data-label="パーツ" d="M464 474a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="pizza-inner-3" class="coloring-part" data-part="pizza-inner-3" data-label="パーツ" d="M557 470A10 10 0 1 1 556.9 470Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="pizza-inner-4" class="coloring-part" data-part="pizza-inner-4" data-label="パーツ" d="M554 474a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
   </g>
   <g class="coloring-lines" pointer-events="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events: none; fill: none; stroke: black; stroke-width: 6px;">
-    <path d="M467 470A10 10 0 1 1 466.9 470M464 474a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-    <path d="M557 470A10 10 0 1 1 556.9 470M554 474a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
     <path d="M498 508Q512 520 526 508" />
-    <path d="M442 498q8 8 16 0M566 498q8 8 16 0" />
-    <path d="M320 540q40 20 80 0M460 550q40 20 80 0M600 540q40 20 80 0" />
+    <path d="M442 498q8 8 16 0" />
+    <path d="M566 498q8 8 16 0" />
+    <path d="M320 540q40 20 80 0" />
+    <path d="M460 550q40 20 80 0" />
+    <path d="M600 540q40 20 80 0" />
   </g>
 </svg>

@@ -1,15 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
   <title>にんじゃいぬ</title>
   <g class="coloring-parts" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="bg" class="coloring-part coloring-part--bg" data-part="bg" data-label="はいけい" d="M0 0H1024V768H0Z" fill="transparent" stroke="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: none; stroke-width: 0px;" />
     <path id="ears" class="coloring-part" data-part="ears" data-label="ears" d="M360 220L380 120L450 180Z M664 220L644 120L574 180Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="head" class="coloring-part" data-part="head" data-label="head" d="M382 280A130 130 0 1 0 642 280A130 130 0 1 0 382 280Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="body" class="coloring-part" data-part="body" data-label="body" d="M452 410H572A60 60 0 0 1 632 470V540A60 60 0 0 1 572 600H452A60 60 0 0 1 392 540V470A60 60 0 0 1 452 410Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="scroll" class="coloring-part" data-part="scroll" data-label="scroll" d="M355 460H669A15 15 0 0 1 684 475V490A15 15 0 0 1 669 505H355A15 15 0 0 1 340 490V475A15 15 0 0 1 355 460Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
     <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 640Q512 625 1024 660V768H0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="ninja_dog-inner-1" class="coloring-part" data-part="ninja_dog-inner-1" data-label="パーツ" d="M440 270h144v45h-144Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="ninja_dog-inner-2" class="coloring-part" data-part="ninja_dog-inner-2" data-label="パーツ" d="M475 292a8 8 0 1 0 16 0a8 8 0 1 0 -16 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="ninja_dog-inner-3" class="coloring-part" data-part="ninja_dog-inner-3" data-label="パーツ" d="M533 292a8 8 0 1 0 16 0a8 8 0 1 0 -16 0Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="ninja_dog-inner-4" class="coloring-part" data-part="ninja_dog-inner-4" data-label="パーツ" d="M360 482a15 15 0 1 0 0 0.1Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
+    <path id="ninja_dog-inner-5" class="coloring-part" data-part="ninja_dog-inner-5" data-label="パーツ" d="M664 482a15 15 0 1 0 0 0.1Z" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />
   </g>
   <g class="coloring-lines" pointer-events="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events: none; fill: none; stroke: black; stroke-width: 6px;">
-    <path d="M440 270h144v45h-144Z" />
-    <path d="M475 292a8 8 0 1 0 16 0a8 8 0 1 0 -16 0M533 292a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" />
-    <path d="M360 482a15 15 0 1 0 0 0.1M664 482a15 15 0 1 0 0 0.1" />
+
   </g>
 </svg>

@@ -631,6 +631,11 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
+.board__svg .coloring-part--bg,
+.card__svg .coloring-part--bg {
+  stroke: none !important;
+  stroke-width: 0 !important;
+}
 .board__svg .coloring-lines {
   pointer-events: none !important;
   fill: none !important;
