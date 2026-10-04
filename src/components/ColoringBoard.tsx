@@ -125,19 +125,34 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
       targetPath = e.target;
     }
 
-    // 塗り領域以外のタッチは無視
+    const ctm = svg.getScreenCTM();
+    if (!ctm) return;
+    const toVB = ctm.inverse();
+    const pt = project(toVB, e.clientX, e.clientY);
+
+    // フォールバック: 万一 document.elementFromPoint が境界線付近で拾えなかった場合、isPointInPath でパーツを特定
+    if (!targetPath) {
+      const parts = Array.from(svg.querySelectorAll<SVGPathElement>('.coloring-part'));
+      for (const p of parts) {
+        const pd = p.getAttribute('d');
+        if (pd && engine.isPointIn(pd, pt.x, pt.y)) {
+          targetPath = p;
+          break;
+        }
+      }
+    }
+
+    // 塗り領域以外のタッチ（余白等）は無視
     if (!targetPath) return;
 
     // 2. 取得した特定のパスデータ(d属性)を取得
     const d = targetPath.getAttribute('d');
-    const ctm = svg.getScreenCTM();
-    if (!d || !ctm) return;
+    if (!d) return;
     e.preventDefault();
 
     // 指が部位の外へ出ても pointermove を受け取り続ける
     svg.setPointerCapture(e.pointerId);
 
-    const toVB = ctm.inverse();
     activeRef.current = {
       pointerId: e.pointerId,
       partId: targetPath.dataset.part || targetPath.id,
@@ -146,8 +161,8 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
     };
     targetPath.classList.add('is-active');
 
-    // 取得した d 属性だけを使って new Path2D() を生成し ctx.clip() に渡す
-    engine.begin(d, project(toVB, e.clientX, e.clientY));
+    // 3. 取得した d 属性だけを使って new Path2D() を生成し ctx.clip() に渡す
+    engine.begin(d, pt);
     onStrokeStart?.();
   };
 

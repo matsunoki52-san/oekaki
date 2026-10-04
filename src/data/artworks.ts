@@ -1,7 +1,7 @@
 /**
- * 台紙データ (ローカルの SVG/*.svg から直接読み込み・パース)
+ * 台紙データ (src/components/svgs/*.svg から直接読み込み・パース)
  * --------------------------------------------------------------
- * プロジェクト内の SVG フォルダに格納されている80種のSVGファイル群を
+ * プロジェクト内の src/components/svgs フォルダに格納されている80種のSVGファイル群を
  * import.meta.glob で参照し、アプリの台紙データとして読み込みます。
  */
 
@@ -40,8 +40,8 @@ export const GENRES: Genre[] = [
   { id: 'food', title: 'たべもの', emoji: '🍰', color: '#ff7fa8', shadow: '#dc4b7c' },
 ];
 
-// SVGフォルダ内のSVGファイルをraw文字列として直接インポート
-const rawSvgModules = import.meta.glob<string>('../../SVG/*.svg', {
+// src/components/svgs ディレクトリ内のSVGファイルをインポート
+const rawSvgModules = import.meta.glob<string>('../components/svgs/*.svg', {
   query: '?raw',
   eager: true,
   import: 'default',

@@ -9,31 +9,48 @@ interface Props extends Omit<SVGProps<SVGSVGElement>, 'ref' | 'strokeWidth'> {
   ref?: Ref<SVGSVGElement>;
 }
 
-export const LINE_COLOR = '#2b2b35';
-
 /**
- * 台紙（主線）SVGコンポーネント。
+ * 台紙（主線）インラインSVGコンポーネント。
  * - 各パーツ（.coloring-part）は境界線が重ならない独立した閉じたパス。
- * - fill="transparent" かつ pointer-events="visiblePainted" により、
- *   ユーザーがタッチした座標で document.elementFromPoint() を使って最前面のパーツを1つだけ正確に特定可能。
- * - 目の表情や細かいディテール線は <g data-layer="lines"> に配置し pointer-events: none とすることで
- *   誤タッチやクリップの誤判定を完全に防ぐ。
+ * - fill="none" により、下の Canvas 描画を絶対に隠さない。
+ * - stroke="black" かつ stroke-width="5"（3以上の太さ）で、太い黒枠線がはっきりと見える。
+ * - pointer-events="all" により、透明な塗り領域でも指やペンのタッチ判定を確実にキャッチ。
+ * - 表情やディテール線は <g class="coloring-lines"> に配置し pointer-events: none とすることで
+ *   線画による誤判定を防ぐ。
  */
-export function ArtworkSvg({ artwork, interactive = false, strokeWidth = 8, ref, ...rest }: Props) {
+export function ArtworkSvg({
+  artwork,
+  interactive = false,
+  strokeWidth = 5,
+  ref,
+  className,
+  ...rest
+}: Props) {
+  const pe = interactive ? 'all' : 'none';
+
   return (
     <svg
       {...rest}
       ref={ref}
       viewBox={`0 0 ${VB_W} ${VB_H}`}
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
       preserveAspectRatio="xMidYMid meet"
       role="img"
       aria-label={artwork.title}
+      style={{
+        pointerEvents: interactive ? 'auto' : 'none',
+        display: 'block',
+        width: '100%',
+        height: '100%',
+        ...rest.style,
+      }}
     >
-      {/* 塗り領域（各パーツは絶対に重ならない独立閉パス） */}
+      {/* 塗り領域パーツ群（太線黒枠・fill:none・pointer-events:all） */}
       <g
-        data-layer="parts"
-        stroke={LINE_COLOR}
+        className="coloring-parts"
+        fill="none"
+        stroke="black"
         strokeWidth={strokeWidth}
         strokeLinejoin="round"
         strokeLinecap="round"
@@ -46,24 +63,38 @@ export function ArtworkSvg({ artwork, interactive = false, strokeWidth = 8, ref,
             data-label={p.label || p.id}
             className="coloring-part"
             d={p.d}
-            fill="transparent"
-            pointerEvents={interactive ? 'visiblePainted' : 'none'}
-            style={{ pointerEvents: interactive ? 'visiblePainted' : 'none' }}
+            fill="none"
+            stroke="black"
+            strokeWidth={strokeWidth}
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            pointerEvents={pe}
+            style={{
+              pointerEvents: pe,
+              fill: 'none',
+              stroke: 'black',
+              strokeWidth: `${strokeWidth}px`,
+            }}
           />
         ))}
       </g>
 
-      {/* 装飾線・表情・主線ディテール（タッチを遮らない pointer-events: none） */}
+      {/* 表情・主線ディテール（pointer-events: none でタッチを遮らない） */}
       {artwork.lines && artwork.lines.length > 0 && (
         <g
-          data-layer="lines"
+          className="coloring-lines"
           fill="none"
-          stroke={LINE_COLOR}
-          strokeWidth={strokeWidth}
+          stroke="black"
+          strokeWidth={strokeWidth + 1}
           strokeLinecap="round"
           strokeLinejoin="round"
           pointerEvents="none"
-          style={{ pointerEvents: 'none' }}
+          style={{
+            pointerEvents: 'none',
+            fill: 'none',
+            stroke: 'black',
+            strokeWidth: `${strokeWidth + 1}px`,
+          }}
         >
           {artwork.lines.map((d, i) => (
             <path key={i} d={d} />

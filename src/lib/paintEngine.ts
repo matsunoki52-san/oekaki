@@ -231,6 +231,10 @@ export class PaintEngine {
     return p;
   }
 
+  isPointIn(regionD: string, x: number, y: number): boolean {
+    return this.ctx.isPointInPath(this.path(regionD), x, y);
+  }
+
   private pattern(id: string): CanvasPattern {
     let p = this.patternCache.get(id);
     if (!p) {
