@@ -1,0 +1,17 @@
+{
+  "name": "ぬりえ あそび",
+  "short_name": "ぬりえ",
+  "description": "はみ出さない！3さいから遊べる塗り絵アプリ",
+  "lang": "ja",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff3e8",
+  "theme_color": "#ffb4c8",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
