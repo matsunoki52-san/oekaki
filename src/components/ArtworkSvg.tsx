@@ -21,7 +21,7 @@ interface Props extends Omit<SVGProps<SVGSVGElement>, 'ref' | 'strokeWidth'> {
 export function ArtworkSvg({
   artwork,
   interactive = false,
-  _strokeWidth = 5,
+  strokeWidth: _strokeWidth = 5,
   ref,
   className,
   ...rest
