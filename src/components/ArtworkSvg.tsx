@@ -46,10 +46,10 @@ export function ArtworkSvg({
         ...rest.style,
       }}
     >
-      {/* 塗り領域パーツ群（太線黒枠・fill:none・pointer-events:all） */}
+      {/* 塗り領域パーツ群（太線黒枠・fill:transparent・pointer-events:all） */}
       <g
         className="coloring-parts"
-        fill="none"
+        fill="transparent"
         stroke="black"
         strokeWidth={strokeWidth}
         strokeLinejoin="round"
@@ -63,7 +63,7 @@ export function ArtworkSvg({
             data-label={p.label || p.id}
             className="coloring-part"
             d={p.d}
-            fill="none"
+            fill="transparent"
             stroke="black"
             strokeWidth={strokeWidth}
             strokeLinejoin="round"
@@ -71,7 +71,7 @@ export function ArtworkSvg({
             pointerEvents={pe}
             style={{
               pointerEvents: pe,
-              fill: 'none',
+              fill: 'transparent',
               stroke: 'black',
               strokeWidth: `${strokeWidth}px`,
             }}

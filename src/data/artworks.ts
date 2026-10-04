@@ -68,9 +68,9 @@ function parseSvgArtwork(filename: string, rawSvg: string): Artwork {
   let match: RegExpExecArray | null;
   while ((match = partRegex.exec(rawSvg)) !== null) {
     const tag = match[0];
-    const idMatch = tag.match(/id="([^"]+)"/) || tag.match(/data-part="([^"]+)"/);
-    const dMatch = tag.match(/d="([^"]+)"/);
-    const labelMatch = tag.match(/data-label="([^"]+)"/);
+    const idMatch = tag.match(/\bid="([^"]+)"/) || tag.match(/\bdata-part="([^"]+)"/);
+    const dMatch = tag.match(/\bd="([^"]+)"/);
+    const labelMatch = tag.match(/\bdata-label="([^"]+)"/);
     if (dMatch) {
       const pid = idMatch ? idMatch[1] : `part-${parts.length}`;
       parts.push({
@@ -85,7 +85,7 @@ function parseSvgArtwork(filename: string, rawSvg: string): Artwork {
   const lines: string[] = [];
   const linesGroupMatch = rawSvg.match(/<g[^>]*class="[^"]*coloring-lines[^"]*"[^>]*>([\s\S]*?)<\/g>/);
   if (linesGroupMatch) {
-    const linePathRegex = /<path[^>]*d="([^"]+)"[^>]*>/g;
+    const linePathRegex = /<path[^>]*\bd="([^"]+)"[^>]*>/g;
     let lMatch: RegExpExecArray | null;
     while ((lMatch = linePathRegex.exec(linesGroupMatch[1])) !== null) {
       lines.push(lMatch[1]);

@@ -78,6 +78,60 @@ function star(cx, cy, R, r, points = 5) {
   return poly(...pts);
 }
 
+function circleIntersect(x0, y0, r0, x1, y1, r1) {
+  const d = Math.hypot(x1 - x0, y1 - y0);
+  if (d > r0 + r1 || d < Math.abs(r0 - r1)) return null;
+  const a = (r0 * r0 - r1 * r1 + d * d) / (2 * d);
+  const h = Math.sqrt(Math.max(0, r0 * r0 - a * a));
+  const x2 = x0 + (a * (x1 - x0)) / d;
+  const y2 = y0 + (a * (y1 - y0)) / d;
+  const p1 = {
+    x: Math.round(x2 + (h * (y1 - y0)) / d),
+    y: Math.round(y2 - (h * (x1 - x0)) / d)
+  };
+  const p2 = {
+    x: Math.round(x2 - (h * (y1 - y0)) / d),
+    y: Math.round(y2 + (h * (x1 - x0)) / d)
+  };
+  return [p1, p2];
+}
+
+function roundEarCap(hcx, hcy, hR, ecx, ecy, eR) {
+  const pts = circleIntersect(hcx, hcy, hR, ecx, ecy, eR);
+  if (!pts) return circle(ecx, ecy, eR);
+  const [p1, p2] = pts;
+  return `M${p1.x} ${p1.y}A${eR} ${eR} 0 1 1 ${p2.x} ${p2.y}A${hR} ${hR} 0 0 0 ${p1.x} ${p1.y}Z`;
+}
+
+function rabbitEars(cx, cy, r) {
+  const x1 = cx - 95;
+  const x2 = cx - 35;
+  const y1 = cy - Math.sqrt(r * r - 95 * 95);
+  const y2 = cy - Math.sqrt(r * r - 35 * 35);
+  const topY = cy - r - 120;
+  const leftEar = `M${Math.round(x1)} ${Math.round(y1)}L${Math.round(x1)} ${Math.round(topY)}A30 30 0 0 1 ${Math.round(x2)} ${Math.round(topY)}L${Math.round(x2)} ${Math.round(y2)}A${r} ${r} 0 0 0 ${Math.round(x1)} ${Math.round(y1)}Z`;
+
+  const rx1 = cx + 35;
+  const rx2 = cx + 95;
+  const ry1 = cy - Math.sqrt(r * r - 35 * 35);
+  const ry2 = cy - Math.sqrt(r * r - 95 * 95);
+  const rightEar = `M${Math.round(rx1)} ${Math.round(ry1)}L${Math.round(rx1)} ${Math.round(topY)}A30 30 0 0 1 ${Math.round(rx2)} ${Math.round(topY)}L${Math.round(rx2)} ${Math.round(ry2)}A${r} ${r} 0 0 0 ${Math.round(rx1)} ${Math.round(ry1)}Z`;
+
+  return `${leftEar} ${rightEar}`;
+}
+
+function pillHole(x, y, w, h, r = Math.min(w, h) / 2) {
+  return `M${x + r} ${y}A${r} ${r} 0 0 0 ${x} ${y + r}V${y + h - r}A${r} ${r} 0 0 0 ${x + r} ${y + h}H${x + w - r}A${r} ${r} 0 0 0 ${x + w} ${y + h - r}V${y + r}A${r} ${r} 0 0 0 ${x + w - r} ${y}Z`;
+}
+
+function circleHole(cx, cy, r) {
+  return `M${n(cx - r)} ${n(cy)}A${r} ${r} 0 0 1 ${n(cx + r)} ${n(cy)}A${r} ${r} 0 0 1 ${n(cx - r)} ${n(cy)}Z`;
+}
+
+function ellipseHole(cx, cy, rx, ry) {
+  return `M${n(cx - rx)} ${n(cy)}A${rx} ${ry} 0 0 1 ${n(cx + rx)} ${n(cy)}A${rx} ${ry} 0 0 1 ${n(cx - rx)} ${n(cy)}Z`;
+}
+
 // ---------------- モチーフデータ構築 ----------------
 const animals = [
   {
@@ -86,8 +140,8 @@ const animals = [
     parts: [
       { id: 'mane', d: scallopDonut(512, 330, 240, 140, 10) },
       { id: 'face', d: circle(512, 330, 138) },
-      { id: 'body', d: pill(362, 475, 300, 200, 70) },
-      { id: 'tail', d: 'M660 560C780 560 840 480 810 400C795 370 840 360 850 395C880 500 810 610 660 610Z' },
+      { id: 'body', d: pill(362, 475, 300, 185, 70) },
+      { id: 'tail', d: 'M662 560C780 560 840 480 810 400C795 370 840 360 850 395C880 500 810 610 662 610Z' },
       { id: 'ground', d: hill(660, 680) }
     ],
     lines: [
@@ -100,10 +154,10 @@ const animals = [
     id: 'elephant',
     title: 'ぞう',
     parts: [
-      { id: 'ear', d: wavyPuff(300, 340, 220, 260) },
-      { id: 'head', d: circle(490, 340, 140) },
-      { id: 'trunk', d: 'M440 440C390 490 320 460 320 380C320 340 350 330 360 360C360 410 400 420 450 370Z' },
-      { id: 'body', d: pill(540, 360, 300, 290, 90) },
+      { id: 'ear', d: 'M360 270C240 250 200 320 200 360C200 420 250 440 370 420A130 130 0 0 0 360 270Z' },
+      { id: 'head', d: circle(490, 340, 130) },
+      { id: 'trunk', d: 'M400 420C360 480 300 480 300 410C300 370 330 360 340 380C340 430 380 430 420 400Z' },
+      { id: 'body', d: pill(610, 360, 240, 280, 80) },
       { id: 'water', d: `${circle(310, 220, 25)} ${circle(230, 260, 20)} ${circle(340, 150, 16)}` },
       { id: 'ground', d: hill(640, 660) }
     ],
@@ -118,12 +172,12 @@ const animals = [
     id: 'giraffe',
     title: 'キリン',
     parts: [
-      { id: 'head', d: pill(460, 130, 110, 120, 45) },
-      { id: 'ears', d: `${poly(420, 150, 370, 110, 400, 170)} ${poly(604, 150, 654, 110, 624, 170)}` },
-      { id: 'neck', d: poly(490, 230, 530, 230, 560, 480, 470, 480) },
-      { id: 'body', d: pill(420, 475, 340, 180, 65) },
+      { id: 'ears', d: 'M465 130L440 70L465 70L480 130ZM544 130L555 70L580 70L560 130Z' },
+      { id: 'head', d: pill(460, 130, 104, 110, 45) },
+      { id: 'neck', d: poly(485, 240, 535, 240, 560, 480, 470, 480) },
+      { id: 'body', d: pill(410, 480, 350, 180, 65) },
       { id: 'clouds', d: wavyPuff(800, 180, 240, 110) },
-      { id: 'ground', d: hill(650, 670) }
+      { id: 'ground', d: hill(660, 680) }
     ],
     lines: [
       'M480 170a12 12 0 1 1 -0.1 0',
@@ -136,11 +190,11 @@ const animals = [
     id: 'panda',
     title: 'パンダ',
     parts: [
-      { id: 'ears', d: `${circle(380, 190, 48)} ${circle(644, 190, 48)}` },
-      { id: 'head', d: circle(512, 330, 160) },
-      { id: 'body', d: pill(362, 480, 300, 180, 70) },
+      { id: 'ears', d: `${roundEarCap(512, 340, 150, 400, 220, 52)} ${roundEarCap(512, 340, 150, 624, 220, 52)}` },
+      { id: 'head', d: circle(512, 340, 150) },
+      { id: 'body', d: pill(382, 490, 260, 170, 70) },
       { id: 'bamboo', d: pill(680, 260, 45, 390, 18) },
-      { id: 'ground', d: hill(650, 670) }
+      { id: 'ground', d: hill(660, 680) }
     ],
     lines: [
       'M445 285a24 32 20 1 0 48 0a24 32 20 1 0 -48 0',
@@ -154,11 +208,11 @@ const animals = [
     id: 'rabbit',
     title: 'うさぎ',
     parts: [
-      { id: 'ears', d: `${pill(420, 70, 65, 230, 30)} ${pill(540, 70, 65, 230, 30)}` },
+      { id: 'ears', d: rabbitEars(512, 360, 150) },
       { id: 'head', d: circle(512, 360, 150) },
-      { id: 'body', d: pill(382, 500, 260, 165, 75) },
-      { id: 'carrot', d: poly(700, 440, 780, 580, 660, 520) },
-      { id: 'ground', d: hill(650, 670) }
+      { id: 'body', d: pill(382, 510, 260, 150, 65) },
+      { id: 'carrot', d: poly(700, 480, 780, 580, 660, 530) },
+      { id: 'ground', d: hill(660, 680) }
     ],
     lines: [
       ...eyesSmile(512, 360, 55, 14, 34, 18),
@@ -171,11 +225,11 @@ const animals = [
     id: 'cat',
     title: 'ねこ',
     parts: [
-      { id: 'ears', d: `${poly(320, 260, 340, 140, 430, 210)} ${poly(450, 210, 530, 140, 550, 260)}` },
-      { id: 'head', d: circle(420, 350, 145) },
-      { id: 'body', d: ellipse(590, 490, 190, 140) },
-      { id: 'yarn', d: circle(780, 540, 70) },
-      { id: 'ground', d: hill(650, 670) }
+      { id: 'ears', d: 'M320 280L330 160L400 220A140 140 0 0 0 320 280ZM440 220L510 160L520 280A140 140 0 0 0 440 220Z' },
+      { id: 'head', d: circle(420, 350, 140) },
+      { id: 'body', d: pill(560, 400, 240, 240, 80) },
+      { id: 'yarn', d: circle(840, 560, 60) },
+      { id: 'ground', d: hill(640, 660) }
     ],
     lines: [
       ...eyesSmile(420, 350, 55, 14, 36, 18),
@@ -189,11 +243,11 @@ const animals = [
     id: 'dog',
     title: 'いぬ',
     parts: [
-      { id: 'ears', d: `${pill(310, 250, 70, 180, 35)} ${pill(644, 250, 70, 180, 35)}` },
-      { id: 'head', d: circle(512, 340, 155) },
+      { id: 'ears', d: `${pill(305, 250, 60, 180, 30)} ${pill(659, 250, 60, 180, 30)}` },
+      { id: 'head', d: circle(512, 340, 145) },
+      { id: 'body', d: pill(382, 485, 260, 175, 70) },
       { id: 'bone', d: pill(390, 430, 244, 46, 20) },
-      { id: 'body', d: pill(372, 485, 280, 175, 70) },
-      { id: 'ground', d: hill(650, 670) }
+      { id: 'ground', d: hill(660, 680) }
     ],
     lines: [
       ...eyesSmile(512, 330, 65, 14, 40, 20),
@@ -206,10 +260,10 @@ const animals = [
     id: 'koala',
     title: 'コアラ',
     parts: [
-      { id: 'ears', d: `${circle(350, 240, 65)} ${circle(674, 240, 65)}` },
+      { id: 'ears', d: `${roundEarCap(512, 320, 150, 360, 220, 65)} ${roundEarCap(512, 320, 150, 664, 220, 65)}` },
       { id: 'head', d: circle(512, 320, 150) },
-      { id: 'tree', d: pill(700, 50, 110, 640, 40) },
-      { id: 'body', d: pill(392, 460, 270, 190, 70) },
+      { id: 'tree', d: pill(710, 50, 100, 610, 40) },
+      { id: 'body', d: pill(392, 470, 250, 180, 70) },
       { id: 'ground', d: hill(660, 680) }
     ],
     lines: [
@@ -223,11 +277,11 @@ const animals = [
     id: 'monkey',
     title: 'さる',
     parts: [
-      { id: 'ears', d: `${circle(340, 300, 55)} ${circle(684, 300, 55)}` },
+      { id: 'ears', d: `${roundEarCap(512, 330, 150, 350, 300, 55)} ${roundEarCap(512, 330, 150, 674, 300, 55)}` },
       { id: 'head', d: circle(512, 330, 150) },
-      { id: 'body', d: pill(392, 470, 240, 180, 65) },
+      { id: 'body', d: pill(392, 480, 240, 170, 65) },
       { id: 'banana', d: 'M660 480C750 480 790 400 770 330C755 350 710 400 640 430Z' },
-      { id: 'ground', d: hill(640, 660) }
+      { id: 'ground', d: hill(650, 670) }
     ],
     lines: [
       ...eyesSmile(512, 330, 50, 14, 40, 22),
@@ -240,10 +294,10 @@ const animals = [
     id: 'penguin',
     title: 'ペンギン',
     parts: [
-      { id: 'head', d: circle(512, 270, 130) },
-      { id: 'body', d: pill(402, 390, 220, 240, 80) },
+      { id: 'head', d: circle(512, 270, 120) },
+      { id: 'body', d: `${pill(392, 390, 240, 240, 80)} ${pillHole(442, 430, 140, 180, 60)}` },
       { id: 'belly', d: pill(442, 430, 140, 180, 60) },
-      { id: 'ice', d: poly(100, 680, 924, 520, 1024, 768, 0, 768) },
+      { id: 'ice', d: poly(100, 680, 924, 630, 1024, 768, 0, 768) },
       { id: 'ground', d: hill(680, 700) }
     ],
     lines: [
@@ -273,11 +327,11 @@ const animals = [
     id: 'bear',
     title: 'くま',
     parts: [
-      { id: 'ears', d: `${circle(380, 200, 50)} ${circle(644, 200, 50)}` },
-      { id: 'head', d: circle(512, 320, 155) },
-      { id: 'body', d: pill(362, 465, 300, 195, 75) },
-      { id: 'fish', d: ellipse(512, 470, 90, 42) },
-      { id: 'ground', d: hill(650, 670) }
+      { id: 'ears', d: `${roundEarCap(512, 320, 150, 380, 200, 50)} ${roundEarCap(512, 320, 150, 644, 200, 50)}` },
+      { id: 'head', d: circle(512, 320, 150) },
+      { id: 'body', d: `${pill(362, 470, 300, 185, 75)} ${ellipseHole(512, 530, 90, 42)}` },
+      { id: 'fish', d: ellipse(512, 530, 90, 42) },
+      { id: 'ground', d: hill(660, 680) }
     ],
     lines: [
       ...eyesSmile(512, 310, 60, 14, 38, 20),
@@ -290,11 +344,11 @@ const animals = [
     id: 'fox',
     title: 'きつね',
     parts: [
-      { id: 'ears', d: `${poly(350, 240, 360, 90, 460, 190)} ${poly(674, 240, 664, 90, 564, 190)}` },
+      { id: 'ears', d: 'M360 250L360 100L450 200A150 150 0 0 0 360 250ZM574 200L664 100L664 250A150 150 0 0 0 574 200Z' },
       { id: 'head', d: circle(512, 320, 150) },
-      { id: 'body', d: pill(402, 460, 220, 190, 70) },
-      { id: 'tail', d: 'M620 520C780 440 890 520 860 620C800 690 680 640 620 580Z' },
-      { id: 'ground', d: hill(650, 670) }
+      { id: 'body', d: pill(402, 470, 220, 185, 70) },
+      { id: 'tail', d: 'M622 520C780 440 890 520 860 620C800 690 680 640 622 580Z' },
+      { id: 'ground', d: hill(660, 680) }
     ],
     lines: [
       ...eyesSmile(512, 320, 55, 12, 34, 16),
@@ -1118,7 +1172,7 @@ function writeCategory(list, files, catName) {
     const partsSvg = item.parts.map((p, idx) => {
       const pid = p.id || ('part-' + idx);
       const label = p.label || pid;
-      return '    <path id="' + pid + '" class="coloring-part" data-part="' + pid + '" data-label="' + label + '" d="' + p.d + '" fill="none" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: none; stroke: black; stroke-width: 5px;" />';
+      return '    <path id="' + pid + '" class="coloring-part" data-part="' + pid + '" data-label="' + label + '" d="' + p.d + '" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pointer-events="all" style="pointer-events: all; fill: transparent; stroke: black; stroke-width: 5px;" />';
     }).join('\n');
 
     const linesSvg = (item.lines || []).map(l =>
@@ -1128,7 +1182,7 @@ function writeCategory(list, files, catName) {
     const fullSvg = [
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">',
       '  <title>' + item.title + '</title>',
-      '  <g class="coloring-parts" fill="none" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">',
+      '  <g class="coloring-parts" fill="transparent" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">',
       partsSvg,
       '  </g>',
       '  <g class="coloring-lines" pointer-events="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events: none; fill: none; stroke: black; stroke-width: 6px;">',
