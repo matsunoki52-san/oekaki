@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>キリン</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="head" class="coloring-part" data-part="head" data-label="head" d="M505 130H525A45 45 0 0 1 570 175V205A45 45 0 0 1 525 250H505A45 45 0 0 1 460 205V175A45 45 0 0 1 505 130Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ears" class="coloring-part" data-part="ears" data-label="ears" d="M420 150L370 110L400 170Z M604 150L654 110L624 170Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="neck" class="coloring-part" data-part="neck" data-label="neck" d="M490 230L530 230L560 480L470 480Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="body" class="coloring-part" data-part="body" data-label="body" d="M485 475H695A65 65 0 0 1 760 540V590A65 65 0 0 1 695 655H485A65 65 0 0 1 420 590V540A65 65 0 0 1 485 475Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="clouds" class="coloring-part" data-part="clouds" data-label="clouds" d="M705 235C665 235 660 180 695 169C680 105 764 95 800 125C836 95 920 110 910 169C940 180 930 235 895 235Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 650Q512 635 1024 670V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M480 170a12 12 0 1 1 -0.1 0" />
+    <path d="M495 210q15 15 30 0" />
+    <path d="M480 130v-40a8 8 0 1 1 16 0v40M530 130v-40a8 8 0 1 1 16 0v40" />
+    <path d="M495 300a16 16 0 1 0 32 0a16 16 0 1 0 -32 0M485 380a18 18 0 1 0 36 0a18 18 0 1 0 -36 0" />
+  </g>
+</svg>

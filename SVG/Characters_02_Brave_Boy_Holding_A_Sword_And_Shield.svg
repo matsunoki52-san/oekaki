@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>ゆうしゃ</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="hair" class="coloring-part" data-part="hair" data-label="hair" d="M397 310C357 310 352 220 387 202C372 110 470 100 512 130C554 100 652 115 642 202C672 220 662 310 627 310Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="face" class="coloring-part" data-part="face" data-label="face" d="M422 280A90 90 0 1 0 602 280A90 90 0 1 0 422 280Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="cape" class="coloring-part" data-part="cape" data-label="cape" d="M390 370L634 370L680 610L344 610Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="shield" class="coloring-part" data-part="shield" data-label="shield" d="M345 380H385A35 35 0 0 1 420 415V505A35 35 0 0 1 385 540H345A35 35 0 0 1 310 505V415A35 35 0 0 1 345 380Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="sword" class="coloring-part" data-part="sword" data-label="sword" d="M680 320H690A10 10 0 0 1 700 330V570A10 10 0 0 1 690 580H680A10 10 0 0 1 670 570V330A10 10 0 0 1 680 320Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 640Q512 625 1024 660V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M478 268A12 12 0 1 1 477.9 268M475 272a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M546 268A12 12 0 1 1 545.9 268M543 272a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M499 308Q512 320 525 308" />
+    <path d="M453 298q8 8 16 0M555 298q8 8 16 0" />
+    <path d="M365 460a22 22 0 1 0 0.1 0" />
+    <path d="M650 380h70" />
+  </g>
+</svg>

@@ -54,15 +54,50 @@ export function PatternIcon({ tileUrl }: { tileUrl: string }) {
   );
 }
 
-export function GlitterIcon({ color }: { color: string }) {
+export function SparkleIcon({ color }: { color: string }) {
   return (
     <svg viewBox="0 0 64 64" style={s}>
       <g stroke={OUT} strokeWidth="3" strokeLinejoin="round">
-        <path d="M30 6Q34 26 54 30Q34 34 30 56Q26 34 6 30Q26 26 30 6Z" fill={fillOf(color)} />
-        <path d="M50 4Q51 11 58 12Q51 13 50 20Q49 13 42 12Q49 11 50 4Z" fill="#ffe27a" />
-        <path d="M14 44Q15 50 20 51Q15 52 14 58Q13 52 8 51Q13 50 14 44Z" fill="#fff" />
+        {/* 5芒星（黄色） */}
+        <polygon
+          points="26,6 30,18 43,18 32,26 36,38 26,30 16,38 20,26 9,18 22,18"
+          fill="#ffdf00"
+        />
+        {/* 十字の光（白） */}
+        <path d="M46 16Q47 25 56 26Q47 27 46 36Q45 27 36 26Q45 25 46 16Z" fill="#ffffff" />
+        {/* 小さな十字の光 */}
+        <path d="M20 40Q21 46 27 47Q21 48 20 54Q19 48 13 47Q19 46 20 40Z" fill={fillOf(color)} />
       </g>
-      <circle cx="30" cy="30" r="4" fill="#fff" />
+      <circle cx="26" cy="22" r="3" fill="#ffffff" />
+    </svg>
+  );
+}
+
+export function GlitterIcon({ color }: { color: string }) {
+  return (
+    <svg viewBox="0 0 64 64" style={s}>
+      <defs>
+        <linearGradient id="glitterGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#ffd700" />
+          <stop offset="35%" stopColor="#ff80bf" />
+          <stop offset="70%" stopColor="#80d8ff" />
+          <stop offset="100%" stopColor="#ffffff" />
+        </linearGradient>
+      </defs>
+      <g stroke={OUT} strokeWidth="3" strokeLinejoin="round">
+        {/* ラメペン本体 */}
+        <g transform="rotate(-35 32 32)">
+          <rect x="22" y="14" width="20" height="38" rx="5" fill="url(#glitterGrad)" />
+          <path d="M24 14L32 1L40 14Z" fill={fillOf(color)} />
+          <rect x="22" y="50" width="20" height="8" rx="3" fill="#ffffff" />
+        </g>
+        {/* 密集するラメ粒子・結晶 */}
+        <circle cx="12" cy="18" r="3" fill="#ffd700" />
+        <circle cx="18" cy="10" r="2.2" fill="#ffffff" />
+        <circle cx="48" cy="46" r="3" fill="#80d8ff" />
+        <circle cx="54" cy="38" r="2.5" fill="#ff80bf" />
+        <polygon points="50,14 52,19 57,21 52,23 50,28 48,23 43,21 48,19" fill="#ffffff" />
+      </g>
     </svg>
   );
 }

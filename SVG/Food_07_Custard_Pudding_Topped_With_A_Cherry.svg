@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>プリン</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="cherry" class="coloring-part" data-part="cherry" data-label="cherry" d="M477 180A35 35 0 1 0 547 180A35 35 0 1 0 477 180Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="caramel" class="coloring-part" data-part="caramel" data-label="caramel" d="M400 230H624A30 30 0 0 1 654 260V280A30 30 0 0 1 624 310H400A30 30 0 0 1 370 280V260A30 30 0 0 1 400 230Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="puddingBody" class="coloring-part" data-part="puddingBody" data-label="puddingBody" d="M370 310L654 310L694 500L330 500Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="dish" class="coloring-part" data-part="dish" data-label="dish" d="M212 530A300 60 0 1 0 812 530A300 60 0 1 0 212 530Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="table" class="coloring-part" data-part="table" data-label="table" d="M0 620Q512 605 1024 640V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M512 145q20 -30 40 -20" />
+    <path d="M462 408A12 12 0 1 1 461.9 408M459 412a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M562 408A12 12 0 1 1 561.9 408M559 412a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M495 448Q512 464 529 448" />
+    <path d="M437 438q8 8 16 0M571 438q8 8 16 0" />
+    <path d="M400 310c10 40 30 40 40 0M480 310c10 50 30 50 40 0M560 310c10 40 30 40 40 0" />
+  </g>
+</svg>

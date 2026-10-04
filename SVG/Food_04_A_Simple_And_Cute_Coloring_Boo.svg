@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>おすし</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="tuna" class="coloring-part" data-part="tuna" data-label="tuna" d="M285 300H455A35 35 0 0 1 490 335V360A35 35 0 0 1 455 395H285A35 35 0 0 1 250 360V335A35 35 0 0 1 285 300Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="eggTopping" class="coloring-part" data-part="eggTopping" data-label="eggTopping" d="M569 300H739A35 35 0 0 1 774 335V360A35 35 0 0 1 739 395H569A35 35 0 0 1 534 360V335A35 35 0 0 1 569 300Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="seaweed" class="coloring-part" data-part="seaweed" data-label="seaweed" d="M634 290H674A10 10 0 0 1 684 300V460A10 10 0 0 1 674 470H634A10 10 0 0 1 624 460V300A10 10 0 0 1 634 290Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="board" class="coloring-part" data-part="board" data-label="board" d="M180 470H844A20 20 0 0 1 864 490V560A20 20 0 0 1 844 580H180A20 20 0 0 1 160 560V490A20 20 0 0 1 180 470Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="table" class="coloring-part" data-part="table" data-label="table" d="M0 620Q512 595 1024 630V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M280 340q50 -15 100 0M340 360q50 -15 100 0" />
+    <path d="M290 420h160v60h-160Z" />
+    <path d="M570 420h160v60h-160Z" />
+    <path d="M340 442A8 8 0 1 1 339.9 442M337 446a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M400 442A8 8 0 1 1 399.9 442M397 446a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M360 478Q370 488 380 478" />
+    <path d="M315 468q8 8 16 0M409 468q8 8 16 0" />
+    <path d="M620 442A8 8 0 1 1 619.9 442M617 446a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M680 442A8 8 0 1 1 679.9 442M677 446a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M640 478Q650 488 660 478" />
+    <path d="M595 468q8 8 16 0M689 468q8 8 16 0" />
+  </g>
+</svg>

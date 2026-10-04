@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>くま</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="ears" class="coloring-part" data-part="ears" data-label="ears" d="M330 200A50 50 0 1 0 430 200A50 50 0 1 0 330 200Z M594 200A50 50 0 1 0 694 200A50 50 0 1 0 594 200Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="head" class="coloring-part" data-part="head" data-label="head" d="M357 320A155 155 0 1 0 667 320A155 155 0 1 0 357 320Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="body" class="coloring-part" data-part="body" data-label="body" d="M437 465H587A75 75 0 0 1 662 540V585A75 75 0 0 1 587 660H437A75 75 0 0 1 362 585V540A75 75 0 0 1 437 465Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="fish" class="coloring-part" data-part="fish" data-label="fish" d="M422 470A90 42 0 1 0 602 470A90 42 0 1 0 422 470Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 650Q512 635 1024 670V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M452 296A14 14 0 1 1 451.9 296M449 300a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M572 296A14 14 0 1 1 571.9 296M569 300a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M493 338Q512 358 531 338" />
+    <path d="M427 328q8 8 16 0M581 328q8 8 16 0" />
+    <path d="M494 340a18 12 0 1 0 36 0a18 12 0 1 0 -36 0" />
+    <path d="M440 470a8 8 0 1 1 -0.1 0" />
+    <path d="M580 470l30 -20v40Z" />
+  </g>
+</svg>

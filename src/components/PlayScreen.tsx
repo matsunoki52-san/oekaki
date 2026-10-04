@@ -13,6 +13,7 @@ import {
   GlitterIcon,
   PatternIcon,
   PenIcon,
+  SparkleIcon,
   SprayIcon,
   TrashIcon,
   UndoIcon,
@@ -26,7 +27,8 @@ interface Props {
 const TOOLS: { id: ToolId; label: string }[] = [
   { id: 'pen', label: 'ペン' },
   { id: 'pattern', label: 'もよう' },
-  { id: 'glitter', label: 'キラキラ' },
+  { id: 'sparkle', label: 'キラキラ' },
+  { id: 'glitter', label: 'グリッター' },
   { id: 'spray', label: 'スプレー' },
   { id: 'eraser', label: 'けしゴム' },
 ];
@@ -191,6 +193,7 @@ export function PlayScreen({ artwork, onBack }: Props) {
                 <span className="tool__icon">
                   {t.id === 'pen' && <PenIcon color={color} />}
                   {t.id === 'pattern' && <PatternIcon tileUrl={getTileDataUrl(pattern)} />}
+                  {t.id === 'sparkle' && <SparkleIcon color={color} />}
                   {t.id === 'glitter' && <GlitterIcon color={color} />}
                   {t.id === 'spray' && <SprayIcon color={color} />}
                   {t.id === 'eraser' && <EraserIcon />}
@@ -313,7 +316,7 @@ function Palette({ tool, color, patternId, onColor, onPattern }: PaletteProps) {
                 key={c.id}
                 id={`swatch-${c.id}`}
                 className={`swatch ${c.value === color ? 'is-selected' : ''} ${c.value === RAINBOW ? 'swatch--rainbow' : ''} ${
-                  tool === 'glitter' ? 'swatch--glitter' : ''
+                  tool === 'glitter' ? 'swatch--glitter' : tool === 'sparkle' ? 'swatch--sparkle' : ''
                 }`}
                 style={c.value === RAINBOW ? undefined : { background: c.value }}
                 aria-label={c.name}

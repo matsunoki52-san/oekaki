@@ -666,6 +666,21 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
 .swatch--rainbow {
   background: conic-gradient(#ff3b3b, #ff9f1c, #ffe94e, #5ed16a, #4cc3ff, #3d4ed8, #8b5cf6, #ff3b3b);
 }
+.swatch--sparkle::after {
+  content: '★';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  color: #ffffff;
+  text-shadow: 0 0 6px #ffd700, 0 0 10px #ffffff;
+  animation: pulse-star 1.8s ease-in-out infinite alternate;
+}
+@keyframes pulse-star {
+  from { transform: scale(0.85) rotate(-10deg); opacity: 0.85; }
+  to { transform: scale(1.18) rotate(15deg); opacity: 1; }
+}
 .swatch--glitter::after {
   content: '';
   position: absolute;

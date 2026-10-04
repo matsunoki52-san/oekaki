@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>たんけんか</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="hat" class="coloring-part" data-part="hat" data-label="hat" d="M377 170H647A25 25 0 0 1 672 195V225A25 25 0 0 1 647 250H377A25 25 0 0 1 352 225V195A25 25 0 0 1 377 170Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="face" class="coloring-part" data-part="face" data-label="face" d="M417 290A95 95 0 1 0 607 290A95 95 0 1 0 417 290Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="body" class="coloring-part" data-part="body" data-label="body" d="M452 385H572A40 40 0 0 1 612 425V565A40 40 0 0 1 572 605H452A40 40 0 0 1 412 565V425A40 40 0 0 1 452 385Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="glass" class="coloring-part" data-part="glass" data-label="glass" d="M635 380A75 75 0 1 0 785 380A75 75 0 1 0 635 380Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 640Q512 625 1024 660V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M478 278A12 12 0 1 1 477.9 278M475 282a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M546 278A12 12 0 1 1 545.9 278M543 282a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M498 318Q512 332 526 318" />
+    <path d="M453 308q8 8 16 0M555 308q8 8 16 0" />
+    <path d="M710 455l40 80" />
+    <path d="M450 450h124M470 510h84" />
+  </g>
+</svg>

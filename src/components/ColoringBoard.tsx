@@ -106,7 +106,7 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
   };
 
   /* ================================================================
-   * pointerdown : タッチした <path> を取得し、クリップ開始
+   * pointerdown : タッチした座標から最前面の <path> を特定し、Path2D でクリップ開始
    * ================================================================ */
   const onPointerDown = (e: RPointerEvent<SVGSVGElement>) => {
     const engine = engineRef.current;
@@ -114,9 +114,22 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
     if (!engine || !svg) return;
     if (activeRef.current) return; // 2本目以降の指（手のひら等）は無視
 
-    const target = e.target;
-    if (!(target instanceof SVGPathElement) || !target.dataset.part) return;
-    const d = target.getAttribute('d');
+    // 1. ユーザーがタッチした座標 (clientX, clientY) から document.elementFromPoint() 等を用いて
+    //    「見た目上、最前面にある特定の <path> 要素」を1つだけ正確に特定する
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    let targetPath: SVGPathElement | null = null;
+
+    if (el instanceof SVGPathElement && (el.classList.contains('coloring-part') || el.dataset.part)) {
+      targetPath = el;
+    } else if (e.target instanceof SVGPathElement && (e.target.classList.contains('coloring-part') || e.target.dataset.part)) {
+      targetPath = e.target;
+    }
+
+    // 塗り領域以外のタッチは無視
+    if (!targetPath) return;
+
+    // 2. 取得した特定のパスデータ(d属性)を取得
+    const d = targetPath.getAttribute('d');
     const ctm = svg.getScreenCTM();
     if (!d || !ctm) return;
     e.preventDefault();
@@ -124,19 +137,17 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
     // 指が部位の外へ出ても pointermove を受け取り続ける
     svg.setPointerCapture(e.pointerId);
 
-    // 各パーツは重ならない独立パスとして定義されているため、
-    // タッチした d 属性がそのままクリッピングマスクになる
-    const occluders: string[] = [];
-    for (let el = target.nextElementSibling; el; el = el.nextElementSibling) {
-      const od = el.getAttribute('d');
-      if (od) occluders.push(od);
-    }
-
     const toVB = ctm.inverse();
-    activeRef.current = { pointerId: e.pointerId, partId: target.dataset.part, el: target, toVB };
-    target.classList.add('is-active');
+    activeRef.current = {
+      pointerId: e.pointerId,
+      partId: targetPath.dataset.part || targetPath.id,
+      el: targetPath,
+      toVB,
+    };
+    targetPath.classList.add('is-active');
 
-    engine.begin(d, occluders, project(toVB, e.clientX, e.clientY));
+    // 取得した d 属性だけを使って new Path2D() を生成し ctx.clip() に渡す
+    engine.begin(d, project(toVB, e.clientX, e.clientY));
     onStrokeStart?.();
   };
 

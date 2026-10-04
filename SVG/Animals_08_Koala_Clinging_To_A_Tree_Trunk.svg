@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>コアラ</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="ears" class="coloring-part" data-part="ears" data-label="ears" d="M285 240A65 65 0 1 0 415 240A65 65 0 1 0 285 240Z M609 240A65 65 0 1 0 739 240A65 65 0 1 0 609 240Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="head" class="coloring-part" data-part="head" data-label="head" d="M362 320A150 150 0 1 0 662 320A150 150 0 1 0 362 320Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="tree" class="coloring-part" data-part="tree" data-label="tree" d="M740 50H770A40 40 0 0 1 810 90V650A40 40 0 0 1 770 690H740A40 40 0 0 1 700 650V90A40 40 0 0 1 740 50Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="body" class="coloring-part" data-part="body" data-label="body" d="M462 460H592A70 70 0 0 1 662 530V580A70 70 0 0 1 592 650H462A70 70 0 0 1 392 580V530A70 70 0 0 1 462 460Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 660Q512 645 1024 680V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M482 310a30 45 0 1 0 60 0a30 45 0 1 0 -60 0" />
+    <path d="M430 280a12 12 0 1 1 0 -0.1M594 280a12 12 0 1 1 0 -0.1" />
+    <path d="M490 380q22 18 44 0" />
+    <path d="M720 200l40 -30M730 400l40 -30M720 550l40 -30" />
+  </g>
+</svg>

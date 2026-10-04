@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>ハリネズミ</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="spikes" class="coloring-part" data-part="spikes" data-label="spikes" d="M710 440Q736 508.6 679.2 555Q667.4 627.4 595 639.2Q548.6 696 480 670Q411.4 696 365 639.2Q292.6 627.4 280.8 555Q224 508.6 250 440Q224 371.4 280.8 325Q292.6 252.6 365 240.8Q411.4 184 480 210Q548.6 184 595 240.8Q667.4 252.6 679.2 325Q736 371.4 710 440Z M360 440A120 120 0 0 1 600 440A120 120 0 0 1 360 440Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="face" class="coloring-part" data-part="face" data-label="face" d="M362 440A118 118 0 1 0 598 440A118 118 0 1 0 362 440Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="flower" class="coloring-part" data-part="flower" data-label="flower" d="M690 320A40 40 0 1 0 770 320A40 40 0 1 0 690 320Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 650Q512 635 1024 670V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M440 430A10 10 0 1 1 439.9 430M437 434a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M520 430A10 10 0 1 1 519.9 430M517 434a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M467 468Q480 480 493 468" />
+    <path d="M415 458q8 8 16 0M529 458q8 8 16 0" />
+    <path d="M472 455l8 10l8 -10Z" />
+    <path d="M730 360v60M710 390q20 -10 40 0" />
+  </g>
+</svg>

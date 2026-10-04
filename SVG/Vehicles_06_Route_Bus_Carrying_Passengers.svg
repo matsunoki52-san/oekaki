@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>バス</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="roof" class="coloring-part" data-part="roof" data-label="roof" d="M225 200H799A25 25 0 0 1 824 225V245A25 25 0 0 1 799 270H225A25 25 0 0 1 200 245V225A25 25 0 0 1 225 200Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="windows" class="coloring-part" data-part="windows" data-label="windows" d="M240 270H784A20 20 0 0 1 804 290V380A20 20 0 0 1 784 400H240A20 20 0 0 1 220 380V290A20 20 0 0 1 240 270Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="body" class="coloring-part" data-part="body" data-label="body" d="M230 400H794A30 30 0 0 1 824 430V550A30 30 0 0 1 794 580H230A30 30 0 0 1 200 550V430A30 30 0 0 1 230 400Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="wheels" class="coloring-part" data-part="wheels" data-label="wheels" d="M275 580A65 65 0 1 0 405 580A65 65 0 1 0 275 580Z M619 580A65 65 0 1 0 749 580A65 65 0 1 0 619 580Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="road" class="coloring-part" data-part="road" data-label="road" d="M0 640Q512 615 1024 650V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M260 290h80v90h-80ZM380 290h80v90h-80ZM500 290h80v90h-80ZM620 290h140v90h-140Z" />
+    <path d="M230 460a18 18 0 1 0 36 0a18 18 0 1 0 -36 0" />
+    <path d="M460 480q52 25 104 0" />
+  </g>
+</svg>

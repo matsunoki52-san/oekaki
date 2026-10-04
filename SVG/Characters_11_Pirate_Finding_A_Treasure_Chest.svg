@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>かいぞく</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="hat" class="coloring-part" data-part="hat" data-label="hat" d="M330 240L512 110L694 240Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="face" class="coloring-part" data-part="face" data-label="face" d="M417 290A95 95 0 1 0 607 290A95 95 0 1 0 417 290Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="body" class="coloring-part" data-part="body" data-label="body" d="M447 385H577A45 45 0 0 1 622 430V550A45 45 0 0 1 577 595H447A45 45 0 0 1 402 550V430A45 45 0 0 1 447 385Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="chest" class="coloring-part" data-part="chest" data-label="chest" d="M695 470H805A25 25 0 0 1 830 495V565A25 25 0 0 1 805 590H695A25 25 0 0 1 670 565V495A25 25 0 0 1 695 470Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 640Q512 625 1024 660V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M460 280a14 14 0 1 0 28 0a14 14 0 1 0 -28 0" />
+    <path d="M550 270l25 25M575 270l-25 25" />
+    <path d="M490 330q22 18 44 0" />
+    <path d="M512 170a16 16 0 1 0 0.1 0" />
+    <path d="M670 520h160" />
+  </g>
+</svg>

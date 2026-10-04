@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>きしゃ</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="smoke" class="coloring-part" data-part="smoke" data-label="smoke" d="M395 170A35 35 0 1 0 465 170A35 35 0 1 0 395 170Z M435 120A45 45 0 1 0 525 120A45 45 0 1 0 435 120Z M495 80A55 55 0 1 0 605 80A55 55 0 1 0 495 80Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="chimney" class="coloring-part" data-part="chimney" data-label="chimney" d="M400 240H440A10 10 0 0 1 450 250V320A10 10 0 0 1 440 330H400A10 10 0 0 1 390 320V250A10 10 0 0 1 400 240Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="boiler" class="coloring-part" data-part="boiler" data-label="boiler" d="M360 330H540A40 40 0 0 1 580 370V510A40 40 0 0 1 540 550H360A40 40 0 0 1 320 510V370A40 40 0 0 1 360 330Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="cab" class="coloring-part" data-part="cab" data-label="cab" d="M610 250H770A30 30 0 0 1 800 280V520A30 30 0 0 1 770 550H610A30 30 0 0 1 580 520V280A30 30 0 0 1 610 250Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="wheels" class="coloring-part" data-part="wheels" data-label="wheels" d="M305 580A65 65 0 1 0 435 580A65 65 0 1 0 305 580Z M447 580A65 65 0 1 0 577 580A65 65 0 1 0 447 580Z M595 580A75 75 0 1 0 745 580A75 75 0 1 0 595 580Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="rail" class="coloring-part" data-part="rail" data-label="rail" d="M0 640Q512 615 1024 650V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M620 290h140v90h-140Z" />
+    <path d="M340 440a20 20 0 1 0 40 0a20 20 0 1 0 -40 0" />
+    <path d="M370 580l142 0" />
+  </g>
+</svg>

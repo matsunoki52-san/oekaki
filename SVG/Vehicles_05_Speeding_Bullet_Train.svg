@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>しんかんせん</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="nose" class="coloring-part" data-part="nose" data-label="nose" d="M180 500C260 380 400 330 600 330L780 330L780 500Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="body" class="coloring-part" data-part="body" data-label="body" d="M235 500H785A15 15 0 0 1 800 515V575A15 15 0 0 1 785 590H235A15 15 0 0 1 220 575V515A15 15 0 0 1 235 500Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="rail" class="coloring-part" data-part="rail" data-label="rail" d="M0 590Q512 565 1024 600V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="clouds" class="coloring-part" data-part="clouds" data-label="clouds" d="M705 235C665 235 660 180 695 169C680 105 764 95 800 125C836 95 920 110 910 169C940 180 930 235 895 235Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M480 370h60v40h-60ZM570 370h60v40h-60ZM660 370h60v40h-60Z" />
+    <path d="M220 460h560" />
+    <path d="M280 430a15 15 0 1 0 30 0a15 15 0 1 0 -30 0" />
+  </g>
+</svg>

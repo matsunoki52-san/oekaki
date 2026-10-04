@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>サンドイッチ</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="breadTop" class="coloring-part" data-part="breadTop" data-label="breadTop" d="M280 280L744 280L644 370L380 370Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ham" class="coloring-part" data-part="ham" data-label="ham" d="M335 370H689A15 15 0 0 1 704 385V395A15 15 0 0 1 689 410H335A15 15 0 0 1 320 395V385A15 15 0 0 1 335 370Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="cheese" class="coloring-part" data-part="cheese" data-label="cheese" d="M300 410L724 410L750 450L512 430L274 450Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="lettuce" class="coloring-part" data-part="lettuce" data-label="lettuce" d="M312 497.5C272 497.5 267 470 302 464.5C287 422.5 444.5 412.5 512 442.5C579.5 412.5 737 427.5 727 464.5C757 470 747 497.5 712 497.5Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="breadBottom" class="coloring-part" data-part="breadBottom" data-label="breadBottom" d="M335 500H689A25 25 0 0 1 714 525V550A25 25 0 0 1 689 575H335A25 25 0 0 1 310 550V525A25 25 0 0 1 335 500Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="table" class="coloring-part" data-part="table" data-label="table" d="M0 620Q512 605 1024 640V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M467 320A10 10 0 1 1 466.9 320M464 324a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M557 320A10 10 0 1 1 556.9 320M554 324a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M499 358Q512 370 525 358" />
+    <path d="M442 348q8 8 16 0M566 348q8 8 16 0" />
+  </g>
+</svg>

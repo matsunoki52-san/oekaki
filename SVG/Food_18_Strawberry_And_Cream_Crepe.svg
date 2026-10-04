@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>クレープ</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="strawberry" class="coloring-part" data-part="strawberry" data-label="strawberry" d="M472 190A40 40 0 1 0 552 190A40 40 0 1 0 472 190Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="cream" class="coloring-part" data-part="cream" data-label="cream" d="M397 305C357 305 352 260 387 251C372 195 470 185 512 215C554 185 652 200 642 251C672 260 662 305 627 305Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="crepeFold" class="coloring-part" data-part="crepeFold" data-label="crepeFold" d="M320 300L704 300L512 680Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="sleeve" class="coloring-part" data-part="sleeve" data-label="sleeve" d="M380 430L644 430L512 680Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="table" class="coloring-part" data-part="table" data-label="table" d="M0 650Q512 625 1024 660V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M467 360A10 10 0 1 1 466.9 360M464 364a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M557 360A10 10 0 1 1 556.9 360M554 364a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M499 398Q512 410 525 398" />
+    <path d="M442 388q8 8 16 0M566 388q8 8 16 0" />
+    <path d="M512 155q-15 -20 0 -35" />
+  </g>
+</svg>

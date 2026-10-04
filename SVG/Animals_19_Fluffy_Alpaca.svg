@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>アルパカ</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="fluff" class="coloring-part" data-part="fluff" data-label="fluff" d="M442 250C402 250 397 180 432 166C417 90 483.5 80 512 110C540.5 80 607 95 597 166C627 180 617 250 582 250Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="face" class="coloring-part" data-part="face" data-label="face" d="M417 280A95 95 0 1 0 607 280A95 95 0 1 0 417 280Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="neck" class="coloring-part" data-part="neck" data-label="neck" d="M507 360H517A45 45 0 0 1 562 405V495A45 45 0 0 1 517 540H507A45 45 0 0 1 462 495V405A45 45 0 0 1 507 360Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="body" class="coloring-part" data-part="body" data-label="body" d="M305 620C265 620 260 520 295 500C280 400 406 390 460 420C514 390 640 405 630 500C660 520 650 620 615 620Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 650Q512 635 1024 670V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M480 270A10 10 0 1 1 479.9 270M477 274a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M544 270A10 10 0 1 1 543.9 270M541 274a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M500 308Q512 320 524 308" />
+    <path d="M455 298q8 8 16 0M553 298q8 8 16 0" />
+    <path d="M430 180q-20 -20 0 -40M594 180q20 -20 0 -40" />
+  </g>
+</svg>

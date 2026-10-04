@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>おにぎり</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="rice" class="coloring-part" data-part="rice" data-label="rice" d="M440 250H584A110 110 0 0 1 694 360V480A110 110 0 0 1 584 590H440A110 110 0 0 1 330 480V360A110 110 0 0 1 440 250Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="seaweed" class="coloring-part" data-part="seaweed" data-label="seaweed" d="M447 440H577A25 25 0 0 1 602 465V565A25 25 0 0 1 577 590H447A25 25 0 0 1 422 565V465A25 25 0 0 1 447 440Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="leaf" class="coloring-part" data-part="leaf" data-label="leaf" d="M192 610A320 50 0 1 0 832 610A320 50 0 1 0 192 610Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="table" class="coloring-part" data-part="table" data-label="table" d="M0 630Q512 605 1024 640V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M462 348A12 12 0 1 1 461.9 348M459 352a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M562 348A12 12 0 1 1 561.9 348M559 352a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M495 388Q512 404 529 388" />
+    <path d="M437 378q8 8 16 0M571 378q8 8 16 0" />
+    <path d="M512 320a14 14 0 1 0 0.1 0" />
+  </g>
+</svg>

@@ -12,13 +12,14 @@ interface Props extends Omit<SVGProps<SVGSVGElement>, 'ref' | 'strokeWidth'> {
 export const LINE_COLOR = '#2b2b35';
 
 /**
- * 台紙（主線）SVG。
- * - 各パーツ（<path data-part="...">）は境界線が重ならない独立した閉じたパス。
- * - 黒い目安線（stroke）の内側だけが正確に塗りつぶし可能領域（fill領域）となる。
- * - 目の表情や細かいディテール線は <g data-layer="lines"> に配置し pointer-events: none とする。
+ * 台紙（主線）SVGコンポーネント。
+ * - 各パーツ（.coloring-part）は境界線が重ならない独立した閉じたパス。
+ * - fill="transparent" かつ pointer-events="visiblePainted" により、
+ *   ユーザーがタッチした座標で document.elementFromPoint() を使って最前面のパーツを1つだけ正確に特定可能。
+ * - 目の表情や細かいディテール線は <g data-layer="lines"> に配置し pointer-events: none とすることで
+ *   誤タッチやクリップの誤判定を完全に防ぐ。
  */
 export function ArtworkSvg({ artwork, interactive = false, strokeWidth = 8, ref, ...rest }: Props) {
-  const pe = interactive ? 'auto' : 'none';
   return (
     <svg
       {...rest}
@@ -32,14 +33,23 @@ export function ArtworkSvg({ artwork, interactive = false, strokeWidth = 8, ref,
       {/* 塗り領域（各パーツは絶対に重ならない独立閉パス） */}
       <g
         data-layer="parts"
-        fill="transparent"
         stroke={LINE_COLOR}
         strokeWidth={strokeWidth}
         strokeLinejoin="round"
         strokeLinecap="round"
       >
         {artwork.parts.map((p) => (
-          <path key={p.id} data-part={p.id} d={p.d} style={{ pointerEvents: pe }} />
+          <path
+            key={p.id}
+            id={p.id}
+            data-part={p.id}
+            data-label={p.label || p.id}
+            className="coloring-part"
+            d={p.d}
+            fill="transparent"
+            pointerEvents={interactive ? 'visiblePainted' : 'none'}
+            style={{ pointerEvents: interactive ? 'visiblePainted' : 'none' }}
+          />
         ))}
       </g>
 
@@ -52,6 +62,7 @@ export function ArtworkSvg({ artwork, interactive = false, strokeWidth = 8, ref,
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
+          pointerEvents="none"
           style={{ pointerEvents: 'none' }}
         >
           {artwork.lines.map((d, i) => (

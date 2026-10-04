@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>いぬ</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="ears" class="coloring-part" data-part="ears" data-label="ears" d="M345 250H345A35 35 0 0 1 380 285V395A35 35 0 0 1 345 430H345A35 35 0 0 1 310 395V285A35 35 0 0 1 345 250Z M679 250H679A35 35 0 0 1 714 285V395A35 35 0 0 1 679 430H679A35 35 0 0 1 644 395V285A35 35 0 0 1 679 250Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="head" class="coloring-part" data-part="head" data-label="head" d="M357 340A155 155 0 1 0 667 340A155 155 0 1 0 357 340Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="bone" class="coloring-part" data-part="bone" data-label="bone" d="M410 430H614A20 20 0 0 1 634 450V456A20 20 0 0 1 614 476H410A20 20 0 0 1 390 456V450A20 20 0 0 1 410 430Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="body" class="coloring-part" data-part="body" data-label="body" d="M442 485H582A70 70 0 0 1 652 555V590A70 70 0 0 1 582 660H442A70 70 0 0 1 372 590V555A70 70 0 0 1 442 485Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 650Q512 635 1024 670V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M447 316A14 14 0 1 1 446.9 316M444 320a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M577 316A14 14 0 1 1 576.9 316M574 320a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M492 358Q512 378 532 358" />
+    <path d="M422 348q8 8 16 0M586 348q8 8 16 0" />
+    <path d="M494 365a18 12 0 1 0 36 0a18 12 0 1 0 -36 0" />
+    <path d="M390 415a16 16 0 1 0 0 32M390 445a16 16 0 1 0 0 32" />
+    <path d="M634 415a16 16 0 1 0 0 32M634 445a16 16 0 1 0 0 32" />
+  </g>
+</svg>

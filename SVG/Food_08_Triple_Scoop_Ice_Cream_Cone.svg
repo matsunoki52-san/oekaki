@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>アイスクリーム</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="cherry" class="coloring-part" data-part="cherry" data-label="cherry" d="M482 100A30 30 0 1 0 542 100A30 30 0 1 0 482 100Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="scoop3" class="coloring-part" data-part="scoop3" data-label="scoop3" d="M437 190A75 75 0 1 0 587 190A75 75 0 1 0 437 190Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="scoop2" class="coloring-part" data-part="scoop2" data-label="scoop2" d="M417 310A95 95 0 1 0 607 310A95 95 0 1 0 417 310Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="scoop1" class="coloring-part" data-part="scoop1" data-label="scoop1" d="M397 440A115 115 0 1 0 627 440A115 115 0 1 0 397 440Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="cone" class="coloring-part" data-part="cone" data-label="cone" d="M410 510L614 510L512 730Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M440 560l140 100M480 530l100 120M584 560l-140 100M544 530l-100 120" />
+    <path d="M472 430A10 10 0 1 1 471.9 430M469 434a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M552 430A10 10 0 1 1 551.9 430M549 434a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M499 468Q512 480 525 468" />
+    <path d="M447 458q8 8 16 0M561 458q8 8 16 0" />
+    <path d="M478 301A9 9 0 1 1 477.9 301M475 305a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M546 301A9 9 0 1 1 545.9 301M543 305a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M501 338Q512 348 523 338" />
+    <path d="M453 328q8 8 16 0M555 328q8 8 16 0" />
+  </g>
+</svg>

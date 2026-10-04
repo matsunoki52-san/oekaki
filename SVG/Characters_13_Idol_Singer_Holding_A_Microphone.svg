@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>アイドル</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="bow" class="coloring-part" data-part="bow" data-label="bow" d="M450 140L512 170L450 200Z M574 140L512 170L574 200Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="hair" class="coloring-part" data-part="hair" data-label="hair" d="M377 350C337 350 332 240 367 218C352 110 464 100 512 130C560 100 672 115 662 218C692 240 682 350 647 350Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="face" class="coloring-part" data-part="face" data-label="face" d="M422 270A90 90 0 1 0 602 270A90 90 0 1 0 422 270Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="dress" class="coloring-part" data-part="dress" data-label="dress" d="M450 360H574C680 490 710 590 670 610H354C314 590 344 490 450 360Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="mic" class="coloring-part" data-part="mic" data-label="mic" d="M682 380H693A12 12 0 0 1 705 392V488A12 12 0 0 1 693 500H682A12 12 0 0 1 670 488V392A12 12 0 0 1 682 380Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 640Q512 625 1024 660V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M480 258A12 12 0 1 1 479.9 258M477 262a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M544 258A12 12 0 1 1 543.9 258M541 262a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M498 298Q512 312 526 298" />
+    <path d="M455 288q8 8 16 0M553 288q8 8 16 0" />
+    <path d="M687 370a22 22 0 1 0 0.1 0" />
+    <path d="M400 480q112 30 224 0M370 540q142 30 284 0" />
+  </g>
+</svg>

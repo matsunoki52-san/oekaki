@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>パンダ</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="ears" class="coloring-part" data-part="ears" data-label="ears" d="M332 190A48 48 0 1 0 428 190A48 48 0 1 0 332 190Z M596 190A48 48 0 1 0 692 190A48 48 0 1 0 596 190Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="head" class="coloring-part" data-part="head" data-label="head" d="M352 330A160 160 0 1 0 672 330A160 160 0 1 0 352 330Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="body" class="coloring-part" data-part="body" data-label="body" d="M432 480H592A70 70 0 0 1 662 550V590A70 70 0 0 1 592 660H432A70 70 0 0 1 362 590V550A70 70 0 0 1 432 480Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="bamboo" class="coloring-part" data-part="bamboo" data-label="bamboo" d="M698 260H707A18 18 0 0 1 725 278V632A18 18 0 0 1 707 650H698A18 18 0 0 1 680 632V278A18 18 0 0 1 698 260Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="ground" class="coloring-part" data-part="ground" data-label="ground" d="M0 650Q512 635 1024 670V768H0Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M445 285a24 32 20 1 0 48 0a24 32 20 1 0 -48 0" />
+    <path d="M531 285a24 32 -20 1 0 48 0a24 32 -20 1 0 -48 0" />
+    <path d="M460 295a10 10 0 1 1 0 -0.1M564 295a10 10 0 1 1 0 -0.1" />
+    <path d="M496 360h32l-16 20ZM512 380q-20 20 -40 0M512 380q20 20 40 0" />
+    <path d="M675 360h55M675 460h55M675 560h55" />
+  </g>
+</svg>

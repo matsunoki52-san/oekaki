@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="100%" height="100%">
+  <title>ふくろう</title>
+  <rect width="1024" height="768" fill="#ffffff" pointer-events="none" />
+  <g class="coloring-parts" pointer-events="none">
+    <path id="head" class="coloring-part" data-part="head" data-label="head" d="M352 300A160 160 0 1 0 672 300A160 160 0 1 0 352 300Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="body" class="coloring-part" data-part="body" data-label="body" d="M462 450H562A70 70 0 0 1 632 520V570A70 70 0 0 1 562 640H462A70 70 0 0 1 392 570V520A70 70 0 0 1 462 450Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="wingL" class="coloring-part" data-part="wingL" data-label="wingL" d="M330 390H345A40 40 0 0 1 385 430V520A40 40 0 0 1 345 560H330A40 40 0 0 1 290 520V430A40 40 0 0 1 330 390Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="wingR" class="coloring-part" data-part="wingR" data-label="wingR" d="M679 390H694A40 40 0 0 1 734 430V520A40 40 0 0 1 694 560H679A40 40 0 0 1 639 520V430A40 40 0 0 1 679 390Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="branch" class="coloring-part" data-part="branch" data-label="branch" d="M170 620H854A20 20 0 0 1 874 640V645A20 20 0 0 1 854 665H170A20 20 0 0 1 150 645V640A20 20 0 0 1 170 620Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+    <path id="moon" class="coloring-part" data-part="moon" data-label="moon" d="M790 140A60 60 0 1 0 910 140A60 60 0 1 0 790 140Z" fill="transparent" stroke="#222222" stroke-width="6" pointer-events="visiblePainted" style="pointer-events: visiblePainted;" />
+  </g>
+  <g class="coloring-lines" pointer-events="none" stroke="#222222" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M445 285a26 26 0 1 1 0 -0.1M579 285a26 26 0 1 1 0 -0.1" />
+    <path d="M445 285a12 12 0 1 0 0.1 0M579 285a12 12 0 1 0 0.1 0" />
+    <path d="M502 320l10 18l10 -18Z" />
+    <path d="M460 500q15 15 30 0M510 500q15 15 30 0M485 540q15 15 30 0" />
+  </g>
+</svg>
