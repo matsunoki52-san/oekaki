@@ -160,7 +160,7 @@ export class PaintEngine {
       }
       ctx.clip(clipPath, 'evenodd');
     } else {
-      ctx.clip(this.path(regionD));
+      ctx.clip(this.path(regionD), 'evenodd');
     }
 
     this.applyStyle();

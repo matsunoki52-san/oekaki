@@ -164,7 +164,23 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
     };
 
     // 1. タッチ座標 pt を含むパーツを検出
-    const containingParts = partInfos.filter((p) => p.d && engine.isPointIn(p.d, pt.x, pt.y));
+    let containingParts = partInfos.filter((p) => p.d && engine.isPointIn(p.d, pt.x, pt.y));
+
+    // 境界線（黒線）の真上などで直接ヒットしなかった場合、周囲8px以内から近接パーツを探索（3歳児の太い指への配慮）
+    if (containingParts.length === 0) {
+      for (let r = 2; r <= 8; r += 2) {
+        for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 4) {
+          const sx = pt.x + Math.cos(angle) * r;
+          const sy = pt.y + Math.sin(angle) * r;
+          const nearParts = partInfos.filter((p) => p.d && engine.isPointIn(p.d, sx, sy));
+          if (nearParts.length > 0) {
+            containingParts = nearParts;
+            break;
+          }
+        }
+        if (containingParts.length > 0) break;
+      }
+    }
 
     let targetPartInfo: PartInfo | null = null;
     if (containingParts.length > 0) {
@@ -175,47 +191,58 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
       // isPointIn で境界線上等により拾えなかった場合のフォールバック (elementFromPoint)
       const el = document.elementFromPoint(e.clientX, e.clientY);
       if (el instanceof SVGPathElement && (el.classList.contains('coloring-part') || el.dataset.part)) {
-        if (el.id !== 'bg' && el.dataset.part !== 'bg') {
+        if (el.id !== 'bg' && !el.id.startsWith('bg-') && el.dataset.part !== 'bg') {
           targetPartInfo = partInfos.find((pi) => pi.el === el) || null;
         }
       } else if (e.target instanceof SVGPathElement && (e.target.classList.contains('coloring-part') || e.target.dataset.part)) {
-        if (e.target.id !== 'bg' && e.target.dataset.part !== 'bg') {
+        if (e.target.id !== 'bg' && !e.target.id.startsWith('bg-') && e.target.dataset.part !== 'bg') {
           targetPartInfo = partInfos.find((pi) => pi.el === e.target) || null;
         }
       }
     }
 
-    // ★ 要件1: 背景も全て塗れるように対応
-    // キャラクターや地面にヒットしなかった場合は「背景（bg）」をターゲットとする
+    // ★ 要件1: 背景領域も全て塗れるように対応
+    // キャラクターや地面にヒットしなかった場合は「背景（bg または bg-*）」をターゲットとする
     const isBg = !targetPartInfo;
-    const targetPath: SVGPathElement | null = targetPartInfo
-      ? targetPartInfo.el
-      : svg.querySelector<SVGPathElement>('.coloring-part[data-part="bg"]') ||
+    let targetPath: SVGPathElement | null = null;
+    if (targetPartInfo) {
+      targetPath = targetPartInfo.el;
+    } else {
+      const bgParts = allParts.filter(
+        (p) => p.id === 'bg' || p.id.startsWith('bg-') || p.classList.contains('coloring-part--bg'),
+      );
+      targetPath =
+        bgParts.find((p) => {
+          const pD = p.getAttribute('d');
+          return pD && engine.isPointIn(pD, pt.x, pt.y);
+        }) ||
+        bgParts[0] ||
         svg.querySelector<SVGPathElement>('#bg');
+    }
 
     const d = targetPath?.getAttribute('d') || `M0 0H${VB_W}V${VB_H}H0Z`;
     e.preventDefault();
 
     // ★ 要件2: 「範囲の中の範囲（丸の中の丸など）」のはみ出し防止ロジック
-    // - 背景タップ時: キャラクターや地面などの最上位パーツ群を除外（背景を塗ってもキャラクターに入らない）
-    // - 外側パーツタップ時: そのパーツの直接の子パーツ群（目、ホイールキャップ、瞳など）を除外し、
-    //   外側を塗っても内側の範囲にインクがはみ出さないようにクリッピング
+    // Potrace生成パスは各パーツの内側の入れ子構造（目・ホイールキャップ等）を自前で穴（evenoddサブパス）として保持。
+    // 単純矩形フォールバック等、自前で穴を持たない場合のみ excludePaths を計算して付与する。
+    const hasNativeHoles = (d.match(/M/g) || []).length > 1;
     const excludePaths: string[] = [];
 
-    if (isBg) {
-      // 背景タップ時：いずれのパーツにも内包されていない「最上位パーツ群」を穴として除外
-      const topLevelParts = partInfos.filter((p) => !partInfos.some((other) => isContained(p, other)));
-      for (const p of topLevelParts) {
-        if (p.d) excludePaths.push(p.d);
-      }
-    } else if (targetPartInfo) {
-      // 特定パーツタップ時：そのパーツの直接の子パーツ群（内側パーツ）を穴として除外
-      const insideCandidates = partInfos.filter((p) => isContained(p, targetPartInfo));
-      const directChildren = insideCandidates.filter(
-        (c) => !insideCandidates.some((other) => isContained(c, other)),
-      );
-      for (const c of directChildren) {
-        if (c.d) excludePaths.push(c.d);
+    if (!hasNativeHoles) {
+      if (isBg) {
+        const topLevelParts = partInfos.filter((p) => !partInfos.some((other) => isContained(p, other)));
+        for (const p of topLevelParts) {
+          if (p.d) excludePaths.push(p.d);
+        }
+      } else if (targetPartInfo) {
+        const insideCandidates = partInfos.filter((p) => isContained(p, targetPartInfo));
+        const directChildren = insideCandidates.filter(
+          (c) => !insideCandidates.some((other) => isContained(c, other)),
+        );
+        for (const c of directChildren) {
+          if (c.d) excludePaths.push(c.d);
+        }
       }
     }
 

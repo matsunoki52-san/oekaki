@@ -124,7 +124,7 @@ function pillHole(x, y, w, h, r = Math.min(w, h) / 2) {
   return `M${x + r} ${y}A${r} ${r} 0 0 0 ${x} ${y + r}V${y + h - r}A${r} ${r} 0 0 0 ${x + r} ${y + h}H${x + w - r}A${r} ${r} 0 0 0 ${x + w} ${y + h - r}V${y + r}A${r} ${r} 0 0 0 ${x + w - r} ${y}Z`;
 }
 
-function circleHole(cx, cy, r) {
+function _circleHole(cx, cy, r) {
   return `M${n(cx - r)} ${n(cy)}A${r} ${r} 0 0 1 ${n(cx + r)} ${n(cy)}A${r} ${r} 0 0 1 ${n(cx - r)} ${n(cy)}Z`;
 }
 

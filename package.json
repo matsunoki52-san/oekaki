@@ -7,9 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "process-jpg": "node scripts/process_jpg_to_artworks.cjs"
   },
   "dependencies": {
+    "jpeg-js": "^0.4.4",
+    "potrace": "^2.1.8",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },

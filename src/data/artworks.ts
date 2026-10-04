@@ -30,7 +30,7 @@ export interface Genre {
   shadow: string;
 }
 
-export const VB_W = 1024;
+export const VB_W = 1376;
 export const VB_H = 768;
 
 export const GENRES: Genre[] = [

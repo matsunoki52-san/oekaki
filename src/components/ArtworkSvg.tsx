@@ -21,7 +21,7 @@ interface Props extends Omit<SVGProps<SVGSVGElement>, 'ref' | 'strokeWidth'> {
 export function ArtworkSvg({
   artwork,
   interactive = false,
-  strokeWidth = 5,
+  _strokeWidth = 5,
   ref,
   className,
   ...rest
@@ -51,17 +51,10 @@ export function ArtworkSvg({
         ...rest.style,
       }}
     >
-      {/* 塗り領域パーツ群（太線黒枠・fill:transparent・pointer-events:all） */}
-      <g
-        className="coloring-parts"
-        fill="transparent"
-        stroke="black"
-        strokeWidth={strokeWidth}
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      >
+      {/* 塗り領域パーツ群（透明・タッチ受付） */}
+      <g className="coloring-parts" fill="transparent" stroke="none">
         {allParts.map((p) => {
-          const isBg = p.id === 'bg' || p.id === 'background';
+          const isBg = p.id === 'bg' || p.id === 'background' || p.id.startsWith('bg-');
           return (
             <path
               key={p.id}
@@ -71,41 +64,30 @@ export function ArtworkSvg({
               className={`coloring-part ${isBg ? 'coloring-part--bg' : ''}`}
               d={p.d}
               fill="transparent"
-              stroke={isBg ? 'none' : 'black'}
-              strokeWidth={isBg ? 0 : strokeWidth}
-              strokeLinejoin="round"
-              strokeLinecap="round"
+              stroke="none"
               pointerEvents={pe}
               style={{
                 pointerEvents: pe,
                 fill: 'transparent',
-                stroke: isBg ? 'none' : 'black',
-                strokeWidth: isBg ? '0px' : `${strokeWidth}px`,
+                stroke: 'none',
               }}
             />
           );
         })}
       </g>
 
-      {/* 表情・主線ディテール（pointer-events: none でタッチを遮らない） */}
+      {/* 主線（黒線画・pointer-events: none でタッチを遮らない） */}
       {artwork.lines && artwork.lines.length > 0 && (
         <g
           className="coloring-lines"
-          fill="none"
-          stroke="black"
-          strokeWidth={strokeWidth + 1}
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          fill="black"
           pointerEvents="none"
           style={{
             pointerEvents: 'none',
-            fill: 'none',
-            stroke: 'black',
-            strokeWidth: `${strokeWidth + 1}px`,
           }}
         >
           {artwork.lines.map((d, i) => (
-            <path key={i} d={d} />
+            <path key={i} d={d} fill="black" fillRule="evenodd" stroke="none" />
           ))}
         </g>
       )}

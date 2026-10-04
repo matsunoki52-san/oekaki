@@ -343,7 +343,7 @@ h1 {
 }
 .card__paper {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1376 / 768;
   border-radius: 18px;
   overflow: hidden;
   background: #fffdf8;
@@ -581,9 +581,9 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   container-type: size;
 }
 .paper {
-  /* ステージに収まる最大の 4:3 */
-  width: min(100cqw, 100cqh * 4 / 3);
-  aspect-ratio: 4 / 3;
+  /* ステージに収まる最大の 1376:768 */
+  width: min(100cqw, 100cqh * 1376 / 768);
+  aspect-ratio: 1376 / 768;
   border-radius: 28px;
   background: #fff;
   box-shadow:
@@ -874,7 +874,7 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
 }
 .saved-preview {
   width: min(70vw, 520px);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1376 / 768;
   border-radius: 24px;
   box-shadow: 0 0 0 6px #fff, 0 0 0 10px #ffe070, var(--shadow-card);
   -webkit-touch-callout: default;
