@@ -420,11 +420,13 @@ h1 {
   gap: 12px;
   width: 100%;
   padding: 0 8px;
+  min-width: 0;
 }
 .play__bottom-tools-row {
   display: flex;
   justify-content: flex-start;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 /* デスクトップ／タブレット横向き（デフォルト）の表示設定 */
@@ -530,8 +532,15 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: var(--shadow-soft), inset 0 0 0 2px rgba(255, 255, 255, 0.8);
-  overflow: hidden;
-  justify-content: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  justify-content: flex-start;
+  min-width: 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.tools::-webkit-scrollbar {
+  display: none;
 }
 .tools__sep {
   width: 3px;
@@ -685,11 +694,12 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   box-shadow: var(--shadow-soft), inset 0 0 0 2px rgba(255, 255, 255, 0.8);
   overflow: hidden;
   height: clamp(44px, 6vmin, 56px);
-  flex-shrink: 1;
+  flex: 1 1 0;
   min-width: 0;
   max-width: 100%;
 }
 .palette__scroll {
+  position: relative;
   height: 100%;
   display: flex;
   align-items: center;
@@ -912,7 +922,7 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   .play__bottom-tools-row {
     display: flex;
     justify-content: center;
-    flex: 0 0 auto;
+    flex: 0 1 auto;
     min-width: 0;
   }
 
