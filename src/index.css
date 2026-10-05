@@ -411,9 +411,7 @@ h1 {
   flex: 1;
   min-height: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
+  flex-direction: column;
 }
 .play__bottom {
   display: flex;
