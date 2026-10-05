@@ -1,5 +1,5 @@
 import type { Ref, SVGProps } from 'react';
-import { VB_H, VB_W, type Artwork } from '../data/artworks';
+import type { Artwork } from '../data/artworks';
 
 interface Props extends Omit<SVGProps<SVGSVGElement>, 'ref' | 'strokeWidth'> {
   artwork: Artwork;

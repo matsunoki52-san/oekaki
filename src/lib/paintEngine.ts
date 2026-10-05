@@ -71,6 +71,8 @@ interface Sparkle {
 export class PaintEngine {
   readonly canvas: HTMLCanvasElement;
   readonly ctx: CanvasRenderingContext2D;
+  readonly width: number;
+  readonly height: number;
 
   private brush: Brush = { tool: 'pen', color: '#ff3b3b', patternId: PATTERNS[0].id, sizeScale: 1.0 };
   private drawing = false;
@@ -86,6 +88,8 @@ export class PaintEngine {
 
   constructor(canvas: HTMLCanvasElement, width: number, height: number) {
     this.canvas = canvas;
+    this.width = width;
+    this.height = height;
     canvas.width = width * RES;
     canvas.height = height * RES;
     const ctx = canvas.getContext('2d');
@@ -235,7 +239,7 @@ export class PaintEngine {
 
   load(image: CanvasImageSource) {
     this.clear();
-    this.ctx.drawImage(image, 0, 0, VB_W, VB_H);
+    this.ctx.drawImage(image, 0, 0, this.width, this.height);
   }
 
   toBlob(): Promise<Blob | null> {
