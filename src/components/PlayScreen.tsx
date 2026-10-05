@@ -88,12 +88,47 @@ export function PlayScreen({ artwork, onBack }: Props) {
     }
   };
 
+  const renderBrushSizeCard = (className: string) => (
+    <div className={`brush-size-card ${className}`} aria-label="ペンのふとさ">
+      <div className="brush-size-top">
+        <span className="brush-size-label">ふとさ</span>
+        <div className="brush-size-preview-wrap">
+          <span
+            className="brush-size-preview"
+            style={{
+              width: `${Math.round(14 * brushScale)}px`,
+              height: `${Math.round(14 * brushScale)}px`,
+              background:
+                tool === 'eraser'
+                  ? '#ff9ec4'
+                  : color === RAINBOW
+                  ? 'conic-gradient(#ff3b3b,#ff9f1c,#ffe94e,#5ed16a,#4cc3ff,#8b5cf6,#ff3b3b)'
+                  : color,
+            }}
+          />
+        </div>
+      </div>
+      <div className="brush-size-slider-row">
+        <span className="size-hint size-hint--sm" aria-hidden="true" />
+        <input
+          type="range"
+          min="1.0"
+          max="3.0"
+          step="0.1"
+          value={brushScale}
+          onChange={(e) => setBrushScale(parseFloat(e.target.value))}
+          aria-label="ペンの太さスライダー"
+        />
+        <span className="size-hint size-hint--lg" aria-hidden="true" />
+      </div>
+    </div>
+  );
+
   return (
     <div className="play">
       <header className="play__top">
         <div className="play__top-left">
           <button
-            id="btn-play-back"
             className="chip-btn chip-btn--round"
             aria-label="もどる"
             onClick={() => {
@@ -104,7 +139,6 @@ export function PlayScreen({ artwork, onBack }: Props) {
             <BackIcon />
           </button>
           <button
-            id="btn-play-undo"
             className={`chip-btn chip-btn--round chip-btn--undo ${!canUndo ? 'is-disabled' : ''}`}
             aria-label="ひとつもどる"
             disabled={!canUndo}
@@ -112,62 +146,51 @@ export function PlayScreen({ artwork, onBack }: Props) {
           >
             <UndoIcon />
           </button>
+
+          {renderBrushSizeCard('brush-size-card--desktop')}
+
+          <button className="chip-btn chip-btn--save chip-btn--save-desktop" aria-label="ほぞん" onClick={doSave} disabled={saving}>
+            <span className="chip-btn__icon">
+              <CameraIcon />
+            </span>
+            <span className="chip-btn__text">ほぞん</span>
+          </button>
         </div>
 
         <h1 className="play__title">{artwork.title}</h1>
 
-        <button id="btn-save" className="chip-btn chip-btn--save" aria-label="ほぞん" onClick={doSave} disabled={saving}>
-          <span className="chip-btn__icon">
-            <CameraIcon />
-          </span>
-          <span className="chip-btn__text">ほぞん</span>
-        </button>
+        <div className="play__top-right">
+          <button className="chip-btn chip-btn--save chip-btn--save-mobile" aria-label="ほぞん" onClick={doSave} disabled={saving}>
+            <span className="chip-btn__icon">
+              <CameraIcon />
+            </span>
+            <span className="chip-btn__text">ほぞん</span>
+          </button>
+        </div>
       </header>
 
       <div className="play__main">
-        {/* ツールバーとペンの太さスライダー */}
-        <div className="tools-pane">
-          {/* ペンの太さスライダー（ツールのすぐ上） */}
-          <div className="brush-size-card" aria-label="ペンのふとさ">
-            <div className="brush-size-top">
-              <span className="brush-size-label">ふとさ</span>
-              <div className="brush-size-preview-wrap">
-                <span
-                  className="brush-size-preview"
-                  style={{
-                    width: `${Math.round(14 * brushScale)}px`,
-                    height: `${Math.round(14 * brushScale)}px`,
-                    background:
-                      tool === 'eraser'
-                        ? '#ff9ec4'
-                        : color === RAINBOW
-                        ? 'conic-gradient(#ff3b3b,#ff9f1c,#ffe94e,#5ed16a,#4cc3ff,#8b5cf6,#ff3b3b)'
-                        : color,
-                  }}
-                />
-              </div>
-            </div>
-            <div className="brush-size-slider-row">
-              <span className="size-hint size-hint--sm" aria-hidden="true" />
-              <input
-                id="brush-size-slider"
-                type="range"
-                min="1.0"
-                max="3.0"
-                step="0.1"
-                value={brushScale}
-                onChange={(e) => setBrushScale(parseFloat(e.target.value))}
-                aria-label="ペンの太さスライダー"
-              />
-              <span className="size-hint size-hint--lg" aria-hidden="true" />
-            </div>
+        <div className="stage">
+          <div
+            className="paper"
+            style={{
+              aspectRatio: `${artwork.width} / ${artwork.height}`,
+              width: `min(100cqw, 100cqh * ${artwork.width} / ${artwork.height})`,
+            }}
+          >
+            <ColoringBoard ref={boardRef} artwork={artwork} brush={brush} onUndoChange={setCanUndo} />
           </div>
+        </div>
+      </div>
 
+      <div className="play__bottom">
+        {renderBrushSizeCard('brush-size-card--mobile')}
+
+        <div className="play__bottom-tools-row">
           <nav className="tools" aria-label="どうぐ">
             {TOOLS.map((t) => (
               <button
                 key={t.id}
-                id={`tool-${t.id}`}
                 className={`tool ${tool === t.id ? 'is-selected' : ''}`}
                 aria-pressed={tool === t.id}
                 aria-label={t.label}
@@ -186,7 +209,6 @@ export function PlayScreen({ artwork, onBack }: Props) {
             ))}
             <span className="tools__sep" />
             <button
-              id="tool-clear"
               className="tool tool--danger"
               aria-label="ぜんぶけす"
               onClick={() => {
@@ -202,20 +224,8 @@ export function PlayScreen({ artwork, onBack }: Props) {
           </nav>
         </div>
 
-        <div className="stage">
-          <div
-            className="paper"
-            style={{
-              aspectRatio: `${artwork.width} / ${artwork.height}`,
-              width: `min(100cqw, 100cqh * ${artwork.width} / ${artwork.height})`,
-            }}
-          >
-            <ColoringBoard ref={boardRef} artwork={artwork} brush={brush} onUndoChange={setCanUndo} />
-          </div>
-        </div>
+        <Palette tool={tool} color={color} patternId={patternId} onColor={setColor} onPattern={setPatternId} />
       </div>
-
-      <Palette tool={tool} color={color} patternId={patternId} onColor={setColor} onPattern={setPatternId} />
 
       {confirmClear && (
         <div className="overlay" role="dialog" aria-modal="true" aria-label="ぜんぶけしますか？">

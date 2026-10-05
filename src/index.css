@@ -408,37 +408,45 @@ h1 {
   text-shadow: 0 3px 0 #fff;
 }
 .play__main {
+  flex: 1;
   min-height: 0;
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 14px;
 }
-
-/* ---- ツールペイン（スライダー + 道具バー） ---- */
-.tools-pane {
+.play__bottom {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+}
+.play__bottom-tools-row {
+  display: flex;
   justify-content: center;
 }
 
-/* ---- ペンの太さ調整スライダーカード ---- */
+/* デスクトップ／タブレット横向き（デフォルト）の表示設定 */
+.brush-size-card--mobile { display: none !important; }
+.chip-btn--save-mobile { display: none !important; }
+
 .brush-size-card {
-  padding: 10px 12px 12px;
-  border-radius: 26px;
+  padding: 8px 16px;
+  border-radius: 32px;
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: var(--shadow-soft), inset 0 0 0 2px rgba(255, 255, 255, 0.85);
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
   user-select: none;
 }
 .brush-size-top {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 4px;
+  gap: 8px;
 }
 .brush-size-label {
   font-size: 0.74rem;
@@ -461,9 +469,11 @@ h1 {
 }
 .brush-size-slider-row {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 8px;
-  padding: 2px 2px 0;
+  padding: 0;
+  width: 200px;
 }
 .size-hint {
   border-radius: 50%;
@@ -510,7 +520,7 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
 /* ---- 道具バー ---- */
 .tools {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 6px;
   padding: 8px;
   border-radius: 32px;
@@ -519,19 +529,18 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   -webkit-backdrop-filter: blur(14px);
   box-shadow: var(--shadow-soft), inset 0 0 0 2px rgba(255, 255, 255, 0.8);
   overflow: hidden;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 .tools__sep {
-  height: 3px;
-  margin: 2px 12px;
+  width: 3px;
+  margin: 4px 6px;
   border-radius: 3px;
   background: rgba(58, 47, 74, 0.12);
 }
 .tool {
   position: relative;
   width: clamp(64px, 8.5vmin, 86px);
-  flex: 0 1 clamp(64px, 8.5vmin, 86px);
-  min-height: 54px;
+  height: clamp(56px, 10vmin, 76px);
   border-radius: 24px;
   display: flex;
   flex-direction: column;
@@ -794,10 +803,15 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
     height: 36px;
   }
   .play__main {
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 8px;
   }
-  .tools-pane {
+  .brush-size-card--desktop { display: none !important; }
+  .chip-btn--save-desktop { display: none !important; }
+  .brush-size-card--mobile { display: flex !important; }
+  .chip-btn--save-mobile { display: flex !important; }
+
+  .play__bottom {
     flex-direction: column;
     gap: 6px;
   }
@@ -822,6 +836,7 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
     gap: 4px;
     justify-content: space-between;
     border-radius: 24px;
+    width: 100%;
   }
   .tool {
     flex: 1 1 0;
