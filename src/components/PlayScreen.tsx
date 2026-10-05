@@ -74,6 +74,30 @@ export function PlayScreen({ artwork, onBack }: Props) {
     setSaving(true);
     try {
       const dataUrl = await boardRef.current.exportPng();
+      
+      try {
+        const res = await fetch(dataUrl);
+        const blob = await res.blob();
+        const file = new File([blob], 'nurie.png', { type: 'image/png' });
+
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'わたしのぬりえ',
+          });
+          sfx.save();
+          setSaved({ url: dataUrl });
+          return;
+        }
+      } catch (err) {
+        if (err instanceof Error && err.name !== 'AbortError') {
+          console.error('Share failed:', err);
+        } else if (err instanceof Error && err.name === 'AbortError') {
+          return; // ユーザーがキャンセルした場合は何もしない
+        }
+      }
+
+      // フォールバック: aタグによるダウンロード
       const a = document.createElement('a');
       a.href = dataUrl;
       a.download = 'nurie.png';
