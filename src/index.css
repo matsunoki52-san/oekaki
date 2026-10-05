@@ -836,14 +836,17 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
     padding: 6px;
     gap: 4px;
     grid-column: 1 / 2;
+    grid-row: 1 / 2;
   }
   .palette {
     grid-column: 2 / 3;
+    grid-row: 1 / 2;
     height: auto;
     border-radius: 20px;
   }
   .play__bottom-tools-row {
     grid-column: 1 / 3;
+    grid-row: 2 / 3;
     width: 100%;
     min-width: 0;
   }
