@@ -414,12 +414,17 @@ h1 {
 }
 .play__bottom {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
+  width: 100%;
+  padding: 0 8px;
 }
 .play__bottom-tools-row {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  flex: 1;
 }
 
 /* デスクトップ／タブレット横向き（デフォルト）の表示設定 */
@@ -672,7 +677,6 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   stroke-linejoin: round !important;
 }
 
-/* ---- パレット ---- */
 .palette {
   border-radius: 32px;
   background: rgba(255, 255, 255, 0.65);
@@ -681,6 +685,9 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   box-shadow: var(--shadow-soft), inset 0 0 0 2px rgba(255, 255, 255, 0.8);
   overflow: hidden;
   height: clamp(44px, 6vmin, 56px);
+  flex-shrink: 1;
+  min-width: 0;
+  max-width: 100%;
 }
 .palette__scroll {
   height: 100%;
@@ -866,6 +873,100 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   }
   .swatch {
     width: clamp(24px, 4vmin, 30px);
+  }
+}
+
+/* モバイル横向き（高さが小さいデバイス）の表示設定 */
+@media (max-height: 500px) and (orientation: landscape) {
+  .play {
+    padding: calc(4px + var(--safe-t)) calc(6px + var(--safe-r)) calc(4px + var(--safe-b)) calc(6px + var(--safe-l));
+  }
+  .play__top {
+    gap: 6px;
+  }
+  .chip-btn {
+    height: 40px;
+    padding: 0 12px 0 8px;
+    font-size: 1rem;
+  }
+  .chip-btn--round {
+    width: 40px;
+    padding: 6px;
+  }
+  .chip-btn__icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .brush-size-card--desktop { display: none !important; }
+  .brush-size-card--mobile { display: flex !important; }
+
+  .play__bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 0;
+    width: 100%;
+  }
+  .play__bottom-tools-row {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* モバイル横画面のペン色のサイズを1/3に変更 */
+  /* 太さバー、ペン選択の上下方向サイズはペン色と同じサイズ */
+  .palette {
+    height: clamp(28px, 12vh, 32px);
+    border-radius: 16px;
+  }
+  .swatch {
+    width: clamp(16px, 8vh, 22px);
+  }
+  
+  .brush-size-card {
+    padding: 4px 8px;
+    height: clamp(28px, 12vh, 32px);
+    gap: 8px;
+    border-radius: 16px;
+  }
+  .brush-size-slider-row {
+    width: 80px;
+  }
+  .size-hint--sm { width: 4px; height: 4px; }
+  .size-hint--lg { width: 12px; height: 12px; }
+  
+  .tools {
+    padding: 4px;
+    height: clamp(28px, 12vh, 32px);
+    border-radius: 16px;
+    gap: 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tools::-webkit-scrollbar {
+    display: none;
+  }
+  .tool {
+    height: 100%;
+    width: clamp(32px, 12vw, 40px);
+    border-radius: 10px;
+    gap: 0;
+  }
+  .tools__sep {
+    height: 16px;
+    margin: 4px 2px;
+  }
+  .tool__label {
+    display: none;
+  }
+  .tool__icon {
+    width: 70%;
   }
 }
 
