@@ -41,7 +41,7 @@ export function PlayScreen({ artwork, onBack }: Props) {
   const [brushScale, setBrushScale] = useState(1.0); // 1.0 (最小・標準) 〜 3.0 (太い)
   const [canUndo, setCanUndo] = useState(false);
   const [confirmClear, setConfirmClear] = useState(false);
-  const [saved, setSaved] = useState<{ url: string; blob: Blob } | null>(null);
+  const [saved, setSaved] = useState<{ url: string } | null>(null);
   const [saving, setSaving] = useState(false);
 
   const brush = useMemo<Brush>(
@@ -50,9 +50,6 @@ export function PlayScreen({ artwork, onBack }: Props) {
   );
   const pattern = PATTERNS.find((p) => p.id === patternId)!;
 
-  useEffect(() => () => {
-    if (saved) URL.revokeObjectURL(saved.url);
-  }, [saved]);
 
   const pickTool = (t: ToolId) => {
     sfx.select();
@@ -71,35 +68,21 @@ export function PlayScreen({ artwork, onBack }: Props) {
     setConfirmClear(false);
   };
 
-  /** PNG 保存：共有シート（写真に保存）→ 非対応ならダウンロード */
+  /** PNG 保存（ワンタップ）: toDataURL → <a download> を自動クリック */
   const doSave = async () => {
     if (!boardRef.current || saving) return;
     setSaving(true);
     try {
-      const blob = await boardRef.current.exportPng();
-      const name = `nurie-${artwork.id}-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '')}.png`;
-      const file = new File([blob], name, { type: 'image/png' });
+      const dataUrl = await boardRef.current.exportPng();
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = 'nurie.png';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
       sfx.save();
-      setSaved({ url: URL.createObjectURL(blob), blob });
-
-      let shared = false;
-      if (navigator.canShare?.({ files: [file] })) {
-        try {
-          await navigator.share({ files: [file], title: 'ぬりえ' });
-          shared = true;
-        } catch (err) {
-          if ((err as DOMException).name === 'AbortError') shared = true; // キャンセルは何もしない
-        }
-      }
-      if (!shared) {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = name;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-      }
+      setSaved({ url: dataUrl });
     } finally {
       setSaving(false);
     }
@@ -220,7 +203,13 @@ export function PlayScreen({ artwork, onBack }: Props) {
         </div>
 
         <div className="stage">
-          <div className="paper">
+          <div
+            className="paper"
+            style={{
+              aspectRatio: `${artwork.width} / ${artwork.height}`,
+              width: `min(100cqw, 100cqh * ${artwork.width} / ${artwork.height})`,
+            }}
+          >
             <ColoringBoard ref={boardRef} artwork={artwork} brush={brush} onUndoChange={setCanUndo} />
           </div>
         </div>

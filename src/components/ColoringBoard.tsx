@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useImperativeHandle, useRef, type PointerEvent as RPointerEvent, type Ref } from 'react';
-import { VB_H, VB_W, type Artwork } from '../data/artworks';
+import { type Artwork } from '../data/artworks';
 import { PaintEngine, RES, type Brush, type Pt } from '../lib/paintEngine';
 import { deletePainting, loadPainting, savePainting } from '../lib/storage';
 import { ArtworkSvg } from './ArtworkSvg';
@@ -7,7 +7,8 @@ import { ArtworkSvg } from './ArtworkSvg';
 export interface BoardHandle {
   clear(): void;
   undo(): void;
-  exportPng(): Promise<Blob>;
+  /** Canvas(色) + SVG(主線) を合成した PNG の data URL */
+  exportPng(): Promise<string>;
 }
 
 interface Props {
@@ -56,7 +57,7 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
 
   /* ---- エンジン初期化 & 保存済みの絵を復元 ---- */
   useEffect(() => {
-    const engine = new PaintEngine(canvasRef.current!);
+    const engine = new PaintEngine(canvasRef.current!, artwork.width, artwork.height);
     engineRef.current = engine;
     historyRef.current = [];
     onUndoChange?.(false);
@@ -220,7 +221,7 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
         svg.querySelector<SVGPathElement>('#bg');
     }
 
-    const d = targetPath?.getAttribute('d') || `M0 0H${VB_W}V${VB_H}H0Z`;
+    const d = targetPath?.getAttribute('d') || `M0 0H${artwork.width}V${artwork.height}H0Z`;
     e.preventDefault();
 
     // ★ 要件2: 「範囲の中の範囲（丸の中の丸など）」のはみ出し防止ロジック
@@ -324,8 +325,8 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
       async exportPng() {
         const engine = engineRef.current!;
         const svg = svgRef.current!;
-        const W = VB_W * RES;
-        const H = VB_H * RES;
+        const W = artwork.width * RES;
+        const H = artwork.height * RES;
         const out = document.createElement('canvas');
         out.width = W;
         out.height = H;
@@ -344,7 +345,7 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
         await img.decode();
         o.drawImage(img, 0, 0, W, H);
 
-        return new Promise<Blob>((res, rej) => out.toBlob((b) => (b ? res(b) : rej(new Error('toBlob failed'))), 'image/png'));
+        return out.toDataURL('image/png');
       },
     }),
     [artwork.id, pushSnapshot, onUndoChange, scheduleSave],

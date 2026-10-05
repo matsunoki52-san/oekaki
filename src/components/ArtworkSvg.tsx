@@ -31,13 +31,13 @@ export function ArtworkSvg({
   const hasBg = artwork.parts.some((p) => p.id === 'bg' || p.id === 'background');
   const allParts = hasBg
     ? artwork.parts
-    : [{ id: 'bg', label: 'はいけい', d: `M0 0H${VB_W}V${VB_H}H0Z` }, ...artwork.parts];
+    : [{ id: 'bg', label: 'はいけい', d: `M0 0H${artwork.width}V${artwork.height}H0Z` }, ...artwork.parts];
 
   return (
     <svg
       {...rest}
       ref={ref}
-      viewBox={`0 0 ${VB_W} ${VB_H}`}
+      viewBox={`0 0 ${artwork.width} ${artwork.height}`}
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       preserveAspectRatio="xMidYMid meet"

@@ -14,10 +14,14 @@ if (!fs.existsSync(OUT_DIR)) {
 // 1. ジャンル判定ルール (単語境界で誤マッチ防止)
 const GENRE_RULES = [
   { genre: 'vehicles', prefix: 'Vehicles', regex: /(^|_)(airplane|bicycle|bus|crane_truck|cruise_ship|excavator|fire_engine|helicopter|hot_air_balloon|motorcycle|police_car|rocket|submarine|taxi|truck|ufo|yacht)(_|\.|$)/i },
+  { genre: 'animals', prefix: 'Animals', regex: /(^|_)(alpaca|dinosaur|capybara|lion|cat|dog|elephant|giraffe|koala|unicorn|monkey|ninja_dog|owl|panda|penguin|rabbit|squirrel|fox)(_|\.|$)/i },
   { genre: 'food', prefix: 'Food', regex: /(^|_)(apple|ramen|bowl|grapes|omurice|curry|pudding|parfait|banana|hamburger|macarons|pancakes|pizza|rice_ball|sandwich|crepe|shortcake|sushi|ice_cream|donut|watermelon)(_|\.|$)/i },
   { genre: 'characters', prefix: 'Characters', regex: /(^|_)(angel|boy|alien|dragon|explorer|fairy|ghost|idol_singer|magical_girl|monster|ninja_throwing|pirate|prince|princess|robot|superhero|witch)(_|\.|$)/i },
-  { genre: 'animals', prefix: 'Animals', regex: /(^|_)(alpaca|dinosaur|capybara|lion|cat|dog|elephant|giraffe|koala|unicorn|monkey|ninja_dog|owl|panda|penguin|rabbit|squirrel|fox)(_|\.|$)/i }
+  { genre: 'anime', prefix: 'Anime', regex: /(^|\/|_)Anime\//i },
 ];
+
+// 重複（同じタイトル）を1つにまとめるジャンル
+const DEDUPE_GENRES = new Set(['food']);
 
 // 2. 日本語タイトル判定ルール (優先順位を考慮)
 const TITLE_RULES = [
@@ -101,7 +105,7 @@ function getGenre(filename) {
   for (const rule of GENRE_RULES) {
     if (rule.regex.test(filename)) return rule;
   }
-  return GENRE_RULES[2]; // fallback animals
+  return GENRE_RULES.find((r) => r.genre === 'animals'); // fallback animals
 }
 
 function getTitle(filename) {
@@ -116,12 +120,54 @@ function processJpgFile(filename, genreInfo, counter) {
   const raw = fs.readFileSync(filePath);
   const { width: W, height: H, data } = jpeg.decode(raw);
 
-  // 1. 主線のベクター化（Potrace）
-  const lineBm = new Bitmap(W, H);
+  // 1. 主線のベクター化前処理 (アニメの場合はモルフォロジー変換で線を太く結合＆ノイズ除去)
+  let lineBm = new Bitmap(W, H);
   for (let i = 0; i < W * H; i++) {
     lineBm.data[i] = 0.299 * data[i * 4] + 0.587 * data[i * 4 + 1] + 0.114 * data[i * 4 + 2];
   }
-  const lineTrace = new Potrace({ optCurve: true, turdSize: 4 });
+
+  if (genreInfo.genre === 'anime') {
+    // 2値化してノイズ除去（クロージング処理：膨張 -> 収縮）
+    const temp = new Uint8Array(W * H);
+    const radius = 1; // 結合半径を小さくして線が太くなりすぎるのを防ぐ
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        let minLum = 255;
+        for (let dy = -radius; dy <= radius; dy++) {
+          for (let dx = -radius; dx <= radius; dx++) {
+            const nx = x + dx, ny = y + dy;
+            if (nx >= 0 && nx < W && ny >= 0 && ny < H) {
+              minLum = Math.min(minLum, lineBm.data[ny * W + nx]);
+            }
+          }
+        }
+        temp[y * W + x] = minLum; // 黒(線)を広げる(Dilation of black)
+      }
+    }
+    const temp2 = new Uint8Array(W * H);
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        let maxLum = 0;
+        for (let dy = -radius; dy <= radius; dy++) {
+          for (let dx = -radius; dx <= radius; dx++) {
+            const nx = x + dx, ny = y + dy;
+            if (nx >= 0 && nx < W && ny >= 0 && ny < H) {
+              maxLum = Math.max(maxLum, temp[ny * W + nx]);
+            }
+          }
+        }
+        temp2[y * W + x] = maxLum; // 白(背景)を広げる(Erosion of black)
+      }
+    }
+    // 反映
+    for (let i = 0; i < W * H; i++) {
+      lineBm.data[i] = temp2[i];
+    }
+  }
+
+  // アニメはゴミ(文字等)が多いため turdSize を大きくして小さなパスを無視
+  const tSize = genreInfo.genre === 'anime' ? 120 : 4;
+  const lineTrace = new Potrace({ optCurve: true, turdSize: tSize });
   lineTrace._luminanceData = lineBm;
   lineTrace._imageLoaded = true;
   const lineTag = lineTrace.getPathTag('black');
@@ -130,8 +176,9 @@ function processJpgFile(filename, genreInfo, counter) {
 
   // 2. 2値化（0: 線, 1: 白地）
   const binary = new Uint8Array(W * H);
+  const threshold = genreInfo.genre === 'anime' ? 160 : 165;
   for (let i = 0; i < W * H; i++) {
-    binary[i] = lineBm.data[i] >= 165 ? 1 : 0;
+    binary[i] = lineBm.data[i] >= threshold ? 1 : 0;
   }
 
   // 3. 連結成分解析 (CCA: Connected Component Analysis)
@@ -242,7 +289,10 @@ function processJpgFile(filename, genreInfo, counter) {
   }
 
   // 5. SVGの生成
-  const title = getTitle(filename);
+  const baseNameOnly = path.basename(filename);
+  let title = getTitle(baseNameOnly);
+  if (genreInfo.genre === 'anime') title = 'アニメ';
+
   const outSvg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
   <title>${title}</title>
   <g class="coloring-parts" fill="transparent" stroke="none">
@@ -254,14 +304,28 @@ ${parts.map(p => `    <path id="${p.id}" data-part="${p.id}" data-label="${p.lab
 </svg>`;
 
   // 連番付きファイル名
-  const cleanBase = filename.replace(/\.jpe?g$/i, '').replace(/_\d{14}(_\d+)?$/, '');
+  const cleanBase = baseNameOnly.replace(/\.jpe?g$/i, '').replace(/_\d{14}(_\d+)?$/, '').replace(/_result$/, '');
   const outFileName = `${genreInfo.prefix}_${String(counter).padStart(2, '0')}_${cleanBase}.svg`;
   fs.writeFileSync(path.join(OUT_DIR, outFileName), outSvg);
   return { outFileName, title, partsCount: parts.length };
 }
 
 function run() {
-  const allFiles = fs.readdirSync(JPG_DIR).filter(f => f.endsWith('.jpg') || f.endsWith('.jpeg')).sort();
+  let allFiles = [];
+  const readDirRec = (dir, prefix = '') => {
+    for (const f of fs.readdirSync(dir)) {
+      if (f === '.DS_Store') continue;
+      const fullPath = path.join(dir, f);
+      const relPath = prefix ? `${prefix}/${f}` : f;
+      if (fs.statSync(fullPath).isDirectory()) {
+        readDirRec(fullPath, relPath);
+      } else if (f.endsWith('.jpg') || f.endsWith('.jpeg')) {
+        allFiles.push(relPath);
+      }
+    }
+  };
+  readDirRec(JPG_DIR);
+  allFiles.sort();
   console.log(`Found ${allFiles.length} JPG files in ${JPG_DIR}`);
 
   // 既存の古いSVGファイルを削除
@@ -271,11 +335,22 @@ function run() {
   }
   console.log(`Cleaned ${oldFiles.length} old SVG files from ${OUT_DIR}`);
 
-  const counts = { animals: 0, vehicles: 0, characters: 0, food: 0 };
+  const counts = { animals: 0, vehicles: 0, characters: 0, food: 0, anime: 0 };
   const startTime = Date.now();
+
+  const seenTitles = new Set();
+  const skipped = [];
 
   allFiles.forEach((file, idx) => {
     const genreInfo = getGenre(file);
+    if (DEDUPE_GENRES.has(genreInfo.genre)) {
+      const key = `${genreInfo.genre}:${getTitle(file)}`;
+      if (seenTitles.has(key)) {
+        skipped.push(file);
+        return;
+      }
+      seenTitles.add(key);
+    }
     counts[genreInfo.genre]++;
     const counter = counts[genreInfo.genre];
     const res = processJpgFile(file, genreInfo, counter);
@@ -286,6 +361,7 @@ function run() {
 
   console.log(`\nSuccessfully processed all ${allFiles.length} files in ${((Date.now() - startTime) / 1000).toFixed(1)}s!`);
   console.log('Category breakdown:', counts);
+  if (skipped.length) console.log(`Skipped ${skipped.length} duplicates:`, skipped);
 }
 
 run();

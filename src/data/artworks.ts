@@ -5,7 +5,7 @@
  * import.meta.glob で参照し、アプリの台紙データとして読み込みます。
  */
 
-export type GenreId = 'animals' | 'vehicles' | 'characters' | 'food';
+export type GenreId = 'animals' | 'vehicles' | 'characters' | 'food' | 'anime';
 
 export interface Part {
   id: string;
@@ -20,6 +20,8 @@ export interface Artwork {
   parts: Part[];
   lines?: string[];
   rawSvg: string;
+  width: number;
+  height: number;
 }
 
 export interface Genre {
@@ -38,6 +40,7 @@ export const GENRES: Genre[] = [
   { id: 'vehicles', title: 'のりもの', emoji: '🚗', color: '#5ec8ff', shadow: '#2a97d6' },
   { id: 'characters', title: 'キャラクター', emoji: '✨', color: '#c58cff', shadow: '#9256d9' },
   { id: 'food', title: 'たべもの', emoji: '🍰', color: '#ff7fa8', shadow: '#dc4b7c' },
+  { id: 'anime', title: 'アニメ', emoji: '🌸', color: '#4ade80', shadow: '#16a34a' },
 ];
 
 // src/components/svgs ディレクトリ内のSVGファイルをインポート
@@ -59,6 +62,7 @@ function parseSvgArtwork(filename: string, rawSvg: string): Artwork {
   if (baseName.startsWith('Characters_')) genre = 'characters';
   else if (baseName.startsWith('Vehicles_')) genre = 'vehicles';
   else if (baseName.startsWith('Food_')) genre = 'food';
+  else if (baseName.startsWith('Anime_')) genre = 'anime';
 
   const id = baseName.replace(/\.svg$/, '').toLowerCase().replace(/_/g, '-');
 
@@ -92,6 +96,10 @@ function parseSvgArtwork(filename: string, rawSvg: string): Artwork {
     }
   }
 
+  const vbMatch = rawSvg.match(/viewBox="0\s+0\s+(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)"/);
+  const width = vbMatch ? parseFloat(vbMatch[1]) : VB_W;
+  const height = vbMatch ? parseFloat(vbMatch[2]) : VB_H;
+
   return {
     id,
     genre,
@@ -99,6 +107,8 @@ function parseSvgArtwork(filename: string, rawSvg: string): Artwork {
     parts,
     lines,
     rawSvg,
+    width,
+    height,
   };
 }
 
