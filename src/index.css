@@ -424,7 +424,7 @@ h1 {
 .play__bottom-tools-row {
   display: flex;
   justify-content: flex-start;
-  flex: 1;
+  flex: 0 0 auto;
 }
 
 /* デスクトップ／タブレット横向き（デフォルト）の表示設定 */
@@ -723,7 +723,6 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
 .swatch.is-selected {
   transform: scale(1.22);
   box-shadow: 0 0 0 3px var(--ink), 0 8px 18px rgba(58, 47, 74, 0.3);
-  margin: 0 6px;
 }
 .swatch--rainbow {
   background: conic-gradient(#ff3b3b, #ff9f1c, #ffe94e, #5ed16a, #4cc3ff, #3d4ed8, #8b5cf6, #ff3b3b);
@@ -913,7 +912,7 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   .play__bottom-tools-row {
     display: flex;
     justify-content: center;
-    flex: 1;
+    flex: 0 0 auto;
     min-width: 0;
   }
 

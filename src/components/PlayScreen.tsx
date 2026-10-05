@@ -301,7 +301,12 @@ function Palette({ tool, color, patternId, onColor, onPattern }: PaletteProps) {
 
   // 選択中のスウォッチを見える位置へ
   useEffect(() => {
-    ref.current?.querySelector('.swatch.is-selected')?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    const container = ref.current;
+    const selected = container?.querySelector('.swatch.is-selected') as HTMLElement;
+    if (container && selected) {
+      const left = selected.offsetLeft - container.offsetLeft - (container.clientWidth / 2) + (selected.clientWidth / 2);
+      container.scrollTo({ left, behavior: 'smooth' });
+    }
   }, [tool, color, patternId]);
 
   if (tool === 'eraser') {
