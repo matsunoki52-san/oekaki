@@ -160,7 +160,7 @@ let animeCount = 1;
 
 for (const art of parsedArtworks) {
   if (art.genre === 'anime') {
-    if (animeCount === 7 || animeCount === 14 || animeCount === 15) {
+    if (animeCount === 7 || animeCount === 14 || animeCount === 15 || animeCount === 24) {
       animeCount++;
       continue;
     }
