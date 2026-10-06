@@ -151,9 +151,19 @@ const animeTitleMap: Record<number, string> = {
   18: 'グランパシャーク',
   19: 'ベイビーシャーク',
   20: 'シャークファミリー',
-  21: 'ジョージ',
   22: 'ペッパ',
-  23: 'ダディピッグ'
+  23: 'ダディピッグ',
+  25: 'はなちゃん',
+  26: 'みみりん',
+  27: 'クロミ',
+  28: 'シナモン',
+  29: 'ジョージ',
+  30: 'トリッピー',
+  31: 'ハローキティ',
+  32: 'ピアノちゃん',
+  33: 'ポチャッコ',
+  34: 'ポムポムプリン',
+  35: 'マイメロディ'
 };
 
 const finalArtworks = [];
@@ -161,7 +171,8 @@ let animeCount = 1;
 
 for (const art of parsedArtworks) {
   if (art.genre === 'anime') {
-    if (animeCount === 7 || animeCount === 14 || animeCount === 15 || animeCount === 24) {
+    // 7, 14, 15, 24 は削除。21(古いジョージ)は29(新しいジョージ)に統合するため削除。
+    if (animeCount === 7 || animeCount === 14 || animeCount === 15 || animeCount === 21 || animeCount === 24) {
       animeCount++;
       continue;
     }
