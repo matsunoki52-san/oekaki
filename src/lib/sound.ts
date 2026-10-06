@@ -43,3 +43,31 @@ export const sfx = {
     [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.16, 'triangle', 0.12), i * 80));
   },
 };
+
+let currentBgm: HTMLAudioElement | null = null;
+let currentBgmUrl: string | null = null;
+
+export const bgm = {
+  play: (url: string) => {
+    if (currentBgmUrl === url && currentBgm) {
+      if (currentBgm.paused) {
+        currentBgm.play().catch(e => console.error(e));
+      }
+      return;
+    }
+    bgm.stop();
+    currentBgmUrl = url;
+    currentBgm = new Audio(url);
+    currentBgm.loop = true;
+    currentBgm.volume = 0.3; // slightly lower volume
+    currentBgm.play().catch(e => console.error('BGM Play Error:', e));
+  },
+  stop: () => {
+    if (currentBgm) {
+      currentBgm.pause();
+      currentBgm.currentTime = 0;
+      currentBgm = null;
+      currentBgmUrl = null;
+    }
+  }
+};

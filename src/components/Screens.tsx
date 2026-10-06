@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 import { GENRES, artworksOf, type Artwork, type Genre, type GenreId } from '../data/artworks';
 import { loadPainting } from '../lib/storage';
-import { sfx } from '../lib/sound';
+import { bgm, sfx } from '../lib/sound';
 import { ArtworkSvg } from './ArtworkSvg';
 import { BackIcon } from './Icons';
 
 /* ================= ホーム（ジャンル選択） ================= */
 export function HomeScreen({ onPick }: { onPick: (g: GenreId) => void }) {
+  useEffect(() => {
+    bgm.stop();
+  }, []);
+
   return (
     <main className="home">
       <Floaties />
@@ -34,6 +38,9 @@ function GenreButton({ genre, index, onClick }: { genre: Genre; index: number; o
       style={{ ['--c' as string]: genre.color, ['--s' as string]: genre.shadow, animationDelay: `${0.15 + index * 0.08}s` }}
       onClick={() => {
         sfx.select();
+        if (genre.bgm) {
+          bgm.play(genre.bgm);
+        }
         onClick();
       }}
     >

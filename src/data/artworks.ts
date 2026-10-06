@@ -29,6 +29,7 @@ export interface Genre {
   title: string;
   emoji: string;
   img: string;
+  bgm: string;
   color: string;
   shadow: string;
 }
@@ -43,13 +44,20 @@ import imgFood from '../assets/janru/たべもの.jpg';
 import imgAnime from '../assets/janru/アニメ.jpg';
 import imgOekaki from '../assets/janru/おえかき.jpg';
 
+import bgmAnimals from '../assets/BGM/塗り絵アプリ用BGM どうぶつ.mp3';
+import bgmVehicles from '../assets/BGM/塗り絵アプリ用BGM4 のりもの.mp3';
+import bgmFantasy from '../assets/BGM/塗り絵アプリ用BGM5 ファンタジー.mp3';
+import bgmFood from '../assets/BGM/塗り絵アプリ用BGM2 たべもの.mp3';
+import bgmAnime from '../assets/BGM/塗り絵アプリ用BGM3 アニメ.mp3';
+import bgmOekaki from '../assets/BGM/塗り絵アプリ用BGM6 おえかき.mp3';
+
 export const GENRES: Genre[] = [
-  { id: 'animals', title: 'どうぶつ', emoji: '🦁', img: imgAnimals, color: '#ffb547', shadow: '#e08a12' },
-  { id: 'vehicles', title: 'のりもの', emoji: '🚗', img: imgVehicles, color: '#5ec8ff', shadow: '#2a97d6' },
-  { id: 'fantasy', title: 'ファンタジー', emoji: '✨', img: imgFantasy, color: '#c58cff', shadow: '#9256d9' },
-  { id: 'food', title: 'たべもの', emoji: '🍰', img: imgFood, color: '#ff7fa8', shadow: '#dc4b7c' },
-  { id: 'anime', title: 'アニメ', emoji: '🌸', img: imgAnime, color: '#4ade80', shadow: '#16a34a' },
-  { id: 'oekaki', title: 'おえかき', emoji: '✏️', img: imgOekaki, color: '#ff7070', shadow: '#d64747' },
+  { id: 'animals', title: 'どうぶつ', emoji: '🦁', img: imgAnimals, bgm: bgmAnimals, color: '#ffb547', shadow: '#e08a12' },
+  { id: 'vehicles', title: 'のりもの', emoji: '🚗', img: imgVehicles, bgm: bgmVehicles, color: '#5ec8ff', shadow: '#2a97d6' },
+  { id: 'fantasy', title: 'ファンタジー', emoji: '✨', img: imgFantasy, bgm: bgmFantasy, color: '#c58cff', shadow: '#9256d9' },
+  { id: 'food', title: 'たべもの', emoji: '🍰', img: imgFood, bgm: bgmFood, color: '#ff7fa8', shadow: '#dc4b7c' },
+  { id: 'anime', title: 'アニメ', emoji: '🌸', img: imgAnime, bgm: bgmAnime, color: '#4ade80', shadow: '#16a34a' },
+  { id: 'oekaki', title: 'おえかき', emoji: '✏️', img: imgOekaki, bgm: bgmOekaki, color: '#ff7070', shadow: '#d64747' },
 ];
 
 // src/components/svgs ディレクトリ内のSVGファイルをインポート
