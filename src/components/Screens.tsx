@@ -37,9 +37,9 @@ function GenreButton({ genre, index, onClick }: { genre: Genre; index: number; o
         onClick();
       }}
     >
-      <span className="genre__emoji" aria-hidden="true">
-        {genre.emoji}
-      </span>
+      <div className="genre__img-wrap">
+        <img src={genre.img} alt="" className="genre__img" draggable={false} />
+      </div>
       <span className="genre__label">{genre.title}</span>
     </button>
   );
@@ -108,9 +108,10 @@ export function GalleryScreen({
         >
           <BackIcon />
         </button>
-        <h1 className="gallery__title">
-          <span aria-hidden="true">{genre.emoji}</span> {genre.title}
-        </h1>
+        <div className="gallery__title">
+          <img src={genre.img} alt="" className="gallery__title-img" draggable={false} />
+          <span>{genre.title}</span>
+        </div>
         <span className="gallery__spacer" />
       </header>
       <div className="cards">

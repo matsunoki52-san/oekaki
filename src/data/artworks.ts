@@ -28,6 +28,7 @@ export interface Genre {
   id: GenreId;
   title: string;
   emoji: string;
+  img: string;
   color: string;
   shadow: string;
 }
@@ -35,13 +36,20 @@ export interface Genre {
 export const VB_W = 1376;
 export const VB_H = 768;
 
+import imgAnimals from '../assets/janru/どうぶつ.jpg';
+import imgVehicles from '../assets/janru/のりもの.jpg';
+import imgFantasy from '../assets/janru/ファンタジー.jpg';
+import imgFood from '../assets/janru/たべもの.jpg';
+import imgAnime from '../assets/janru/アニメ.jpg';
+import imgOekaki from '../assets/janru/おえかき.jpg';
+
 export const GENRES: Genre[] = [
-  { id: 'animals', title: 'どうぶつ', emoji: '🦁', color: '#ffb547', shadow: '#e08a12' },
-  { id: 'vehicles', title: 'のりもの', emoji: '🚗', color: '#5ec8ff', shadow: '#2a97d6' },
-  { id: 'fantasy', title: 'ファンタジー', emoji: '✨', color: '#c58cff', shadow: '#9256d9' },
-  { id: 'food', title: 'たべもの', emoji: '🍰', color: '#ff7fa8', shadow: '#dc4b7c' },
-  { id: 'anime', title: 'アニメ', emoji: '🌸', color: '#4ade80', shadow: '#16a34a' },
-  { id: 'oekaki', title: 'おえかき', emoji: '✏️', color: '#ff7070', shadow: '#d64747' },
+  { id: 'animals', title: 'どうぶつ', emoji: '🦁', img: imgAnimals, color: '#ffb547', shadow: '#e08a12' },
+  { id: 'vehicles', title: 'のりもの', emoji: '🚗', img: imgVehicles, color: '#5ec8ff', shadow: '#2a97d6' },
+  { id: 'fantasy', title: 'ファンタジー', emoji: '✨', img: imgFantasy, color: '#c58cff', shadow: '#9256d9' },
+  { id: 'food', title: 'たべもの', emoji: '🍰', img: imgFood, color: '#ff7fa8', shadow: '#dc4b7c' },
+  { id: 'anime', title: 'アニメ', emoji: '🌸', img: imgAnime, color: '#4ade80', shadow: '#16a34a' },
+  { id: 'oekaki', title: 'おえかき', emoji: '✏️', img: imgOekaki, color: '#ff7070', shadow: '#d64747' },
 ];
 
 // src/components/svgs ディレクトリ内のSVGファイルをインポート
