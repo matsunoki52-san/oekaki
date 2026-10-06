@@ -304,7 +304,7 @@ function Palette({ tool, color, patternId, onColor, onPattern }: PaletteProps) {
     const container = ref.current;
     const selected = container?.querySelector('.swatch.is-selected') as HTMLElement;
     if (container && selected) {
-      const left = selected.offsetLeft - container.offsetLeft - (container.clientWidth / 2) + (selected.clientWidth / 2);
+      const left = selected.offsetLeft - (container.clientWidth / 2) + (selected.clientWidth / 2);
       container.scrollTo({ left, behavior: 'smooth' });
     }
   }, [tool, color, patternId]);
