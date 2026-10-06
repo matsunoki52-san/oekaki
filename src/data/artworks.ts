@@ -152,7 +152,8 @@ const animeTitleMap: Record<number, string> = {
   19: 'ベイビーシャーク',
   20: 'シャークファミリー',
   21: 'ジョージ',
-  22: 'ペッパ'
+  22: 'ペッパ',
+  23: 'ダディピッグ'
 };
 
 const finalArtworks = [];
