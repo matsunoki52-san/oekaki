@@ -5,7 +5,7 @@
  * import.meta.glob で参照し、アプリの台紙データとして読み込みます。
  */
 
-export type GenreId = 'animals' | 'vehicles' | 'characters' | 'food' | 'anime';
+export type GenreId = 'animals' | 'vehicles' | 'fantasy' | 'food' | 'anime' | 'oekaki';
 
 export interface Part {
   id: string;
@@ -38,9 +38,10 @@ export const VB_H = 768;
 export const GENRES: Genre[] = [
   { id: 'animals', title: 'どうぶつ', emoji: '🦁', color: '#ffb547', shadow: '#e08a12' },
   { id: 'vehicles', title: 'のりもの', emoji: '🚗', color: '#5ec8ff', shadow: '#2a97d6' },
-  { id: 'characters', title: 'キャラクター', emoji: '✨', color: '#c58cff', shadow: '#9256d9' },
+  { id: 'fantasy', title: 'ファンタジー', emoji: '✨', color: '#c58cff', shadow: '#9256d9' },
   { id: 'food', title: 'たべもの', emoji: '🍰', color: '#ff7fa8', shadow: '#dc4b7c' },
   { id: 'anime', title: 'アニメ', emoji: '🌸', color: '#4ade80', shadow: '#16a34a' },
+  { id: 'oekaki', title: 'おえかき', emoji: '✏️', color: '#ff7070', shadow: '#d64747' },
 ];
 
 // src/components/svgs ディレクトリ内のSVGファイルをインポート
@@ -59,7 +60,7 @@ function parseSvgArtwork(filename: string, rawSvg: string): Artwork {
 
   // ファイル名からジャンル判定
   let genre: GenreId = 'animals';
-  if (baseName.startsWith('Characters_')) genre = 'characters';
+  if (baseName.startsWith('Characters_') || baseName.startsWith('Fantasy_')) genre = 'fantasy';
   else if (baseName.startsWith('Vehicles_')) genre = 'vehicles';
   else if (baseName.startsWith('Food_')) genre = 'food';
   else if (baseName.startsWith('Anime_')) genre = 'anime';
@@ -112,8 +113,40 @@ function parseSvgArtwork(filename: string, rawSvg: string): Artwork {
   };
 }
 
-export const ARTWORKS: Artwork[] = Object.entries(rawSvgModules)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([filename, rawSvg]) => parseSvgArtwork(filename, rawSvg));
+export const ARTWORKS: Artwork[] = [
+  ...Object.entries(rawSvgModules)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([filename, rawSvg]) => parseSvgArtwork(filename, rawSvg)),
+  {
+    id: 'oekaki-square',
+    genre: 'oekaki',
+    title: '正方形 (1:1)',
+    parts: [],
+    lines: [],
+    rawSvg: '',
+    width: 1024,
+    height: 1024,
+  },
+  {
+    id: 'oekaki-portrait',
+    genre: 'oekaki',
+    title: '縦長 (3:4)',
+    parts: [],
+    lines: [],
+    rawSvg: '',
+    width: 768,
+    height: 1024,
+  },
+  {
+    id: 'oekaki-landscape',
+    genre: 'oekaki',
+    title: '横長 (4:3)',
+    parts: [],
+    lines: [],
+    rawSvg: '',
+    width: 1024,
+    height: 768,
+  },
+];
 
 export const artworksOf = (g: GenreId) => ARTWORKS.filter((a) => a.genre === g);

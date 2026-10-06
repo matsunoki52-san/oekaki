@@ -125,7 +125,7 @@ export function GalleryScreen({
               onPick(a);
             }}
           >
-            <span className="card__paper">
+            <span className="card__paper" style={{ aspectRatio: `${a.width} / ${a.height}` }}>
               {thumbs[a.id] && <img className="card__paint" src={thumbs[a.id]} alt="" />}
               <ArtworkSvg artwork={a} strokeWidth={9} className="card__svg" />
             </span>
