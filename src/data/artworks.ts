@@ -129,10 +129,20 @@ function parseSvgArtwork(filename: string, rawSvg: string): Artwork {
   };
 }
 
+const parsedArtworks = Object.entries(rawSvgModules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([filename, rawSvg]) => parseSvgArtwork(filename, rawSvg));
+
+let animeCount = 1;
+for (const art of parsedArtworks) {
+  if (art.genre === 'anime') {
+    art.title = `${art.title} ${animeCount}`;
+    animeCount++;
+  }
+}
+
 export const ARTWORKS: Artwork[] = [
-  ...Object.entries(rawSvgModules)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([filename, rawSvg]) => parseSvgArtwork(filename, rawSvg)),
+  ...parsedArtworks,
   {
     id: 'oekaki-square',
     genre: 'oekaki',
