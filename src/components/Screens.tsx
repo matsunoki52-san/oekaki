@@ -99,7 +99,7 @@ export function GalleryScreen({
       <header className="gallery__top">
         <button
           id="btn-gallery-back"
-          className="chip-btn chip-btn--round"
+          className="chip-btn chip-btn--round chip-btn--back"
           aria-label="もどる"
           onClick={() => {
             sfx.back();

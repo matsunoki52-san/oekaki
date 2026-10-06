@@ -115,6 +115,13 @@ h1 {
   padding: 14px;
   justify-content: center;
 }
+.chip-btn--back {
+  background: linear-gradient(180deg, #ffe600, #ffcc00);
+  box-shadow: 0 6px 0 #d99f00, var(--shadow-soft);
+}
+.chip-btn--back:active {
+  box-shadow: 0 1px 0 #d99f00, var(--shadow-soft);
+}
 .chip-btn__icon {
   width: 48px;
   height: 48px;

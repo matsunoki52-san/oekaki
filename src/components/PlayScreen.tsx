@@ -153,7 +153,7 @@ export function PlayScreen({ artwork, onBack }: Props) {
       <header className="play__top">
         <div className="play__top-left">
           <button
-            className="chip-btn chip-btn--round"
+            className="chip-btn chip-btn--round chip-btn--back"
             aria-label="もどる"
             onClick={() => {
               sfx.back();
