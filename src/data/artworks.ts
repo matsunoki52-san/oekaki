@@ -133,16 +133,45 @@ const parsedArtworks = Object.entries(rawSvgModules)
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([filename, rawSvg]) => parseSvgArtwork(filename, rawSvg));
 
+const animeTitleMap: Record<number, string> = {
+  1: 'ドキンちゃん',
+  2: 'ジャムおじさん',
+  3: 'しょくぱんまん',
+  4: 'ドキン・コキン',
+  5: 'バイキンマン',
+  6: 'あかちゃんマン',
+  8: 'フォーキー',
+  9: 'スリンキー',
+  10: 'レックス',
+  11: 'ダッキー・バニー',
+  12: 'ブルズアイ',
+  13: 'ハム',
+  16: 'バズ',
+  17: 'べべフィン',
+  18: 'グランパシャーク',
+  19: 'ベイビーシャーク',
+  20: 'シャークファミリー',
+  21: 'ジョージ',
+  22: 'ペッパ'
+};
+
+const finalArtworks = [];
 let animeCount = 1;
+
 for (const art of parsedArtworks) {
   if (art.genre === 'anime') {
-    art.title = `${art.title} ${animeCount}`;
+    if (animeCount === 7 || animeCount === 14 || animeCount === 15) {
+      animeCount++;
+      continue;
+    }
+    art.title = animeTitleMap[animeCount] || `${art.title} ${animeCount}`;
     animeCount++;
   }
+  finalArtworks.push(art);
 }
 
 export const ARTWORKS: Artwork[] = [
-  ...parsedArtworks,
+  ...finalArtworks,
   {
     id: 'oekaki-square',
     genre: 'oekaki',
