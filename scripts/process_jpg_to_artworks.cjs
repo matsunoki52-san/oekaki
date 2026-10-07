@@ -14,7 +14,7 @@ if (!fs.existsSync(OUT_DIR)) {
 // 1. ジャンル判定ルール (単語境界で誤マッチ防止)
 const GENRE_RULES = [
   { genre: 'vehicles', prefix: 'Vehicles', regex: /(^|_)(airplane|bicycle|bus|crane_truck|cruise_ship|excavator|fire_engine|helicopter|hot_air_balloon|motorcycle|police_car|rocket|submarine|taxi|truck|ufo|yacht)(_|\.|$)/i },
-  { genre: 'animals', prefix: 'Animals', regex: /(^|_)(alpaca|dinosaur|capybara|lion|cat|dog|elephant|giraffe|koala|unicorn|monkey|ninja_dog|owl|panda|penguin|rabbit|squirrel|fox)(_|\.|$)/i },
+  { genre: 'animals', prefix: 'Animals', regex: /(^|_)(alpaca|bear|cow|dolphin|frog|hedgehog|horse|pig|sheep|turtle|dinosaur|capybara|lion|cat|dog|elephant|giraffe|koala|unicorn|monkey|ninja_dog|owl|panda|penguin|rabbit|squirrel|fox)(_|\.|$)/i },
   { genre: 'food', prefix: 'Food', regex: /(^|_)(apple|ramen|bowl|grapes|omurice|curry|pudding|parfait|banana|hamburger|macarons|pancakes|pizza|rice_ball|sandwich|crepe|shortcake|sushi|ice_cream|donut|watermelon)(_|\.|$)/i },
   { genre: 'characters', prefix: 'Characters', regex: /(^|_)(angel|boy|alien|dragon|explorer|fairy|ghost|idol_singer|magical_girl|monster|ninja_throwing|pirate|prince|princess|robot|superhero|witch)(_|\.|$)/i },
   { genre: 'anime', prefix: 'Anime', regex: /(^|\/|_)Anime\//i },
@@ -42,8 +42,8 @@ const TITLE_RULES = [
   { match: /ice_cream/i, title: 'アイスクリーム' },
   { match: /rice_ball/i, title: 'おにぎり' },
   { match: /boy_holding_sword/i, title: 'ゆうしゃ' },
-  { match: /dog_holding_bone/i, title: 'いぬ' },
-  { match: /monkey/i, title: 'さる' },
+  { match: /dog_holding_bone/i, title: 'イヌ' },
+  { match: /monkey/i, title: 'サル' },
   { match: /princess/i, title: 'おひめさま' },
   { match: /prince/i, title: 'おうじさま' },
   { match: /yacht/i, title: 'ヨット' },
@@ -59,7 +59,7 @@ const TITLE_RULES = [
   { match: /bus/i, title: 'バス' },
   { match: /capybara/i, title: 'カピバラ' },
   { match: /lion/i, title: 'ライオン' },
-  { match: /(^|_)cat(_|\.|$)/i, title: 'ねこ' },
+  { match: /(^|_)cat(_|\.|$)/i, title: 'ネコ' },
   { match: /pudding/i, title: 'プリン' },
   { match: /alien/i, title: 'うちゅうじん' },
   { match: /dragon/i, title: 'ドラゴン' },
@@ -98,6 +98,17 @@ const TITLE_RULES = [
   { match: /donut/i, title: 'ドーナツ' },
   { match: /fox/i, title: 'キツネ' },
   { match: /watermelon/i, title: 'すいか' },
+  { match: /bear/i, title: 'クマ' },
+  { match: /cow/i, title: 'ウシ' },
+  { match: /(^|_)dog(_|\.|$)/i, title: 'イヌ' },
+  { match: /dolphin/i, title: 'イルカ' },
+  { match: /frog/i, title: 'カエル' },
+  { match: /hedgehog/i, title: 'ハリネズミ' },
+  { match: /horse/i, title: 'ウマ' },
+  { match: /pig/i, title: 'ブタ' },
+  { match: /sheep/i, title: 'ヒツジ' },
+  { match: /turtle/i, title: 'カメ' },
+  { match: /rabbit/i, title: 'ウサギ' },
   { match: /witch/i, title: 'まじょ' }
 ];
 
