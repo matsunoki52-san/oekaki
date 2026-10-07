@@ -373,7 +373,7 @@ export class PaintEngine {
         const color = this.isRainbow ? this.nextColor() : this.brush.color;
 
         ctx.globalCompositeOperation = 'source-over';
-        ctx.globalAlpha = 0.25;
+        ctx.globalAlpha = 0.15;
         ctx.fillStyle = color;
         ctx.shadowBlur = lw * 0.4;
         ctx.shadowColor = color;
@@ -433,7 +433,7 @@ export class PaintEngine {
 
         // パレットの色を保ちつつ、透明度を下げて淡く優しい水彩風にする
         ctx.globalCompositeOperation = 'source-over';
-        ctx.globalAlpha = 0.25;
+        ctx.globalAlpha = 0.15;
         ctx.lineWidth = lw;
         ctx.strokeStyle = color;
         ctx.shadowBlur = lw * 0.4;
