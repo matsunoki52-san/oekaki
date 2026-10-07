@@ -206,32 +206,18 @@ export function UndoIcon() {
   );
 }
 
-export function NeonIcon({ color }: { color: string }) {
+export function FluorIcon({ color }: { color: string }) {
   return (
     <svg viewBox="0 0 64 64" style={s}>
-      <defs>
-        <filter id="neonBlur" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="4" />
-        </filter>
-      </defs>
       <g transform="rotate(-35 32 32)">
-        <rect x="18" y="10" width="28" height="46" rx="14" fill={fillOf(color)} opacity="0.6" filter="url(#neonBlur)" />
-        <rect x="22" y="14" width="20" height="38" rx="8" fill="#ffffff" stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
-        <path d="M24 14L32 1L40 14Z" fill="#ffffff" stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
-        <rect x="22" y="50" width="20" height="8" rx="3" fill="#ffffff" stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
-      </g>
-    </svg>
-  );
-}
-
-export function StampIcon({ color }: { color: string }) {
-  return (
-    <svg viewBox="0 0 64 64" style={s}>
-      <g fill={fillOf(color)} stroke={OUT} strokeWidth="2.5" strokeLinejoin="round">
-        <circle cx="32" cy="40" r="14" />
-        <circle cx="16" cy="22" r="8" />
-        <circle cx="32" cy="14" r="8" />
-        <circle cx="48" cy="22" r="8" />
+        {/* ペンの本体（白） */}
+        <rect x="20" y="24" width="24" height="28" rx="4" fill="#ffffff" stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
+        {/* ペンの芯（蛍光色・平芯） */}
+        <path d="M24 24 L24 14 L36 10 L40 24 Z" fill={fillOf(color)} stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
+        {/* 尻栓 */}
+        <rect x="20" y="52" width="24" height="6" rx="2" fill={fillOf(color)} stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
+        {/* 蛍光マーク（ハイライト） */}
+        <path d="M16 16 L48 16" stroke={fillOf(color)} strokeWidth="6" strokeLinecap="round" opacity="0.4" />
       </g>
     </svg>
   );

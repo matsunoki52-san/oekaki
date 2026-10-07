@@ -27,7 +27,7 @@ function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-export type ToolId = 'pen' | 'pattern' | 'sparkle' | 'glitter' | 'spray' | 'eraser' | 'neon' | 'stamp';
+export type ToolId = 'pen' | 'pattern' | 'sparkle' | 'glitter' | 'spray' | 'eraser' | 'fluor';
 
 export interface Brush {
   tool: ToolId;
@@ -55,9 +55,29 @@ const BASE_SIZE = {
   glitter: 32,
   sprayRadius: 46,
   eraser: 58,
-  neon: 24,
-  stamp: 40,
+  fluor: 48,
 } as const;
+
+function hexToHue(hex: string): number {
+  if (hex.startsWith('#')) hex = hex.slice(1);
+  if (hex.length === 3) hex = hex.split('').map((c) => c + c).join('');
+  const r = parseInt(hex.slice(0, 2), 16) / 255;
+  const g = parseInt(hex.slice(2, 4), 16) / 255;
+  const b = parseInt(hex.slice(4, 6), 16) / 255;
+
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0;
+  if (max !== min) {
+    const d = max - min;
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  return h * 360;
+}
 
 interface Sparkle {
   x: number;
@@ -128,10 +148,8 @@ export class PaintEngine {
         return BASE_SIZE.eraser * s;
       case 'spray':
         return BASE_SIZE.sprayRadius * s;
-      case 'neon':
-        return BASE_SIZE.neon * s;
-      case 'stamp':
-        return BASE_SIZE.stamp * s;
+      case 'fluor':
+        return BASE_SIZE.fluor * s;
     }
   }
 
@@ -332,16 +350,16 @@ export class PaintEngine {
         break;
       case 'spray':
         break;
-      case 'neon':
+      case 'fluor': {
         ctx.lineWidth = lw;
-        ctx.strokeStyle = ctx.fillStyle = '#ffffff'; // 中心は白
-        ctx.shadowBlur = lw * 0.8;
-        ctx.shadowColor = this.isRainbow ? this.nextColor(0) : this.brush.color;
+        if (this.isRainbow) {
+          ctx.strokeStyle = ctx.fillStyle = `hsl(${Math.round(this.hue)}, 100%, 55%)`;
+        } else {
+          const h = Math.round(hexToHue(this.brush.color));
+          ctx.strokeStyle = ctx.fillStyle = `hsl(${h}, 100%, 55%)`;
+        }
         break;
-      case 'stamp':
-        // 描画ごとに色が変わるため、lineWidthだけ設定
-        ctx.lineWidth = lw;
-        break;
+      }
     }
   }
 
@@ -374,15 +392,16 @@ export class PaintEngine {
       case 'spray':
         this.sprayAt(p, Math.round(26 * this.scale));
         break;
-      case 'neon': {
-        if (this.isRainbow) ctx.shadowColor = this.nextColor(0);
+      case 'fluor': {
+        if (this.isRainbow) {
+          ctx.fillStyle = `hsl(${Math.round(this.hue)}, 100%, 55%)`;
+        } else {
+          const h = Math.round(hexToHue(this.brush.color));
+          ctx.fillStyle = `hsl(${h}, 100%, 55%)`;
+        }
         ctx.beginPath();
         ctx.arc(p.x, p.y, lw / 2, 0, Math.PI * 2);
         ctx.fill();
-        break;
-      }
-      case 'stamp': {
-        this.drawStamp(p.x, p.y, lw, 0);
         break;
       }
     }
@@ -430,18 +449,14 @@ export class PaintEngine {
         this.alongSegment(a, b, spacing, (p) => this.sprayAt(p, Math.round(8 * Math.sqrt(this.scale))));
         break;
       }
-      case 'neon': {
-        if (this.isRainbow) ctx.shadowColor = this.nextColor();
+      case 'fluor': {
+        if (this.isRainbow) {
+          ctx.strokeStyle = `hsl(${Math.round(this.hue)}, 100%, 55%)`;
+        } else {
+          const h = Math.round(hexToHue(this.brush.color));
+          ctx.strokeStyle = `hsl(${h}, 100%, 55%)`;
+        }
         line();
-        break;
-      }
-      case 'stamp': {
-        const lw = this.currentLineWidth;
-        const spacing = Math.max(30, lw * 1.5);
-        this.alongSegment(a, b, spacing, (p) => {
-          const angle = Math.atan2(b.y - a.y, b.x - a.x);
-          this.drawStamp(p.x, p.y, lw, angle);
-        });
         break;
       }
     }
@@ -744,40 +759,5 @@ export class PaintEngine {
     }
   }
 
-  /**
-   * スタンプツール用：肉球を描画する
-   */
-  private drawStamp(x: number, y: number, size: number, angle: number) {
-    const ctx = this.ctx;
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(angle + Math.PI / 2); // 進行方向を上に向ける
-    if (this.isRainbow) {
-      ctx.fillStyle = this.nextColor(15);
-    } else {
-      ctx.fillStyle = this.brush.color;
-    }
-    
-    // 肉球を描画
-    const r = size * 0.22;
-    // メインのパッド
-    ctx.beginPath();
-    ctx.arc(0, r * 0.4, r * 1.6, 0, Math.PI * 2);
-    ctx.fill();
-    // 指4つ
-    ctx.beginPath();
-    ctx.arc(-r * 1.6, -r * 1.2, r * 0.9, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(-r * 0.6, -r * 2.2, r * 0.9, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(r * 0.6, -r * 2.2, r * 0.9, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(r * 1.6, -r * 1.2, r * 0.9, 0, Math.PI * 2);
-    ctx.fill();
-    
-    ctx.restore();
-  }
+
 }
