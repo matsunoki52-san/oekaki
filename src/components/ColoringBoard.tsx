@@ -2,6 +2,7 @@ import { useCallback, useEffect, useImperativeHandle, useRef, type PointerEvent 
 import { type Artwork } from '../data/artworks';
 import { PaintEngine, RES, type Brush, type Pt } from '../lib/paintEngine';
 import { deletePainting, loadPainting, savePainting } from '../lib/storage';
+import { sfx } from '../lib/sound';
 import { ArtworkSvg } from './ArtworkSvg';
 
 export interface BoardHandle {
@@ -79,6 +80,7 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
 
     return () => {
       cancelled = true;
+      sfx.stopWatercolor();
       engine.end();
       engine.dispose();
       engineRef.current = null;
@@ -252,6 +254,11 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
 
     // 取得した d 属性および除外パス（内側範囲・キャラクター）を渡してクリッピング開始
     engine.begin(d, pt, excludePaths);
+    
+    if (brush.tool === 'watercolor') {
+      sfx.startWatercolor();
+    }
+    
     onStrokeStart?.();
   };
 
@@ -274,6 +281,7 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
    * 1ストローク完了ごとに履歴へ保存
    * ================================================================ */
   const finish = (e: RPointerEvent<SVGSVGElement>) => {
+    sfx.stopWatercolor();
     const a = activeRef.current;
     if (!a || e.pointerId !== a.pointerId) return;
     engineRef.current?.end();

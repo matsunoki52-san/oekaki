@@ -206,18 +206,20 @@ export function UndoIcon() {
   );
 }
 
-export function FluorIcon({ color }: { color: string }) {
+export function WatercolorIcon({ color }: { color: string }) {
   return (
     <svg viewBox="0 0 64 64" style={s}>
-      <g transform="rotate(-35 32 32)">
-        {/* ペンの本体（白） */}
-        <rect x="20" y="24" width="24" height="28" rx="4" fill="#ffffff" stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
-        {/* ペンの芯（蛍光色・平芯） */}
-        <path d="M24 24 L24 14 L36 10 L40 24 Z" fill={fillOf(color)} stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
-        {/* 尻栓 */}
-        <rect x="20" y="52" width="24" height="6" rx="2" fill={fillOf(color)} stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
-        {/* 蛍光マーク（ハイライト） */}
-        <path d="M16 16 L48 16" stroke={fillOf(color)} strokeWidth="6" strokeLinecap="round" opacity="0.4" />
+      <g transform="rotate(-30 32 32)">
+        {/* チューブの本体（白） */}
+        <path d="M18 42 L24 20 C24 16 40 16 40 20 L46 42 L18 42 Z" fill="#ffffff" stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
+        {/* チューブの底の折り目 */}
+        <rect x="16" y="42" width="32" height="6" rx="2" fill="#d9e2ec" stroke={OUT} strokeWidth="3" />
+        {/* チューブの口 */}
+        <rect x="28" y="12" width="8" height="8" fill="#ffffff" stroke={OUT} strokeWidth="3" />
+        {/* 絞り出されたえのぐ */}
+        <path d="M32 12 Q32 2 24 4 Q24 -2 32 2 Q40 -2 40 4 Q32 2 32 12 Z" fill={fillOf(color)} stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
+        {/* チューブのラベル部分（色） */}
+        <path d="M21 28 L43 28 L44 36 L20 36 Z" fill={fillOf(color)} />
       </g>
     </svg>
   );

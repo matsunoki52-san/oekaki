@@ -42,7 +42,51 @@ export const sfx = {
   save: () => {
     [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.16, 'triangle', 0.12), i * 80));
   },
+  startWatercolor: () => {
+    const a = ctx();
+    if (!a || watercolorNoise) return;
+    
+    const bufferSize = a.sampleRate * 1;
+    const buffer = a.createBuffer(1, bufferSize, a.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+    
+    watercolorNoise = a.createBufferSource();
+    watercolorNoise.buffer = buffer;
+    watercolorNoise.loop = true;
+    
+    watercolorFilter = a.createBiquadFilter();
+    watercolorFilter.type = 'lowpass';
+    watercolorFilter.frequency.value = 800; // soft friction sound
+    
+    watercolorGain = a.createGain();
+    watercolorGain.gain.value = 0.03; // subtle volume
+    
+    watercolorNoise.connect(watercolorFilter).connect(watercolorGain).connect(a.destination);
+    watercolorNoise.start();
+  },
+  stopWatercolor: () => {
+    if (watercolorNoise) {
+      watercolorNoise.stop();
+      watercolorNoise.disconnect();
+      watercolorNoise = null;
+    }
+    if (watercolorFilter) {
+      watercolorFilter.disconnect();
+      watercolorFilter = null;
+    }
+    if (watercolorGain) {
+      watercolorGain.disconnect();
+      watercolorGain = null;
+    }
+  }
 };
+
+let watercolorNoise: AudioBufferSourceNode | null = null;
+let watercolorFilter: BiquadFilterNode | null = null;
+let watercolorGain: GainNode | null = null;
 
 let currentBgm: HTMLAudioElement | null = null;
 let currentBgmUrl: string | null = null;

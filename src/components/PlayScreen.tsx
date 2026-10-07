@@ -12,7 +12,7 @@ import {
   CrossIcon,
   EraserIcon,
   GlitterIcon,
-  FluorIcon,
+  WatercolorIcon,
   PatternIcon,
   PenIcon,
   SparkleIcon,
@@ -28,7 +28,7 @@ interface Props {
 
 const TOOLS: { id: ToolId; label: string }[] = [
   { id: 'pen', label: 'ペン' },
-  { id: 'fluor', label: 'けいこう' },
+  { id: 'watercolor', label: 'えのぐ' },
   { id: 'pattern', label: 'もよう' },
   { id: 'sparkle', label: 'キラキラ' },
   { id: 'glitter', label: 'グリッター' },
@@ -263,7 +263,7 @@ export function PlayScreen({ artwork, onBack }: Props) {
               >
                 <span className="tool__icon">
                   {t.id === 'pen' && <PenIcon color={color} />}
-                  {t.id === 'fluor' && <FluorIcon color={color} />}
+                  {t.id === 'watercolor' && <WatercolorIcon color={color} />}
                   {t.id === 'pattern' && <PatternIcon tileUrl={getTileDataUrl(pattern)} />}
                   {t.id === 'sparkle' && <SparkleIcon color={color} />}
                   {t.id === 'glitter' && <GlitterIcon color={color} />}
@@ -322,12 +322,13 @@ export function PlayScreen({ artwork, onBack }: Props) {
             </p>
             <img className="saved-preview" src={saved.url} alt="ぬったえ" />
             <div className="dialog__actions">
-              <button id="btn-saved-ok" className="big-round big-round--yes" aria-label="もどる" onClick={() => {
+              <button id="btn-saved-ok" className="chip-btn chip-btn--round dialog__btn-return" style={{ background: 'linear-gradient(180deg, #6ee69f, var(--ok))', boxShadow: '0 9px 0 var(--ok-deep), 0 16px 30px rgba(34, 163, 91, 0.35)', minWidth: '180px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }} aria-label="もどる" onClick={() => {
                 setSaved(null);
                 bgm.stopComplete();
                 onBack();
               }}>
                 <CheckIcon />
+                <span className="chip-btn__text" style={{ color: '#fff', fontSize: '1.2rem', margin: 0 }}>もどる</span>
               </button>
             </div>
           </div>
