@@ -225,25 +225,15 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
     e.preventDefault();
 
     // ★ 要件2: 「範囲の中の範囲（丸の中の丸など）」のはみ出し防止ロジック
-    // Potrace生成パスは各パーツの内側の入れ子構造（目・ホイールキャップ等）を自前で穴（evenoddサブパス）として保持。
-    // 単純矩形フォールバック等、自前で穴を持たない場合のみ excludePaths を計算して付与する。
-    const hasNativeHoles = (d.match(/M/g) || []).length > 1;
+    // Potrace生成パスは自前で穴（evenoddサブパス）として保持しているため excludePaths は不要。
+    // ArtworkSvg.tsx が強制追加する単純矩形背景（穴なし）の場合のみ excludePaths を計算して付与する。
+    const isManualBg = isBg && targetPath?.id === 'bg' && (d.startsWith('M0 0H') || d.startsWith('M 0 0H'));
     const excludePaths: string[] = [];
 
-    if (!hasNativeHoles) {
-      if (isBg) {
-        const topLevelParts = partInfos.filter((p) => !partInfos.some((other) => isContained(p, other)));
-        for (const p of topLevelParts) {
-          if (p.d) excludePaths.push(p.d);
-        }
-      } else if (targetPartInfo) {
-        const insideCandidates = partInfos.filter((p) => isContained(p, targetPartInfo));
-        const directChildren = insideCandidates.filter(
-          (c) => !insideCandidates.some((other) => isContained(c, other)),
-        );
-        for (const c of directChildren) {
-          if (c.d) excludePaths.push(c.d);
-        }
+    if (isManualBg) {
+      const topLevelParts = partInfos.filter((p) => !partInfos.some((other) => isContained(p, other)));
+      for (const p of topLevelParts) {
+        if (p.d) excludePaths.push(p.d);
       }
     }
 
