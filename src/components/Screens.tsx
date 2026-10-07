@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import pkg from '../../package.json';
 import { GENRES, artworksOf, type Artwork, type Genre, type GenreId } from '../data/artworks';
 import { loadPainting } from '../lib/storage';
 import { bgm, sfx } from '../lib/sound';
@@ -20,6 +21,7 @@ export function HomeScreen({ onPick }: { onPick: (g: GenreId) => void }) {
             {ch}
           </span>
         ))}
+        <span style={{ fontSize: '0.4em', verticalAlign: 'super', marginLeft: '10px', color: '#666' }}>v{pkg.version}</span>
       </h1>
       <div className="genres">
         {GENRES.map((g, i) => (
@@ -118,6 +120,7 @@ export function GalleryScreen({
         <div className="gallery__title">
           <img src={genre.img} alt="" className="gallery__title-img" draggable={false} />
           <span>{genre.title}</span>
+          <span style={{ fontSize: '0.4em', verticalAlign: 'super', marginLeft: '10px', color: '#666' }}>v{pkg.version}</span>
         </div>
         <span className="gallery__spacer" />
       </header>
@@ -137,7 +140,7 @@ export function GalleryScreen({
               {thumbs[a.id] && <img className="card__paint" src={thumbs[a.id]} alt="" />}
               <ArtworkSvg artwork={a} strokeWidth={9} className="card__svg" />
             </span>
-            <span className="card__label">{a.title}</span>
+            <span className="card__label">[{i + 1}] {a.title}</span>
           </button>
         ))}
       </div>
