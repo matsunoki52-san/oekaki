@@ -13,10 +13,10 @@ if (!fs.existsSync(OUT_DIR)) {
 
 // 1. ジャンル判定ルール (単語境界で誤マッチ防止)
 const GENRE_RULES = [
-  { genre: 'vehicles', prefix: 'Vehicles', regex: /(^|_)(airplane|bicycle|bus|crane_truck|cruise_ship|excavator|fire_engine|helicopter|hot_air_balloon|motorcycle|police_car|rocket|submarine|taxi|truck|ufo|yacht)(_|\.|$)/i },
-  { genre: 'animals', prefix: 'Animals', regex: /(^|_)(alpaca|bear|cow|dolphin|frog|hedgehog|horse|pig|sheep|turtle|dinosaur|capybara|lion|cat|dog|elephant|giraffe|koala|unicorn|monkey|ninja_dog|owl|panda|penguin|rabbit|squirrel|fox)(_|\.|$)/i },
-  { genre: 'food', prefix: 'Food', regex: /(^|_)(apple|ramen|bowl|grapes|omurice|curry|pudding|parfait|banana|hamburger|macarons|pancakes|pizza|rice_ball|sandwich|crepe|shortcake|sushi|ice_cream|donut|watermelon)(_|\.|$)/i },
-  { genre: 'characters', prefix: 'Characters', regex: /(^|_)(angel|boy|alien|dragon|explorer|fairy|ghost|idol_singer|magical_girl|monster|ninja_throwing|pirate|prince|princess|robot|superhero|witch)(_|\.|$)/i },
+  { genre: 'vehicles', prefix: 'Vehicles', regex: /(^|\/|_)Norimono\/|(^|_)(airplane|bicycle|bus|crane_truck|cruise_ship|excavator|fire_engine|helicopter|hot_air_balloon|motorcycle|police_car|rocket|submarine|taxi|truck|ufo|yacht)(_|\.|$)/i },
+  { genre: 'animals', prefix: 'Animals', regex: /(^|\/|_)Dobutsu\/|(^|_)(alpaca|bear|cow|dolphin|frog|hedgehog|horse|pig|sheep|turtle|dinosaur|capybara|lion|cat|dog|elephant|giraffe|koala|unicorn|monkey|ninja_dog|owl|panda|penguin|rabbit|squirrel|fox)(_|\.|$)/i },
+  { genre: 'food', prefix: 'Food', regex: /(^|\/|_)Tabemono\/|(^|_)(apple|ramen|bowl|grapes|omurice|curry|pudding|parfait|banana|hamburger|macarons|pancakes|pizza|rice_ball|sandwich|crepe|shortcake|sushi|ice_cream|donut|watermelon)(_|\.|$)/i },
+  { genre: 'characters', prefix: 'Characters', regex: /(^|\/|_)Fantaji\/|(^|_)(angel|boy|alien|dragon|explorer|fairy|ghost|idol_singer|magical_girl|monster|ninja_throwing|pirate|prince|princess|robot|superhero|witch)(_|\.|$)/i },
   { genre: 'anime', prefix: 'Anime', regex: /(^|\/|_)Anime\//i },
 ];
 
