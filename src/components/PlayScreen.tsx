@@ -412,7 +412,7 @@ function Palette({ tool, color, patternId, onColor, onPattern }: PaletteProps) {
 function Balloons() {
   const pieces = useMemo(
     () =>
-      Array.from({ length: 15 }, (_, i) => ({
+      Array.from({ length: 15 }, () => ({
         left: 5 + Math.random() * 90,
         delay: Math.random() * 1.5,
         dur: 4 + Math.random() * 4,
