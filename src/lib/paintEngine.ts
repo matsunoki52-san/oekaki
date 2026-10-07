@@ -327,9 +327,7 @@ export class PaintEngine {
     ctx.shadowBlur = 0;
     ctx.shadowColor = 'transparent';
     // 消しゴム：Canvas 上の描画だけを透明に抜く
-    // 蛍光ペン：発光感を出すために加算合成（lighter）
-    ctx.globalCompositeOperation =
-      tool === 'eraser' ? 'destination-out' : tool === 'fluor' ? 'lighter' : 'source-over';
+    ctx.globalCompositeOperation = tool === 'eraser' ? 'destination-out' : 'source-over';
 
     switch (tool) {
       case 'pen':
@@ -351,17 +349,9 @@ export class PaintEngine {
         ctx.strokeStyle = ctx.fillStyle = '#000';
         break;
       case 'spray':
+      case 'fluor':
+        // 蛍光ペンは segment/stamp 側で 2層描画するためここでは個別設定しない
         break;
-      case 'fluor': {
-        ctx.lineWidth = lw;
-        const color = this.isRainbow
-          ? `hsl(${Math.round(this.hue)}, 100%, 55%)`
-          : `hsl(${Math.round(hexToHue(this.brush.color))}, 100%, 55%)`;
-        ctx.strokeStyle = ctx.fillStyle = color;
-        ctx.shadowBlur = lw * 1.5;
-        ctx.shadowColor = color;
-        break;
-      }
     }
   }
 
@@ -395,18 +385,26 @@ export class PaintEngine {
         this.sprayAt(p, Math.round(26 * this.scale));
         break;
       case 'fluor': {
-        if (this.isRainbow) {
-          const color = `hsl(${Math.round(this.hue)}, 100%, 55%)`;
-          ctx.fillStyle = color;
-          ctx.shadowColor = color;
-        } else {
-          const h = Math.round(hexToHue(this.brush.color));
-          const color = `hsl(${h}, 100%, 55%)`;
-          ctx.fillStyle = color;
-          ctx.shadowColor = color;
-        }
+        const color = this.isRainbow
+          ? `hsl(${Math.round(this.hue)}, 100%, 55%)`
+          : `hsl(${Math.round(hexToHue(this.brush.color))}, 100%, 55%)`;
+
+        // 1層目: ネオンの光・glow部分 (太め・加算合成)
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = color;
+        ctx.shadowBlur = lw * 1.5;
+        ctx.shadowColor = color;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, lw / 2, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, (lw * 1.5) / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 2層目: ネオンのコア (完全不透明な白・source-overで玉化を防止)
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowBlur = lw * 0.2;
+        ctx.shadowColor = color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, (lw * 0.4) / 2, 0, Math.PI * 2);
         ctx.fill();
         break;
       }
@@ -456,17 +454,33 @@ export class PaintEngine {
         break;
       }
       case 'fluor': {
-        if (this.isRainbow) {
-          const color = `hsl(${Math.round(this.hue)}, 100%, 55%)`;
-          ctx.strokeStyle = color;
-          ctx.shadowColor = color;
-        } else {
-          const h = Math.round(hexToHue(this.brush.color));
-          const color = `hsl(${h}, 100%, 55%)`;
-          ctx.strokeStyle = color;
-          ctx.shadowColor = color;
-        }
-        line();
+        const color = this.isRainbow
+          ? `hsl(${Math.round(this.hue)}, 100%, 55%)`
+          : `hsl(${Math.round(hexToHue(this.brush.color))}, 100%, 55%)`;
+
+        const lw = this.currentLineWidth;
+
+        // 1層目: ネオンの光・glow部分 (太め・加算合成)
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.lineWidth = lw * 1.5;
+        ctx.strokeStyle = color;
+        ctx.shadowBlur = lw * 1.5;
+        ctx.shadowColor = color;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+
+        // 2層目: ネオンのコア (完全不透明な白・source-overで玉化を防止)
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.lineWidth = lw * 0.4;
+        ctx.strokeStyle = '#ffffff';
+        ctx.shadowBlur = lw * 0.2;
+        ctx.shadowColor = color;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
         break;
       }
     }
