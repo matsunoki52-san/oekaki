@@ -76,7 +76,7 @@ export const bgm = {
       currentBgm.pause(); // 既存BGMを一時停止
     }
     if (!completeBgm) {
-      import('../assets/BGM/完成.mp3').then((mod) => {
+      import('../assets/BGM/complete.mp3').then((mod) => {
         completeBgm = new Audio(mod.default);
         completeBgm.loop = true;
         completeBgm.volume = 0.4;
