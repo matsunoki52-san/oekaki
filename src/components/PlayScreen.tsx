@@ -123,6 +123,7 @@ export function PlayScreen({ artwork, onBack }: Props) {
             title: 'わたしのぬりえ',
           });
           sfx.save();
+          bgm.playComplete();
           fireConfetti();
           setSaved({ url: dataUrl });
           return;
@@ -144,6 +145,7 @@ export function PlayScreen({ artwork, onBack }: Props) {
       a.click();
       a.remove();
       sfx.save();
+      bgm.playComplete();
       fireConfetti();
       setSaved({ url: dataUrl });
     } finally {
@@ -322,6 +324,7 @@ export function PlayScreen({ artwork, onBack }: Props) {
             <div className="dialog__actions">
               <button id="btn-saved-ok" className="big-round big-round--yes" aria-label="もどる" onClick={() => {
                 setSaved(null);
+                bgm.stopComplete();
                 onBack();
               }}>
                 <CheckIcon />
