@@ -321,14 +321,15 @@ export function PlayScreen({ artwork, onBack }: Props) {
               <span style={{ fontSize: '1.4rem', marginTop: '0.5rem', display: 'block', color: '#ff7700' }}>👑 おうちのひとに みせてあげよう！ 👑</span>
             </p>
             <img className="saved-preview" src={saved.url} alt="ぬったえ" />
-            <button id="btn-saved-ok" className="chip-btn chip-btn--round chip-btn--back dialog__btn-return" aria-label="もどる" onClick={() => {
-              setSaved(null);
-              bgm.stopComplete();
-              onBack();
-            }}>
-              <BackIcon />
-              <span className="chip-btn__text">もどる</span>
-            </button>
+            <div className="dialog__actions">
+              <button id="btn-saved-ok" className="big-round big-round--yes" aria-label="もどる" onClick={() => {
+                setSaved(null);
+                bgm.stopComplete();
+                onBack();
+              }}>
+                <CheckIcon />
+              </button>
+            </div>
           </div>
         </div>
       )}
