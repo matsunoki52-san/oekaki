@@ -402,8 +402,8 @@ export class PaintEngine {
         // 2層目: ネオンのコア (完全不透明な白・source-overで玉化を防止)
         ctx.globalCompositeOperation = 'source-over';
         ctx.fillStyle = '#ffffff';
-        ctx.shadowBlur = lw * 0.2;
-        ctx.shadowColor = color;
+        ctx.shadowBlur = 0;
+        ctx.shadowColor = 'transparent';
         ctx.beginPath();
         ctx.arc(p.x, p.y, (lw * 0.7) / 2, 0, Math.PI * 2);
         ctx.fill();
@@ -476,8 +476,8 @@ export class PaintEngine {
         ctx.globalCompositeOperation = 'source-over';
         ctx.lineWidth = lw * 0.7;
         ctx.strokeStyle = '#ffffff';
-        ctx.shadowBlur = lw * 0.2;
-        ctx.shadowColor = color;
+        ctx.shadowBlur = 0;
+        ctx.shadowColor = 'transparent';
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
