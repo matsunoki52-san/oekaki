@@ -139,7 +139,7 @@ export function GalleryScreen({
               {thumbs[a.id] && <img className="card__paint" src={thumbs[a.id]} alt="" />}
               <ArtworkSvg artwork={a} strokeWidth={9} className="card__svg" />
             </span>
-            <span className="card__label">[{i + 1}] {a.title}</span>
+            <span className="card__label">{a.title}</span>
           </button>
         ))}
       </div>
