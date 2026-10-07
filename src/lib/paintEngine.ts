@@ -389,12 +389,10 @@ export class PaintEngine {
         this.sprayAt(p, Math.round(26 * this.scale));
         break;
       case 'watercolor': {
-        const color = this.isRainbow
-          ? `hsl(${Math.round(this.hue)}, 65%, 80%)`
-          : `hsl(${Math.round(hexToHue(this.brush.color))}, 65%, 80%)`;
+        const color = this.isRainbow ? this.nextColor() : this.brush.color;
 
-        ctx.globalCompositeOperation = 'multiply';
-        ctx.globalAlpha = 0.4;
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.globalAlpha = 0.25;
         ctx.fillStyle = color;
         ctx.shadowBlur = lw * 0.4;
         ctx.shadowColor = color;
@@ -449,15 +447,12 @@ export class PaintEngine {
         break;
       }
       case 'watercolor': {
-        const color = this.isRainbow
-          ? `hsl(${Math.round(this.hue)}, 65%, 80%)`
-          : `hsl(${Math.round(hexToHue(this.brush.color))}, 65%, 80%)`;
-
+        const color = this.isRainbow ? this.nextColor() : this.brush.color;
         const lw = this.currentLineWidth;
 
-        // 水彩絵の具のような表現: 乗算(multiply) + 半透明 + ぼかし
-        ctx.globalCompositeOperation = 'multiply';
-        ctx.globalAlpha = 0.4;
+        // パレットの色を保ちつつ、透明度を下げて淡く優しい水彩風にする
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.globalAlpha = 0.25;
         ctx.lineWidth = lw;
         ctx.strokeStyle = color;
         ctx.shadowBlur = lw * 0.4;
