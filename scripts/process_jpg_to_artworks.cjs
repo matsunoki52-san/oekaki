@@ -14,7 +14,7 @@ if (!fs.existsSync(OUT_DIR)) {
 // 1. ジャンル判定ルール (単語境界で誤マッチ防止)
 const GENRE_RULES = [
   { genre: 'vehicles', prefix: 'Vehicles', regex: /(^|\/|_)Norimono\/|(^|_)(airplane|bicycle|bus|crane_truck|cruise_ship|excavator|fire_engine|helicopter|hot_air_balloon|motorcycle|police_car|rocket|submarine|taxi|truck|ufo|yacht)(_|\.|$)/i },
-  { genre: 'animals', prefix: 'Animals', regex: /(^|\/|_)Dobutsu\/|(^|_)(alpaca|bear|cow|dolphin|frog|hedgehog|horse|pig|sheep|turtle|dinosaur|capybara|lion|cat|dog|elephant|giraffe|koala|unicorn|monkey|ninja_dog|owl|panda|penguin|rabbit|squirrel|fox)(_|\.|$)/i },
+  { genre: 'animals', prefix: 'Animals', regex: /(^|\/|_)Dobutsu\/|(^|_)(alpaca|bear|cow|dolphin|frog|hedgehog|horse|pig|sheep|turtle|dinosaur|capybara|lion|cat|dog|elephant|giraffe|koala|unicorn|monkey|ninja_dog|owl|panda|penguin|rabbit|squirrel|fox|bat|chameleon|chicken|duck|flamingo|gorilla|kangaroo|llama|moose|mouse|peacock|raccoon|rhinoceros|sloth|snake|tapir|toucan|wolf|zebra|goat|platypus|red_panda)(_|\.|$)/i },
   { genre: 'food', prefix: 'Food', regex: /(^|\/|_)Tabemono\/|(^|_)(apple|ramen|bowl|grapes|omurice|curry|pudding|parfait|banana|hamburger|macarons|pancakes|pizza|rice_ball|sandwich|crepe|shortcake|sushi|ice_cream|donut|watermelon)(_|\.|$)/i },
   { genre: 'characters', prefix: 'Characters', regex: /(^|\/|_)Fantaji\/|(^|_)(angel|boy|alien|dragon|explorer|fairy|ghost|idol_singer|magical_girl|monster|ninja_throwing|pirate|prince|princess|robot|superhero|witch)(_|\.|$)/i },
   { genre: 'anime', prefix: 'Anime', regex: /(^|\/|_)Anime\//i },
@@ -49,6 +49,8 @@ const TITLE_RULES = [
   { match: /yacht/i, title: 'ヨット' },
   { match: /ufo/i, title: 'UFO' },
   // 単語
+  { match: /cute_cartoon_alpaca/i, title: 'アルパカ2' },
+  { match: /red_panda/i, title: 'レッサーパンダ' },
   { match: /airplane/i, title: 'ひこうき' },
   { match: /alpaca/i, title: 'アルパカ' },
   { match: /angel/i, title: 'てんし' },
@@ -109,7 +111,28 @@ const TITLE_RULES = [
   { match: /sheep/i, title: 'ヒツジ' },
   { match: /turtle/i, title: 'カメ' },
   { match: /rabbit/i, title: 'ウサギ' },
-  { match: /witch/i, title: 'まじょ' }
+  { match: /witch/i, title: 'まじょ' },
+  { match: /bat/i, title: 'コウモリ' },
+  { match: /chameleon/i, title: 'カメレオン' },
+  { match: /chicken/i, title: 'ニワトリ' },
+  { match: /duck/i, title: 'アヒル' },
+  { match: /flamingo/i, title: 'フラミンゴ' },
+  { match: /gorilla/i, title: 'ゴリラ' },
+  { match: /kangaroo/i, title: 'カンガルー' },
+  { match: /llama/i, title: 'リャマ' },
+  { match: /moose/i, title: 'シカ' },
+  { match: /mouse/i, title: 'ネズミ' },
+  { match: /peacock/i, title: 'クジャク' },
+  { match: /raccoon/i, title: 'アライグマ' },
+  { match: /rhinoceros/i, title: 'サイ' },
+  { match: /sloth/i, title: 'ナマケモノ' },
+  { match: /snake/i, title: 'ヘビ' },
+  { match: /tapir/i, title: 'バク' },
+  { match: /toucan/i, title: 'オオハシ' },
+  { match: /wolf/i, title: 'オオカミ' },
+  { match: /zebra/i, title: 'シマウマ' },
+  { match: /goat/i, title: 'ヤギ' },
+  { match: /platypus/i, title: 'カモノハシ' }
 ];
 
 function getGenre(filename) {
