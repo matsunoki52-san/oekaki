@@ -389,8 +389,9 @@ export class PaintEngine {
           ? `hsl(${Math.round(this.hue)}, 100%, 55%)`
           : `hsl(${Math.round(hexToHue(this.brush.color))}, 100%, 55%)`;
 
-        // 1層目: ネオンの光・glow部分 (太め・加算合成)
-        ctx.globalCompositeOperation = 'lighter';
+        // 1層目: ネオンの光・glow部分 (太め)
+        // 手を離した時(スタンプ時)に重なって極端に明るくなる(丸が残る)のを防ぐため、ここは source-over にする
+        ctx.globalCompositeOperation = 'source-over';
         ctx.fillStyle = color;
         ctx.shadowBlur = lw * 1.5;
         ctx.shadowColor = color;
@@ -404,7 +405,7 @@ export class PaintEngine {
         ctx.shadowBlur = lw * 0.2;
         ctx.shadowColor = color;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, (lw * 0.4) / 2, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, (lw * 0.7) / 2, 0, Math.PI * 2);
         ctx.fill();
         break;
       }
@@ -473,7 +474,7 @@ export class PaintEngine {
 
         // 2層目: ネオンのコア (完全不透明な白・source-overで玉化を防止)
         ctx.globalCompositeOperation = 'source-over';
-        ctx.lineWidth = lw * 0.4;
+        ctx.lineWidth = lw * 0.7;
         ctx.strokeStyle = '#ffffff';
         ctx.shadowBlur = lw * 0.2;
         ctx.shadowColor = color;
