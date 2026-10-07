@@ -48,7 +48,12 @@ export type PatternType =
   | 'zigzag'
   | 'rainbow'
   | 'flower'
-  | 'gingham';
+  | 'gingham'
+  | 'diamond'
+  | 'cross'
+  | 'brick'
+  | 'moon'
+  | 'triangle';
 
 export interface PatternSwatch {
   id: string;
@@ -78,6 +83,16 @@ export const PATTERNS: PatternSwatch[] = [
   { id: 'p-flower2', type: 'flower', bg: '#fff3d6', fg: '#ff7eb6' },
   { id: 'p-gingham1', type: 'gingham', bg: '#ffffff', fg: '#ff3b3b' },
   { id: 'p-gingham2', type: 'gingham', bg: '#ffffff', fg: '#2f80ed' },
+  { id: 'p-diamond1', type: 'diamond', bg: '#ffe3e3', fg: '#ff4f9a' },
+  { id: 'p-diamond2', type: 'diamond', bg: '#e0f7fa', fg: '#00acc1' },
+  { id: 'p-cross1', type: 'cross', bg: '#e8f5e9', fg: '#43a047' },
+  { id: 'p-cross2', type: 'cross', bg: '#fff3e0', fg: '#fb8c00' },
+  { id: 'p-brick1', type: 'brick', bg: '#ffeb3b', fg: '#f44336' },
+  { id: 'p-brick2', type: 'brick', bg: '#cfd8dc', fg: '#546e7a' },
+  { id: 'p-moon1', type: 'moon', bg: '#283593', fg: '#ffeb3b' },
+  { id: 'p-moon2', type: 'moon', bg: '#4a148c', fg: '#ea80fc' },
+  { id: 'p-tri1', type: 'triangle', bg: '#fbe9e7', fg: '#ff5722' },
+  { id: 'p-tri2', type: 'triangle', bg: '#e3f2fd', fg: '#1e88e5' },
 ];
 
 /** パターンタイルのピクセルサイズ（Canvas実ピクセル） */
@@ -205,6 +220,65 @@ export function drawTile(ctx: CanvasRenderingContext2D, p: PatternSwatch, S = TI
       ctx.fillRect(0, 32, 64, 16);
       ctx.fillRect(0, 0, 16, 64);
       ctx.fillRect(32, 0, 16, 64);
+      break;
+    case 'diamond':
+      for (let y = 0; y <= 64; y += 16) {
+        const offsetX = (y / 16) % 2 === 0 ? 0 : 16;
+        for (let x = offsetX; x <= 64; x += 32) {
+          ctx.beginPath();
+          ctx.moveTo(x, y - 10);
+          ctx.lineTo(x + 10, y);
+          ctx.lineTo(x, y + 10);
+          ctx.lineTo(x - 10, y);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+      break;
+    case 'cross':
+      for (let y = 0; y <= 64; y += 32) {
+        for (let x = 0; x <= 64; x += 32) {
+          ctx.fillRect(x - 4, y - 12, 8, 24);
+          ctx.fillRect(x - 12, y - 4, 24, 8);
+        }
+      }
+      break;
+    case 'brick':
+      ctx.lineWidth = 3;
+      for (let y = 0; y < 64; y += 16) {
+        const offsetX = (y / 16) % 2 === 0 ? 0 : -16;
+        for (let x = offsetX; x < 64; x += 32) {
+          ctx.strokeRect(x, y, 32, 16);
+        }
+      }
+      break;
+    case 'moon':
+      for (const [x, y] of [
+        [16, 16],
+        [48, 48],
+      ]) {
+        ctx.beginPath();
+        ctx.arc(x, y, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = p.bg;
+        ctx.beginPath();
+        ctx.arc(x - 4, y - 4, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = p.fg; // 戻す
+      }
+      break;
+    case 'triangle':
+      for (let y = 0; y <= 64; y += 16) {
+        const offsetX = (y / 16) % 2 === 0 ? 0 : 16;
+        for (let x = offsetX; x <= 64; x += 32) {
+          ctx.beginPath();
+          ctx.moveTo(x, y - 8);
+          ctx.lineTo(x + 8, y + 6);
+          ctx.lineTo(x - 8, y + 6);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
       break;
   }
   ctx.restore();
