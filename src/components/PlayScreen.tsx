@@ -11,9 +11,11 @@ import {
   CrossIcon,
   EraserIcon,
   GlitterIcon,
+  NeonIcon,
   PatternIcon,
   PenIcon,
   SparkleIcon,
+  StampIcon,
   SprayIcon,
   TrashIcon,
   UndoIcon,
@@ -26,7 +28,9 @@ interface Props {
 
 const TOOLS: { id: ToolId; label: string }[] = [
   { id: 'pen', label: 'ペン' },
+  { id: 'neon', label: 'ネオン' },
   { id: 'pattern', label: 'もよう' },
+  { id: 'stamp', label: 'スタンプ' },
   { id: 'sparkle', label: 'キラキラ' },
   { id: 'glitter', label: 'グリッター' },
   { id: 'spray', label: 'スプレー' },
@@ -230,7 +234,9 @@ export function PlayScreen({ artwork, onBack }: Props) {
               >
                 <span className="tool__icon">
                   {t.id === 'pen' && <PenIcon color={color} />}
+                  {t.id === 'neon' && <NeonIcon color={color} />}
                   {t.id === 'pattern' && <PatternIcon tileUrl={getTileDataUrl(pattern)} />}
+                  {t.id === 'stamp' && <StampIcon color={color} />}
                   {t.id === 'sparkle' && <SparkleIcon color={color} />}
                   {t.id === 'glitter' && <GlitterIcon color={color} />}
                   {t.id === 'spray' && <SprayIcon color={color} />}

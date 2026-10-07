@@ -27,7 +27,7 @@ function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-export type ToolId = 'pen' | 'pattern' | 'sparkle' | 'glitter' | 'spray' | 'eraser';
+export type ToolId = 'pen' | 'pattern' | 'sparkle' | 'glitter' | 'spray' | 'eraser' | 'neon' | 'stamp';
 
 export interface Brush {
   tool: ToolId;
@@ -55,6 +55,8 @@ const BASE_SIZE = {
   glitter: 32,
   sprayRadius: 46,
   eraser: 58,
+  neon: 24,
+  stamp: 40,
 } as const;
 
 interface Sparkle {
@@ -126,6 +128,10 @@ export class PaintEngine {
         return BASE_SIZE.eraser * s;
       case 'spray':
         return BASE_SIZE.sprayRadius * s;
+      case 'neon':
+        return BASE_SIZE.neon * s;
+      case 'stamp':
+        return BASE_SIZE.stamp * s;
     }
   }
 
@@ -300,6 +306,8 @@ export class PaintEngine {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = 'transparent';
     // 消しゴム：Canvas 上の描画だけを透明に抜く（前面 SVG の主線は無関係）
     ctx.globalCompositeOperation = tool === 'eraser' ? 'destination-out' : 'source-over';
 
@@ -323,6 +331,16 @@ export class PaintEngine {
         ctx.strokeStyle = ctx.fillStyle = '#000';
         break;
       case 'spray':
+        break;
+      case 'neon':
+        ctx.lineWidth = lw;
+        ctx.strokeStyle = ctx.fillStyle = '#ffffff'; // 中心は白
+        ctx.shadowBlur = lw * 0.8;
+        ctx.shadowColor = this.isRainbow ? this.nextColor(0) : this.brush.color;
+        break;
+      case 'stamp':
+        // 描画ごとに色が変わるため、lineWidthだけ設定
+        ctx.lineWidth = lw;
         break;
     }
   }
@@ -356,6 +374,17 @@ export class PaintEngine {
       case 'spray':
         this.sprayAt(p, Math.round(26 * this.scale));
         break;
+      case 'neon': {
+        if (this.isRainbow) ctx.shadowColor = this.nextColor(0);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, lw / 2, 0, Math.PI * 2);
+        ctx.fill();
+        break;
+      }
+      case 'stamp': {
+        this.drawStamp(p.x, p.y, lw, 0);
+        break;
+      }
     }
   }
 
@@ -399,6 +428,20 @@ export class PaintEngine {
       case 'spray': {
         const spacing = Math.max(5, 8 / this.scale);
         this.alongSegment(a, b, spacing, (p) => this.sprayAt(p, Math.round(8 * Math.sqrt(this.scale))));
+        break;
+      }
+      case 'neon': {
+        if (this.isRainbow) ctx.shadowColor = this.nextColor();
+        line();
+        break;
+      }
+      case 'stamp': {
+        const lw = this.currentLineWidth;
+        const spacing = Math.max(30, lw * 1.5);
+        this.alongSegment(a, b, spacing, (p) => {
+          const angle = Math.atan2(b.y - a.y, b.x - a.x);
+          this.drawStamp(p.x, p.y, lw, angle);
+        });
         break;
       }
     }
@@ -699,5 +742,42 @@ export class PaintEngine {
 
       ctx.restore();
     }
+  }
+
+  /**
+   * スタンプツール用：肉球を描画する
+   */
+  private drawStamp(x: number, y: number, size: number, angle: number) {
+    const ctx = this.ctx;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle + Math.PI / 2); // 進行方向を上に向ける
+    if (this.isRainbow) {
+      ctx.fillStyle = this.nextColor(15);
+    } else {
+      ctx.fillStyle = this.brush.color;
+    }
+    
+    // 肉球を描画
+    const r = size * 0.22;
+    // メインのパッド
+    ctx.beginPath();
+    ctx.arc(0, r * 0.4, r * 1.6, 0, Math.PI * 2);
+    ctx.fill();
+    // 指4つ
+    ctx.beginPath();
+    ctx.arc(-r * 1.6, -r * 1.2, r * 0.9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(-r * 0.6, -r * 2.2, r * 0.9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(r * 0.6, -r * 2.2, r * 0.9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(r * 1.6, -r * 1.2, r * 0.9, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.restore();
   }
 }
