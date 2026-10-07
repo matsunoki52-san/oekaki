@@ -2,6 +2,7 @@ import { useCallback, useEffect, useImperativeHandle, useRef, type PointerEvent 
 import { type Artwork } from '../data/artworks';
 import { PaintEngine, RES, type Brush, type Pt } from '../lib/paintEngine';
 import { deletePainting, loadPainting, savePainting } from '../lib/storage';
+import { startDrawSfx, stopDrawSfx } from '../lib/sound';
 import { ArtworkSvg } from './ArtworkSvg';
 
 export interface BoardHandle {
@@ -252,6 +253,7 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
 
     // 取得した d 属性および除外パス（内側範囲・キャラクター）を渡してクリッピング開始
     engine.begin(d, pt, excludePaths);
+    startDrawSfx(brush.id);
     onStrokeStart?.();
   };
 
@@ -282,6 +284,8 @@ export function ColoringBoard({ artwork, brush, onStrokeStart, onUndoChange, ref
     try {
       if (svgRef.current?.hasPointerCapture(e.pointerId)) svgRef.current.releasePointerCapture(e.pointerId);
     } catch {}
+
+    stopDrawSfx();
 
     // ★ 1アクションとして履歴に保存
     pushSnapshot();

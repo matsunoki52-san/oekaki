@@ -36,13 +36,143 @@ export const sfx = {
   select: () => tone(740, 0.09, 'triangle', 0.12, 990),
   back: () => tone(600, 0.12, 'sine', 0.12, 380),
   clear: () => {
-    tone(880, 0.12, 'triangle', 0.12, 440);
-    setTimeout(() => tone(660, 0.18, 'triangle', 0.12, 220), 90);
+    // ぜんぶけすボタン：ポンッ！という明るく短い単発音（ピッチダウン）
+    tone(800, 0.15, 'sine', 0.2, 200);
   },
   save: () => {
     [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.16, 'triangle', 0.12), i * 80));
   },
 };
+
+// --- ペン用の持続音生成 ---
+let drawNodes: { source?: AudioScheduledSourceNode, gain?: GainNode, extras?: AudioNode[], stop?: () => void }[] = [];
+
+function createNoiseBuffer(a: AudioContext) {
+  const bufferSize = a.sampleRate * 2; // 2 seconds
+  const buffer = a.createBuffer(1, bufferSize, a.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    data[i] = Math.random() * 2 - 1;
+  }
+  return buffer;
+}
+
+export function stopDrawSfx() {
+  drawNodes.forEach(n => {
+    try {
+      if (n.gain) {
+        n.gain.gain.cancelScheduledValues(ac!.currentTime);
+        n.gain.gain.linearRampToValueAtTime(0, ac!.currentTime + 0.1);
+      }
+      if (n.stop) n.stop();
+      else if (n.source) {
+        n.source.stop(ac!.currentTime + 0.1);
+      }
+    } catch(e) {}
+  });
+  drawNodes = [];
+}
+
+export function startDrawSfx(toolId: string) {
+  stopDrawSfx();
+  const a = ctx();
+  if (!a) return;
+
+  if (toolId === 'pen' || toolId === 'pattern') {
+    // ポポポポという丸い音
+    const osc = a.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = 440;
+    
+    const lfo = a.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.value = 8;
+
+    const lfoGain = a.createGain();
+    lfoGain.gain.value = 1;
+    lfo.connect(lfoGain.gain);
+
+    const mainGain = a.createGain();
+    mainGain.gain.value = 0.05;
+
+    osc.connect(lfoGain).connect(mainGain).connect(a.destination);
+    
+    osc.start();
+    lfo.start();
+    drawNodes.push({ source: osc, gain: mainGain, extras: [lfo, lfoGain] });
+
+  } else if (toolId === 'fluor') {
+    // ブーンという電気的な持続音
+    const osc = a.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.value = 55;
+    
+    const lfo = a.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.value = 50;
+    const lfoGain = a.createGain();
+    lfoGain.gain.value = 2;
+    lfo.connect(lfoGain).connect(osc.frequency);
+
+    const biquad = a.createBiquadFilter();
+    biquad.type = 'lowpass';
+    biquad.frequency.value = 300;
+
+    const mainGain = a.createGain();
+    mainGain.gain.value = 0.08;
+
+    osc.connect(biquad).connect(mainGain).connect(a.destination);
+
+    osc.start();
+    lfo.start();
+    drawNodes.push({ source: osc, gain: mainGain, extras: [lfo, lfoGain, biquad] });
+
+  } else if (toolId === 'glitter') {
+    // 星が瞬くようなピロリロ
+    const mainGain = a.createGain();
+    mainGain.gain.value = 0.06;
+    mainGain.connect(a.destination);
+
+    let active = true;
+    const playGlimmer = () => {
+      if (!active) return;
+      const t = a.currentTime;
+      const osc = a.createOscillator();
+      const g = a.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = 1000 + Math.random() * 1500;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(1, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+      osc.connect(g).connect(mainGain);
+      osc.start(t);
+      osc.stop(t + 0.2);
+      
+      setTimeout(playGlimmer, 50 + Math.random() * 100);
+    };
+    playGlimmer();
+    drawNodes.push({ gain: mainGain, stop: () => { active = false; } });
+
+  } else if (toolId === 'eraser') {
+    // ザーッというホワイトノイズ
+    const noiseBuffer = createNoiseBuffer(a);
+    const source = a.createBufferSource();
+    source.buffer = noiseBuffer;
+    source.loop = true;
+
+    const biquad = a.createBiquadFilter();
+    biquad.type = 'lowpass';
+    biquad.frequency.value = 800;
+
+    const mainGain = a.createGain();
+    mainGain.gain.value = 0.15;
+
+    source.connect(biquad).connect(mainGain).connect(a.destination);
+    source.start();
+
+    drawNodes.push({ source, gain: mainGain, extras: [biquad] });
+  }
+}
 
 let currentBgm: HTMLAudioElement | null = null;
 let currentBgmUrl: string | null = null;
