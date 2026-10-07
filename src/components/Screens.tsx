@@ -120,7 +120,6 @@ export function GalleryScreen({
         <div className="gallery__title">
           <img src={genre.img} alt="" className="gallery__title-img" draggable={false} />
           <span>{genre.title}</span>
-          <span style={{ fontSize: '0.4em', verticalAlign: 'super', marginLeft: '10px', color: '#666' }}>v{pkg.version}</span>
         </div>
         <span className="gallery__spacer" />
       </header>
