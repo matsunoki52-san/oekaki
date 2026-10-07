@@ -38,11 +38,19 @@ export function PlayScreen({ artwork, onBack }: Props) {
   const [tool, setTool] = useState<ToolId>('pen');
   const [color, setColor] = useState(COLORS[1].value);
   const [patternId, setPatternId] = useState(PATTERNS[0].id);
-  const [brushScale, setBrushScale] = useState(1.0); // 1.0 (最小・標準) 〜 3.0 (太い)
+  const [brushSlider, setBrushSlider] = useState(50); // 0(細) 〜 50(標準=1.0) 〜 100(太=3.0)
   const [canUndo, setCanUndo] = useState(false);
   const [confirmClear, setConfirmClear] = useState(false);
   const [saved, setSaved] = useState<{ url: string } | null>(null);
   const [saving, setSaving] = useState(false);
+
+  const brushScale = useMemo(() => {
+    if (brushSlider <= 50) {
+      return 0.3 + (brushSlider / 50) * 0.7; // 0.3 〜 1.0
+    } else {
+      return 1.0 + ((brushSlider - 50) / 50) * 2.0; // 1.0 〜 3.0
+    }
+  }, [brushSlider]);
 
   const brush = useMemo<Brush>(
     () => ({ tool, color, patternId, sizeScale: brushScale }),
@@ -136,11 +144,11 @@ export function PlayScreen({ artwork, onBack }: Props) {
         <span className="size-hint size-hint--sm" aria-hidden="true" />
         <input
           type="range"
-          min="1.0"
-          max="3.0"
-          step="0.1"
-          value={brushScale}
-          onChange={(e) => setBrushScale(parseFloat(e.target.value))}
+          min="0"
+          max="100"
+          step="1"
+          value={brushSlider}
+          onChange={(e) => setBrushSlider(parseInt(e.target.value, 10))}
           aria-label="ペンの太さスライダー"
         />
         <span className="size-hint size-hint--lg" aria-hidden="true" />
