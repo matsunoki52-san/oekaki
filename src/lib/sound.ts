@@ -31,6 +31,10 @@ function tone(freq: number, dur: number, type: OscillatorType = 'sine', vol = 0.
   o.stop(t + dur + 0.02);
 }
 
+let watercolorNoise: AudioBufferSourceNode | null = null;
+let watercolorFilter: BiquadFilterNode | null = null;
+let watercolorGain: GainNode | null = null;
+
 export const sfx = {
   pop: () => tone(520, 0.12, 'sine', 0.18, 880),
   select: () => tone(740, 0.09, 'triangle', 0.12, 990),
@@ -83,10 +87,6 @@ export const sfx = {
     }
   }
 };
-
-let watercolorNoise: AudioBufferSourceNode | null = null;
-let watercolorFilter: BiquadFilterNode | null = null;
-let watercolorGain: GainNode | null = null;
 
 let currentBgm: HTMLAudioElement | null = null;
 let currentBgmUrl: string | null = null;
