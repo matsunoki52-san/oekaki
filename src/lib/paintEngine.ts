@@ -108,7 +108,7 @@ export class PaintEngine {
   }
 
   private get scale(): number {
-    return Math.max(1, this.brush.sizeScale || 1.0);
+    return Math.max(0.1, this.brush.sizeScale || 1.0);
   }
 
   private get currentLineWidth(): number {
