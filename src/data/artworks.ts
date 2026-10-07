@@ -37,11 +37,11 @@ export interface Genre {
 export const VB_W = 1376;
 export const VB_H = 768;
 
-import imgAnimals from '../assets/janru/どうぶつ.jpg';
-import imgVehicles from '../assets/janru/のりもの.jpg';
-import imgFantasy from '../assets/janru/ファンタジー.jpg';
-import imgFood from '../assets/janru/たべもの.jpg';
-import imgAnime from '../assets/janru/アニメ.jpg';
+import imgAnimals from '../assets/Aicon/Dobutsu_panda.jpg';
+import imgVehicles from '../assets/Aicon/Norimono _Fire_truck.jpg';
+import imgFantasy from '../assets/Aicon/Fantaji_Dragon.jpg';
+import imgFood from '../assets/Aicon/Tabemono_2.jpg';
+import imgAnime from '../assets/Aicon/Anime_Anpanman.jpg';
 import imgOekaki from '../assets/janru/おえかき.jpg';
 
 import bgmAnimals from '../assets/BGM/塗り絵アプリ用BGM どうぶつ.mp3';
