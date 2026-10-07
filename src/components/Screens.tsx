@@ -15,14 +15,21 @@ export function HomeScreen({ onPick }: { onPick: (g: GenreId) => void }) {
   return (
     <main className="home">
       <Floaties />
-      <h1 className="home__title" aria-label="ぬりえ あそび" style={{ alignItems: 'flex-end' }}>
+      <h1 className="home__title" aria-label="ぬりえ あそび" style={{ alignItems: 'center', gap: '16px' }}>
         <img
           src="/icons/NEW_icon.jpg"
-          alt="ぬりえ あそび"
-          style={{ width: 'auto', height: 'clamp(80px, 15vmin, 140px)', objectFit: 'cover', borderRadius: '32px', boxShadow: '0 8px 16px rgba(0,0,0,0.15)' }}
+          alt=""
+          style={{ width: 'clamp(56px, 12vmin, 96px)', height: 'clamp(56px, 12vmin, 96px)', objectFit: 'cover', borderRadius: '24px', boxShadow: '0 6px 12px rgba(0,0,0,0.15)' }}
           draggable={false}
         />
-        <span style={{ fontSize: '0.3em', verticalAlign: 'super', marginLeft: '12px', color: '#666', marginBottom: '8px' }}>v{pkg.version}</span>
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          {'ぬりえ あそび'.split('').map((ch, i) => (
+            <span key={i} style={{ animationDelay: `${i * 0.08}s` }} className={ch === ' ' ? 'sp' : ''}>
+              {ch}
+            </span>
+          ))}
+          <span style={{ fontSize: '0.4em', verticalAlign: 'super', marginLeft: '10px', color: '#666' }}>v{pkg.version}</span>
+        </div>
       </h1>
       <div className="genres">
         {GENRES.map((g, i) => (
