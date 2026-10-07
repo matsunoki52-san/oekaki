@@ -326,8 +326,10 @@ export class PaintEngine {
     ctx.globalAlpha = 1;
     ctx.shadowBlur = 0;
     ctx.shadowColor = 'transparent';
-    // 消しゴム：Canvas 上の描画だけを透明に抜く（前面 SVG の主線は無関係）
-    ctx.globalCompositeOperation = tool === 'eraser' ? 'destination-out' : 'source-over';
+    // 消しゴム：Canvas 上の描画だけを透明に抜く
+    // 蛍光ペン：発光感を出すために加算合成（lighter）
+    ctx.globalCompositeOperation =
+      tool === 'eraser' ? 'destination-out' : tool === 'fluor' ? 'lighter' : 'source-over';
 
     switch (tool) {
       case 'pen':
@@ -352,12 +354,12 @@ export class PaintEngine {
         break;
       case 'fluor': {
         ctx.lineWidth = lw;
-        if (this.isRainbow) {
-          ctx.strokeStyle = ctx.fillStyle = `hsl(${Math.round(this.hue)}, 100%, 55%)`;
-        } else {
-          const h = Math.round(hexToHue(this.brush.color));
-          ctx.strokeStyle = ctx.fillStyle = `hsl(${h}, 100%, 55%)`;
-        }
+        const color = this.isRainbow
+          ? `hsl(${Math.round(this.hue)}, 100%, 55%)`
+          : `hsl(${Math.round(hexToHue(this.brush.color))}, 100%, 55%)`;
+        ctx.strokeStyle = ctx.fillStyle = color;
+        ctx.shadowBlur = lw * 1.5;
+        ctx.shadowColor = color;
         break;
       }
     }
@@ -394,10 +396,14 @@ export class PaintEngine {
         break;
       case 'fluor': {
         if (this.isRainbow) {
-          ctx.fillStyle = `hsl(${Math.round(this.hue)}, 100%, 55%)`;
+          const color = `hsl(${Math.round(this.hue)}, 100%, 55%)`;
+          ctx.fillStyle = color;
+          ctx.shadowColor = color;
         } else {
           const h = Math.round(hexToHue(this.brush.color));
-          ctx.fillStyle = `hsl(${h}, 100%, 55%)`;
+          const color = `hsl(${h}, 100%, 55%)`;
+          ctx.fillStyle = color;
+          ctx.shadowColor = color;
         }
         ctx.beginPath();
         ctx.arc(p.x, p.y, lw / 2, 0, Math.PI * 2);
@@ -451,10 +457,14 @@ export class PaintEngine {
       }
       case 'fluor': {
         if (this.isRainbow) {
-          ctx.strokeStyle = `hsl(${Math.round(this.hue)}, 100%, 55%)`;
+          const color = `hsl(${Math.round(this.hue)}, 100%, 55%)`;
+          ctx.strokeStyle = color;
+          ctx.shadowColor = color;
         } else {
           const h = Math.round(hexToHue(this.brush.color));
-          ctx.strokeStyle = `hsl(${h}, 100%, 55%)`;
+          const color = `hsl(${h}, 100%, 55%)`;
+          ctx.strokeStyle = color;
+          ctx.shadowColor = color;
         }
         line();
         break;
