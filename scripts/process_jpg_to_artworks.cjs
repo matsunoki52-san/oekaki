@@ -319,7 +319,7 @@ function run() {
       const relPath = prefix ? `${prefix}/${f}` : f;
       if (fs.statSync(fullPath).isDirectory()) {
         readDirRec(fullPath, relPath);
-      } else if (f.endsWith('.jpg') || f.endsWith('.jpeg')) {
+      } else if (f.toLowerCase().endsWith('.jpg') || f.toLowerCase().endsWith('.jpeg')) {
         allFiles.push(relPath);
       }
     }
