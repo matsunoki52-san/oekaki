@@ -1035,6 +1035,9 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   -webkit-backdrop-filter: blur(6px);
   animation: fade 0.2s ease both;
 }
+.overlay--saved {
+  background: rgba(255, 255, 255, 0.65);
+}
 @keyframes fade {
   from { opacity: 0; }
 }
@@ -1063,11 +1066,17 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   margin: 0;
   font-size: clamp(2rem, 5vmin, 2.8rem);
   font-weight: 900;
+  text-align: center;
 }
 .dialog__hint {
   margin: 0;
   font-size: 0.9rem;
   color: var(--ink-soft);
+}
+.dialog__btn-return {
+  margin-top: 12px;
+  width: auto;
+  min-width: 160px;
 }
 .dialog__actions {
   display: flex;
@@ -1104,26 +1113,29 @@ input[type='range']#brush-size-slider:active::-webkit-slider-thumb {
   touch-action: auto;
 }
 
-.confetti {
+.balloons-container {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
   z-index: 1;
 }
-.confetti span {
+.balloon {
   position: absolute;
-  top: -30px;
-  border-radius: 3px;
-  animation-name: confetti-fall;
-  animation-timing-function: cubic-bezier(0.3, 0.6, 0.6, 1);
+  bottom: -100px;
+  animation-name: balloon-float;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   animation-fill-mode: both;
 }
-@keyframes confetti-fall {
-  to {
-    top: 110%;
-    rotate: 720deg;
-    translate: 40px 0;
+@keyframes balloon-float {
+  0% {
+    transform: translateY(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-50vh) rotate(5deg);
+  }
+  100% {
+    transform: translateY(-120vh) rotate(-5deg);
   }
 }
 

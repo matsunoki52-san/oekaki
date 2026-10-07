@@ -46,6 +46,7 @@ export const sfx = {
 
 let currentBgm: HTMLAudioElement | null = null;
 let currentBgmUrl: string | null = null;
+let completeBgm: HTMLAudioElement | null = null;
 
 export const bgm = {
   play: (url: string) => {
@@ -68,6 +69,28 @@ export const bgm = {
       currentBgm.currentTime = 0;
       currentBgm = null;
       currentBgmUrl = null;
+    }
+  },
+  playComplete: () => {
+    if (currentBgm && !currentBgm.paused) {
+      currentBgm.pause(); // 既存BGMを一時停止
+    }
+    if (!completeBgm) {
+      completeBgm = new Audio('BGM/完成.mp3');
+      completeBgm.loop = true;
+      completeBgm.volume = 0.4;
+    }
+    completeBgm.currentTime = 0;
+    completeBgm.play().catch(e => console.error('Complete BGM Play Error:', e));
+  },
+  stopComplete: () => {
+    if (completeBgm) {
+      completeBgm.pause();
+      completeBgm.currentTime = 0;
+    }
+    // 通常BGMを再開
+    if (currentBgm && currentBgm.paused) {
+      currentBgm.play().catch(e => console.error('BGM Resume Error:', e));
     }
   }
 };

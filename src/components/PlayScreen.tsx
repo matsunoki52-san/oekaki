@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import confetti from 'canvas-confetti';
 import type { Artwork } from '../data/artworks';
 import type { Brush, ToolId } from '../lib/paintEngine';
 import { COLORS, PATTERNS, RAINBOW, getTileDataUrl } from '../lib/palette';
-import { sfx } from '../lib/sound';
+import { bgm, sfx } from '../lib/sound';
 import { ColoringBoard, type BoardHandle } from './ColoringBoard';
 import {
   BackIcon,
@@ -78,6 +79,32 @@ export function PlayScreen({ artwork, onBack }: Props) {
     setConfirmClear(false);
   };
 
+  const fireConfetti = () => {
+    const duration = 3 * 1000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+      confetti({
+        particleCount: 4,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 1 },
+        colors: ['#ff3b3b', '#ff9f1c', '#ffe94e', '#5ed16a', '#4cc3ff', '#8b5cf6']
+      });
+      confetti({
+        particleCount: 4,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 1 },
+        colors: ['#ff3b3b', '#ff9f1c', '#ffe94e', '#5ed16a', '#4cc3ff', '#8b5cf6']
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    }());
+  };
+
   /** PNG 保存（ワンタップ）: toDataURL → <a download> を自動クリック */
   const doSave = async () => {
     if (!boardRef.current || saving) return;
@@ -96,6 +123,8 @@ export function PlayScreen({ artwork, onBack }: Props) {
             title: 'わたしのぬりえ',
           });
           sfx.save();
+          bgm.playComplete();
+          fireConfetti();
           setSaved({ url: dataUrl });
           return;
         }
@@ -116,6 +145,8 @@ export function PlayScreen({ artwork, onBack }: Props) {
       a.click();
       a.remove();
       sfx.save();
+      bgm.playComplete();
+      fireConfetti();
       setSaved({ url: dataUrl });
     } finally {
       setSaving(false);
@@ -282,14 +313,21 @@ export function PlayScreen({ artwork, onBack }: Props) {
       )}
 
       {saved && (
-        <div className="overlay" role="dialog" aria-modal="true" aria-label="ほぞんしたよ" onClick={() => setSaved(null)}>
-          <Confetti />
+        <div className="overlay overlay--saved" role="dialog" aria-modal="true" aria-label="ほぞんしたよ">
+          <Balloons />
           <div className="dialog dialog--saved pop-in" onClick={(e) => e.stopPropagation()}>
-            <p className="dialog__text">できたね！</p>
+            <p className="dialog__text">
+              ✨ できたね！ ✨<br/>
+              <span style={{ fontSize: '1.4rem', marginTop: '0.5rem', display: 'block', color: '#ff7700' }}>👑 おうちのひとに みせてあげよう！ 👑</span>
+            </p>
             <img className="saved-preview" src={saved.url} alt="ぬったえ" />
-            <p className="dialog__hint">※ ほぞんできなかったときは、えを ながおし してね</p>
-            <button id="btn-saved-ok" className="big-round big-round--yes" aria-label="とじる" onClick={() => setSaved(null)}>
-              <CheckIcon />
+            <button id="btn-saved-ok" className="chip-btn chip-btn--round chip-btn--back dialog__btn-return" aria-label="もどる" onClick={() => {
+              setSaved(null);
+              bgm.stopComplete();
+              onBack();
+            }}>
+              <BackIcon />
+              <span className="chip-btn__text">もどる</span>
             </button>
           </div>
         </div>
@@ -370,35 +408,33 @@ function Palette({ tool, color, patternId, onColor, onPattern }: PaletteProps) {
   );
 }
 
-/* ---------------- 紙吹雪 ---------------- */
-function Confetti() {
+/* ---------------- 風船 ---------------- */
+function Balloons() {
   const pieces = useMemo(
     () =>
-      Array.from({ length: 36 }, (_, i) => ({
-        left: Math.random() * 100,
-        delay: Math.random() * 0.6,
-        dur: 1.8 + Math.random() * 1.4,
-        color: COLORS[1 + (i % (COLORS.length - 4))].value,
-        rot: Math.random() * 360,
-        size: 10 + Math.random() * 10,
+      Array.from({ length: 15 }, (_, i) => ({
+        left: 5 + Math.random() * 90,
+        delay: Math.random() * 1.5,
+        dur: 4 + Math.random() * 4,
+        size: 50 + Math.random() * 40,
       })),
     [],
   );
   return (
-    <div className="confetti" aria-hidden="true">
+    <div className="balloons-container" aria-hidden="true">
       {pieces.map((p, i) => (
         <span
           key={i}
+          className="balloon"
           style={{
             left: `${p.left}%`,
-            background: p.color,
-            width: p.size,
-            height: p.size * 0.6,
             animationDelay: `${p.delay}s`,
             animationDuration: `${p.dur}s`,
-            transform: `rotate(${p.rot}deg)`,
+            fontSize: `${p.size}px`,
           }}
-        />
+        >
+          🎈
+        </span>
       ))}
     </div>
   );
