@@ -143,3 +143,23 @@ export const bgm = {
     }
   }
 };
+
+let wasPlayingBeforeHidden = false;
+let wasCompletePlayingBeforeHidden = false;
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      wasPlayingBeforeHidden = !!(currentBgm && !currentBgm.paused);
+      wasCompletePlayingBeforeHidden = !!(completeBgm && !completeBgm.paused);
+      if (currentBgm) currentBgm.pause();
+      if (completeBgm) completeBgm.pause();
+    } else {
+      if (wasCompletePlayingBeforeHidden && completeBgm) {
+        completeBgm.play().catch(e => console.error(e));
+      } else if (wasPlayingBeforeHidden && currentBgm) {
+        currentBgm.play().catch(e => console.error(e));
+      }
+    }
+  });
+}
