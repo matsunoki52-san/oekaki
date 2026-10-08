@@ -10,6 +10,7 @@ import { BackIcon } from './Icons';
 export function HomeScreen({ onPick }: { onPick: (g: GenreId) => void }) {
   useEffect(() => {
     bgm.stop();
+    bgm.playComplete();
   }, []);
 
   return (
@@ -40,6 +41,7 @@ function GenreButton({ genre, index, onClick }: { genre: Genre; index: number; o
       style={{ ['--c' as string]: genre.color, ['--s' as string]: genre.shadow, animationDelay: `${0.15 + index * 0.08}s` }}
       onClick={() => {
         sfx.select();
+        bgm.stopComplete();
         if (genre.bgm) {
           bgm.play(genre.bgm);
         }
