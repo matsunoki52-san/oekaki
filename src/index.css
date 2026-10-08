@@ -152,6 +152,89 @@ h1 {
   padding: calc(24px + var(--safe-t)) 24px calc(24px + var(--safe-b));
 }
 
+.home__subtitle {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(1.8rem, 5vmin, 3rem);
+  font-weight: 800;
+  color: #ff6b7d;
+  margin-bottom: -10px;
+  text-shadow: 0 3px 0 #fff, 0 -3px 0 #fff, 3px 0 0 #fff, -3px 0 0 #fff, 0 6px 12px rgba(84, 52, 120, 0.15);
+}
+
+/* ---------- スタート画面 ---------- */
+.start-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.start-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.start-bg-blob {
+  position: absolute;
+  width: 80vmax;
+  height: 80vmax;
+  background: radial-gradient(circle, rgba(255, 227, 239, 0.8) 0%, transparent 70%);
+  border-radius: 50%;
+  top: -20%;
+  left: -20%;
+  animation: blob-float 12s infinite alternate ease-in-out;
+}
+
+.start-bg-blob--2 {
+  background: radial-gradient(circle, rgba(227, 239, 255, 0.8) 0%, transparent 70%);
+  top: 40%;
+  left: 40%;
+  animation-delay: -6s;
+}
+
+@keyframes blob-float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(10%, 10%) scale(1.1); }
+}
+
+.start-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+}
+
+.start-btn {
+  font-size: clamp(2rem, 5vmin, 3rem);
+  font-weight: 900;
+  color: #fff;
+  background: linear-gradient(180deg, #6ee69f, var(--ok));
+  box-shadow: 0 12px 0 var(--ok-deep), 0 20px 40px rgba(34, 163, 91, 0.4);
+  padding: 24px 64px;
+  border-radius: 60px;
+  text-shadow: 0 3px 0 rgba(0,0,0,0.15);
+  transition: transform 0.15s, box-shadow 0.15s;
+  animation: start-pulse 2s infinite ease-in-out;
+}
+
+.start-btn:active {
+  transform: translateY(12px) scale(0.96);
+  box-shadow: 0 0 0 var(--ok-deep), 0 10px 20px rgba(34, 163, 91, 0.4);
+  animation: none;
+}
+
+@keyframes start-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
 .home__title {
   position: relative;
   font-size: clamp(2.6rem, 7.5vmin, 5.2rem);

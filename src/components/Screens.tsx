@@ -6,24 +6,59 @@ import { bgm, sfx } from '../lib/sound';
 import { ArtworkSvg } from './ArtworkSvg';
 import { BackIcon } from './Icons';
 
+/* ================= スタート画面 ================= */
+export function StartScreen({ onStart }: { onStart: () => void }) {
+  useEffect(() => {
+    bgm.stop();
+  }, []);
+
+  return (
+    <main className="start-screen">
+      <div className="start-bg">
+        {/* 動く背景やアニメーション用の要素 */}
+        <div className="start-bg-blob"></div>
+        <div className="start-bg-blob start-bg-blob--2"></div>
+        <Floaties />
+      </div>
+      
+      <div className="start-content">
+        <h1 className="home__title" aria-label="ぬりえ あそび">
+          {'ぬりえ あそび'.split('').map((ch, i) => (
+            <span key={i} style={{ animationDelay: `${i * 0.08}s` }} className={ch === ' ' ? 'sp' : ''}>
+              {ch}
+            </span>
+          ))}
+          <span style={{ fontSize: '0.4em', verticalAlign: 'super', marginLeft: '10px', color: '#666' }}>v{pkg.version}</span>
+        </h1>
+        
+        <button 
+          className="start-btn" 
+          aria-label="あそぶ" 
+          onClick={() => {
+            sfx.select();
+            bgm.playComplete(); // ここでBGMを再生開始
+            onStart();
+          }}
+        >
+          あそぶ！
+        </button>
+      </div>
+    </main>
+  );
+}
+
 /* ================= ホーム（ジャンル選択） ================= */
 export function HomeScreen({ onPick }: { onPick: (g: GenreId) => void }) {
   useEffect(() => {
-    bgm.stop();
+    // bgm.stop() は呼ばない。StartScreen からの completeBgm をそのまま引き継ぐため
+    // 何も再生されていなかった場合（リロード直後など）は再生を試みる
     bgm.playComplete();
   }, []);
 
   return (
     <main className="home">
       <Floaties />
-      <h1 className="home__title" aria-label="ぬりえ あそび">
-        {'ぬりえ あそび'.split('').map((ch, i) => (
-          <span key={i} style={{ animationDelay: `${i * 0.08}s` }} className={ch === ' ' ? 'sp' : ''}>
-            {ch}
-          </span>
-        ))}
-        <span style={{ fontSize: '0.4em', verticalAlign: 'super', marginLeft: '10px', color: '#666' }}>v{pkg.version}</span>
-      </h1>
+      <h2 className="home__subtitle">どれであそぶ？</h2>
       <div className="genres">
         {GENRES.map((g, i) => (
           <GenreButton key={g.id} genre={g} index={i} onClick={() => onPick(g.id)} />
