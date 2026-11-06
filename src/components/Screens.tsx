@@ -36,7 +36,7 @@ export function StartScreen({ onStart }: { onStart: () => void }) {
           aria-label="あそぶ" 
           onClick={() => {
             sfx.select();
-            bgm.playComplete(); // ここでBGMを再生開始
+            bgm.playTitle(); // 開始画面用BGMを再生開始
             onStart();
           }}
         >
@@ -50,9 +50,8 @@ export function StartScreen({ onStart }: { onStart: () => void }) {
 /* ================= ホーム（ジャンル選択） ================= */
 export function HomeScreen({ onPick }: { onPick: (g: GenreId) => void }) {
   useEffect(() => {
-    // bgm.stop() は呼ばない。StartScreen からの completeBgm をそのまま引き継ぐため
-    // 何も再生されていなかった場合（リロード直後など）は再生を試みる
-    bgm.playComplete();
+    // タイトルBGMを再生（スタート画面からはスムーズに継続、台紙画面等から戻った時はジャンル曲を停止して切り替え）
+    bgm.playTitle();
   }, []);
 
   return (
@@ -76,9 +75,8 @@ function GenreButton({ genre, index, onClick }: { genre: Genre; index: number; o
       style={{ ['--c' as string]: genre.color, ['--s' as string]: genre.shadow, animationDelay: `${0.15 + index * 0.08}s` }}
       onClick={() => {
         sfx.select();
-        bgm.stopComplete();
         if (genre.bgm) {
-          bgm.play(genre.bgm);
+          bgm.play(genre.bgm); // ジャンルBGMを再生（タイトル曲は確実に停止される）
         }
         onClick();
       }}
@@ -117,6 +115,13 @@ export function GalleryScreen({
   const genre = GENRES.find((g) => g.id === genreId)!;
   const list = artworksOf(genreId);
   const [thumbs, setThumbs] = useState<Record<string, string>>({});
+
+  // ジャンルBGMの再生
+  useEffect(() => {
+    if (genre.bgm) {
+      bgm.play(genre.bgm);
+    }
+  }, [genre.bgm]);
 
   // 塗りかけの絵をサムネイルに反映
   useEffect(() => {

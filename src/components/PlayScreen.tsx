@@ -61,6 +61,12 @@ export function PlayScreen({ artwork, onBack }: Props) {
   );
   const pattern = PATTERNS.find((p) => p.id === patternId)!;
 
+  useEffect(() => {
+    return () => {
+      bgm.stopFanfare();
+    };
+  }, []);
+
 
   const pickTool = (t: ToolId) => {
     sfx.select();
